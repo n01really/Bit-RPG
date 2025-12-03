@@ -13,6 +13,7 @@ namespace Bit_RPG.Char
         public string Name { get; set; }
         public int Age { get; set; }
         public int Level { get; set; } = 1;
+        public int Money { get; set; } = 0;
         public int Experience { get; set; } = 0;
         public int JobRank { get; set; } = 0;
 
