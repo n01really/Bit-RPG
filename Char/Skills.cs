@@ -8,5 +8,6 @@ namespace Bit_RPG.Char
 {
     internal class Skills
     {
+        public static void 
     }
 }
