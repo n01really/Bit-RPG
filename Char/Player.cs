@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bit_RPG.Char;
+using Bit_RPG.Events;
+using Bit_RPG.Jobs;
 
 namespace Bit_RPG.Char
 {
@@ -12,9 +14,14 @@ namespace Bit_RPG.Char
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public bool Male { get; set; }
+        public bool Female { get; set; }
+        public string Pronouns { get; set; }
         public int Level { get; set; } = 1;
         public int Money { get; set; } = 0;
         public int Experience { get; set; } = 0;
+        public int JobbExperience { get; set; } = 0;
+        public Jobb Jobb { get; set; }
         public int JobRank { get; set; } = 0;
 
 
