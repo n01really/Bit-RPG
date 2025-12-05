@@ -12,7 +12,7 @@ namespace Bit_RPG.Char
 
     internal class Player
     {
-        public string Name { get; set; }
+        public string PlayerName { get; set; }
         public int Age { get; set; }
         public bool Male { get; set; }
         public bool Female { get; set; }
@@ -20,8 +20,8 @@ namespace Bit_RPG.Char
         public int Level { get; set; } = 1;
         public int Money { get; set; } = 0;
         public int Experience { get; set; } = 0;
-        public int JobbExperience { get; set; } = 0;
-        public Jobb Jobb { get; set; }
+        public int JobExperience { get; set; } = 0;
+        public Job Job { get; set; }
         public int JobRank { get; set; } = 0;
 
 

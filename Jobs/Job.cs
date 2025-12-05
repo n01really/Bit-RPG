@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bit_RPG.Jobs
 {
-    internal class Jobb
+    internal class Job
     {
     }
 }
