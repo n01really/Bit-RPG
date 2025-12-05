@@ -67,6 +67,7 @@
 	<ItemGroup>
 	  <Folder Include="Char\Creatures\" />
 	  <Folder Include="Char\NPCs\" />
+	  <Folder Include="Itmes\" />
 	</ItemGroup>
 
 </Project>
