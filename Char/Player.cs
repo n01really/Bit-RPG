@@ -23,8 +23,8 @@ namespace Bit_RPG.Char
         public int JobExperience { get; set; }
         public Job Jobb { get; set; }
         public int JobRank { get; set; }
-        public PlayableRaces Race { get; set; }
-        public PlayerClass Class { get; set; }
+        public RaceType Race { get; set; }
+        public ClassType Class { get; set; }
         public Skills Skills { get; set; }
         public int Strength { get; set; }
         public int Agility { get; set; }

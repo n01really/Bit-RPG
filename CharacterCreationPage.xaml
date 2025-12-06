@@ -33,6 +33,29 @@
                              GroupName="Gender"/>
             </HorizontalStackLayout>
 
+            <!-- Race Selection -->
+            <Label Text="Race:" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+            <Picker x:Name="RacePicker" 
+                    Title="Select a race">
+                <Picker.Items>
+                    <x:String>Human</x:String>
+                    <x:String>Elf</x:String>
+                    <x:String>Dwarf</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <!-- Race Description -->
+            <Border 
+                Stroke="Gray"
+                StrokeThickness="1"
+                Padding="10"
+                Margin="0,10,0,0"
+                IsVisible="{Binding Source={x:Reference RacePicker}, Path=SelectedIndex, Converter={StaticResource IsNotNegativeConverter}}">
+                <Label x:Name="RaceDescription"
+                       FontSize="14"
+                       TextColor="Gray"/>
+            </Border>
+
             <!-- Class Selection -->
             <Label Text="Class:" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
             <Picker x:Name="ClassPicker" 

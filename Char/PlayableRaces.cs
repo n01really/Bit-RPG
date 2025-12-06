@@ -9,38 +9,40 @@ namespace Bit_RPG.Char
 {
     public class PlayableRaces
     {
-        public static void Human()
+        public static void Human(Player player)
         {
-            int Health = 100;
-            int Magic = 5;
-            int Strength = 5;
-            int Agility = 5;
-            int Intelligence = 5;
-            int Attack = 10;
-            int Defense = 10;
-            int MDefense = 5;
+            player.MaxHealth += 100;
+            player.MaxMana += 5;
+            player.Strength += 5;
+            player.Agility += 5;
+            player.Intelligence += 5;
+            player.Attack += 10;
+            player.Defense += 10;
+            player.MDefense += 5;
         }
-        public static void Elf()
+        
+        public static void Elf(Player player)
         {
-            int Health = 100;
-            int Magic = 10;
-            int Strength = 4;
-            int Agility = 6;
-            int Intelligence = 6;
-            int Attack = 3;
-            int Defense = 2;
-            int MDefense = 4;
+            player.MaxHealth += 90;
+            player.MaxMana += 10;
+            player.Strength += 4;
+            player.Agility += 6;
+            player.Intelligence += 6;
+            player.Attack += 3;
+            player.Defense += 2;
+            player.MDefense += 4;
         }
-        public static void Dwarf()
+        
+        public static void Dwarf(Player player)
         {
-            int Health = 120;
-            int Magic = 0;
-            int Strength = 6;
-            int Agility = 4;
-            int Intelligence = 4;
-            int Attack = 10;
-            int Defense = 8;
-            int MDefense = 10;
+            player.MaxHealth += 120;
+            player.MaxMana += 0;
+            player.Strength += 6;
+            player.Agility += 4;
+            player.Intelligence += 4;
+            player.Attack += 10;
+            player.Defense += 8;
+            player.MDefense += 10;
         }
     }
 }

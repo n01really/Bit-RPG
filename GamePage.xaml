@@ -6,15 +6,47 @@
     <VerticalStackLayout
         Padding="30,0"
         Spacing="25">
-        <Label
-                Text="{Binding Week}"
-                HorizontalOptions="Start"
-                FontSize="18"/>
+        
+        <!-- Player Information and Week Panel -->
+        <Border
+                Stroke="Gray"
+                StrokeThickness="2"
+                Padding="15"
+                Margin="0,10,0,0">
+            <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="Auto">
+                <Label
+                        Grid.Column="0"
+                        Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+                <Label
+                        Grid.Column="1"
+                        Text="{Binding Player.Age, StringFormat='Age: {0}'}"
+                        FontSize="16"/>
+                <Label
+                        Grid.Column="2"
+                        Text="{Binding Player.Race, StringFormat='Race: {0}'}"
+                        FontSize="16"/>
+                <Label
+                        Grid.Column="3"
+                        Text="{Binding Player.Class, StringFormat='Class: {0}'}"
+                        FontSize="16"/>
+                <Label
+                        Grid.Column="4"
+                        Text="{Binding Player.Money, StringFormat='Money: {0}'}"
+                        FontSize="16"/>
+                <Label
+                        Grid.Column="5"
+                        Text="{Binding Week, StringFormat='Week: {0}'}"
+                        FontSize="16"
+                        HorizontalOptions="End"/>
+            </Grid>
+        </Border>
 
         <Border
                 Stroke="Gray"
                 StrokeThickness="1"
-                HeightRequest="800"
+                HeightRequest="700"
                 Padding="10">
             <ScrollView>
                 <Label
