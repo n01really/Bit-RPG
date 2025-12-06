@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bit_RPG.CharacterCreationPage"
+             Title="Create Your Character">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="20">
+            
+            <Label 
+                Text="Create Your Character"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+
+            <!-- Name Input -->
+            <Label Text="Character Name:" FontSize="16" FontAttributes="Bold"/>
+            <Entry x:Name="NameEntry" 
+                   Placeholder="Enter your name"
+                   MaxLength="20"/>
+
+            <!-- Gender Selection -->
+            <Label Text="Gender:" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+            <HorizontalStackLayout Spacing="15">
+                <RadioButton x:Name="MaleRadio" 
+                             Content="Male" 
+                             IsChecked="True"
+                             GroupName="Gender"/>
+                <RadioButton x:Name="FemaleRadio" 
+                             Content="Female"
+                             GroupName="Gender"/>
+            </HorizontalStackLayout>
+
+            <!-- Class Selection -->
+            <Label Text="Class:" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+            <Picker x:Name="ClassPicker" 
+                    Title="Select a class">
+                <Picker.Items>
+                    <x:String>Warrior</x:String>
+                    <x:String>Mage</x:String>
+                    <x:String>Rogue</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <!-- Class Description -->
+            <Border 
+                Stroke="Gray"
+                StrokeThickness="1"
+                Padding="10"
+                Margin="0,10,0,0"
+                IsVisible="{Binding Source={x:Reference ClassPicker}, Path=SelectedIndex, Converter={StaticResource IsNotNegativeConverter}}">
+                <Label x:Name="ClassDescription"
+                       FontSize="14"
+                       TextColor="Gray"/>
+            </Border>
+
+            <!-- Start Button -->
+            <Button 
+                x:Name="StartBtn"
+                Text="Start Adventure"
+                Clicked="OnStartAdventureClicked"
+                Margin="0,20,0,0"
+                HorizontalOptions="Fill"
+                BackgroundColor="{StaticResource Primary}"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

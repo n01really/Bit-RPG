@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bit_RPG.Char
 {
-    internal class PlayableRaces
+    public class PlayableRaces
     {
         public static void Human()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bit_RPG.Char
 {
-    internal class Skills
+    public class Skills
     {
         public int Stealth { get; set; } 
         public int Marksmanship { get; set; }

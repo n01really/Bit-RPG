@@ -7,15 +7,13 @@ using Bit_RPG.Char;
 
 namespace Bit_RPG.Char
 {
-    internal class PlayerClass
+    public class PlayerClass
     {
         // keep skills under 50 att level 1 max skill level should not exceed 100
         // 3 skills per class should be at 25
         public static void Warrior(Player player)
         {
-            string name = "Warrior";
-            string description = "A strong and resilient fighter, excelling in melee combat and heavy armor.";
-            Skills skills = new Skills
+            player.Skills = new Skills
             {
                 Stealth = 1,
                 Marksmanship = 12,
@@ -36,12 +34,22 @@ namespace Bit_RPG.Char
                 Alchemy = 1,
                 Enchanting = 1
             };
+            
+            // Set base stats for Warrior
+            player.Strength = 8;
+            player.Agility = 5;
+            player.Intelligence = 3;
+            player.Attack = 12;
+            player.Defense = 10;
+            player.MaxHealth = 120;
+            player.Magic = 2;
+            player.MaxMana = 20;
+            player.MDefense = 5;
         }
+        
         public static void Mage(Player player)
         {
-            string name = "Mage";
-            string description = "A master of arcane arts, wielding powerful spells to devastate enemies from afar.";
-            Skills skills = new Skills
+            player.Skills = new Skills
             {
                 Stealth = 1,
                 Marksmanship = 2,
@@ -62,13 +70,22 @@ namespace Bit_RPG.Char
                 Alchemy = 2,
                 Enchanting = 5
             };
-            player.Magic += 5;
+            
+            // Set base stats for Mage
+            player.Strength = 3;
+            player.Agility = 5;
+            player.Intelligence = 10;
+            player.Attack = 5;
+            player.Defense = 5;
+            player.MaxHealth = 80;
+            player.Magic = 15;
+            player.MaxMana = 150;
+            player.MDefense = 12;
         }
+        
         public static void Rogue(Player player)
         {
-            string name = "Rogue";
-            string description = "A stealthy and agile character, skilled in sneaking, lockpicking, and critical strikes.";
-            Skills skills = new Skills
+            player.Skills = new Skills
             {
                 Stealth = 5,
                 Marksmanship = 3,
@@ -89,6 +106,17 @@ namespace Bit_RPG.Char
                 Alchemy = 5,
                 Enchanting = 1
             };
+            
+            // Set base stats for Rogue
+            player.Strength = 5;
+            player.Agility = 9;
+            player.Intelligence = 6;
+            player.Attack = 8;
+            player.Defense = 6;
+            player.MaxHealth = 100;
+            player.Magic = 5;
+            player.MaxMana = 50;
+            player.MDefense = 7;
         }
     }
 }

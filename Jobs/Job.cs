@@ -7,7 +7,7 @@ using Bit_RPG.Char;
 
 namespace Bit_RPG.Jobs
 {
-    internal class Job
+    public class Job
     {
         public static void AdventurersGuild()
         {

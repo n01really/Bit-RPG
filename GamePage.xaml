@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bit_RPG.GamePage"
+             Title="GamePage">
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+        <Label
+                Text="{Binding Week}"
+                HorizontalOptions="Start"
+                FontSize="18"/>
+
+        <Border
+                Stroke="Gray"
+                StrokeThickness="1"
+                HeightRequest="800"
+                Padding="10">
+            <ScrollView>
+                <Label
+                        Text="{Binding EventLog}"
+                        HorizontalOptions="Center"
+                        FontSize="18"/>
+            </ScrollView>
+        </Border>
+
+        <Button
+                x:Name="ForwardGameBTN"
+                Text="Continue" 
+                SemanticProperties.Hint="move the week forward by one"
+                Clicked="OnForwardGameClicked"
+                HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>

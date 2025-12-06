@@ -7,30 +7,15 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Label
-                Text="{Binding Week}"
-                HorizontalOptions="Start"
-                FontSize="18"/>
-
-            <Border
-                Stroke="Gray"
-                StrokeThickness="1"
-                HeightRequest="800"
-                Padding="10">
-                <ScrollView>
-                    <Label
-                        Text="{Binding EventLog}"
-                        HorizontalOptions="Center"
-                        FontSize="18"/>
-                </ScrollView>
-            </Border>
-
+            
             <Button
-                x:Name="ForwardGameBTN"
-                Text="Continue" 
-                SemanticProperties.Hint="move the week forward by one"
-                Clicked="OnForwardGameClicked"
-                HorizontalOptions="Fill" />
+                x:Name="StartGameBtn"
+                Text="Start Game"
+                SemanticProperties.Hint="Navigate to the game page"
+                Clicked="OnStartGameClicked"
+                HorizontalOptions="Center" />
+            
+
         </VerticalStackLayout>
     </ScrollView>
 

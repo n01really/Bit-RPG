@@ -10,25 +10,22 @@ using Bit_RPG.Jobs;
 namespace Bit_RPG.Char
 {
 
-    internal class Player
+    public class Player
     {
         public string PlayerName { get; set; }
         public int Age { get; set; }
         public bool Male { get; set; }
         public bool Female { get; set; }
         public string Pronouns { get; set; }
-        public int Level { get; set; } = 1;
-        public int Money { get; set; } = 0;
-        public int Experience { get; set; } = 0;
-        public int JobExperience { get; set; } = 0;
-        public Job Job { get; set; }
-        public int JobRank { get; set; } = 0;
-
-
+        public int Level { get; set; }
+        public int Money { get; set; }
+        public int Experience { get; set; }
+        public int JobExperience { get; set; }
+        public Job Jobb { get; set; }
+        public int JobRank { get; set; }
         public PlayableRaces Race { get; set; }
         public PlayerClass Class { get; set; }
-        public Perks Perks { get; set; } = new Perks();
-        public Skills Skills { get; set; } = new Skills();
+        public Skills Skills { get; set; }
         public int Strength { get; set; }
         public int Agility { get; set; }
         public int Intelligence { get; set; }
