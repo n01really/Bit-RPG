@@ -14,23 +14,26 @@ namespace Bit_RPG.Jobs
             string name = "Adventurers Guild";
             string description = "Take on quests and explore dangerous dungeons to earn rewards and fame.";
         }
-        public static void BlacksmithsGuild(Skills skills)
+        public static void BlacksmithsGuild(Skills skills, Player player)
         {
             string name = "Blacksmiths Guild";
             string description = "Craft and repair weapons and armor for adventurers and townsfolk.";
             skills.Smithing++;
+            player.Money++;
         }
-        public static void MagesGuild(Skills skills)
+        public static void MagesGuild(Skills skills, Player player)
         {
             string name = "Mages Guild";
             string description = "Study and practice the arcane arts, offering magical services to those in need.";
             skills.Enchanting++;
+            player.Money++;             
         }
-        public static void ThievesGuild(Skills skills)
+        public static void ThievesGuild(Skills skills, Player player)
         {
             string name = "Thieves Guild";
             string description = "Engage in stealthy activities, from pickpocketing to high-stakes heists.";
             skills.Lockpicking++;
+            player.Money++;
         }
     }
 }
