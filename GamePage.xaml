@@ -55,12 +55,114 @@
                         FontSize="18"/>
             </ScrollView>
         </Border>
-
-        <Button
-                x:Name="ForwardGameBTN"
-                Text="Continue" 
-                SemanticProperties.Hint="move the week forward by one"
-                Clicked="OnForwardGameClicked"
-                HorizontalOptions="Fill" />
+        
+        <!-- All Buttons Layout -->
+        <HorizontalStackLayout Spacing="20" 
+                              HorizontalOptions="Center"
+                              Margin="0,0,0,0">
+            
+            <!-- Left Column: Inventory (top) and Character (bottom) -->
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                <!-- Inventory Button -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Border WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnInventoryClicked"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Label Text="Inventory" 
+                           FontSize="10"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+                
+                <!-- Character Button -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Border WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCharacterClicked"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Label Text="Character" 
+                           FontSize="10"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            <!-- Continue Button (Circular, in the middle, larger) -->
+            <Border WidthRequest="80"
+                    HeightRequest="80"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40"/>
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnForwardGameClicked"/>
+                </Border.GestureRecognizers>
+                <Label Text="Continue" 
+                       TextColor="White"
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       SemanticProperties.Hint="move the week forward by one"/>
+            </Border>
+            
+            <!-- Right Column: Jobs (top) and Quests (bottom) -->
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                <!-- Jobs Button -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Border WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnJobsClicked"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Label Text="Jobs" 
+                           FontSize="10"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+                
+                <!-- Quests Button -->
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Border WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnQuestsClicked"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Label Text="Quests" 
+                           FontSize="10"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

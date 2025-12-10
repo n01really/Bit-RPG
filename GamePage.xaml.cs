@@ -63,4 +63,24 @@ public partial class GamePage : ContentPage
         EventLog += $"\n{Event}";
         SemanticScreenReader.Announce($"Week {Week}");
     }
+
+    private void OnCharacterClicked(object sender, EventArgs e)
+    {
+        // Placeholder for character page navigation
+    }
+
+    private void OnInventoryClicked(object sender, EventArgs e)
+    {
+        // Placeholder for inventory page navigation
+    }
+
+    private void OnJobsClicked(object sender, EventArgs e)
+    {
+        // Placeholder for jobs page navigation
+    }
+
+    private void OnQuestsClicked(object sender, EventArgs e)
+    {
+        // Placeholder for quests page navigation
+    }
 }
