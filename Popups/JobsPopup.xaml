@@ -24,6 +24,10 @@
                            FontAttributes="Bold"/>
                     <Label Text="Take on quests and explore dangerous dungeons to earn rewards and fame."
                            FontSize="14"/>
+                    <Button Text="Select Job"
+                            Clicked="OnAdventurersGuildClicked"
+                            HorizontalOptions="End"
+                            Margin="0,5,0,0"/>
                     
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
                     
@@ -32,6 +36,10 @@
                            FontAttributes="Bold"/>
                     <Label Text="Craft and repair weapons and armor for adventurers and townsfolk."
                            FontSize="14"/>
+                    <Button Text="Select Job"
+                            Clicked="OnBlacksmithsGuildClicked"
+                            HorizontalOptions="End"
+                            Margin="0,5,0,0"/>
                     
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
                     
@@ -40,6 +48,10 @@
                            FontAttributes="Bold"/>
                     <Label Text="Study and practice the arcane arts, offering magical services to those in need."
                            FontSize="14"/>
+                    <Button Text="Select Job"
+                            Clicked="OnMagesGuildClicked"
+                            HorizontalOptions="End"
+                            Margin="0,5,0,0"/>
                     
                     <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
                     
@@ -48,6 +60,10 @@
                            FontAttributes="Bold"/>
                     <Label Text="Engage in stealthy activities, from pickpocketing to high-stakes heists."
                            FontSize="14"/>
+                    <Button Text="Select Job"
+                            Clicked="OnThievesGuildClicked"
+                            HorizontalOptions="End"
+                            Margin="0,5,0,0"/>
                 </VerticalStackLayout>
             </ScrollView>
             
