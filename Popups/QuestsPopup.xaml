@@ -19,10 +19,39 @@
             
             <ScrollView HeightRequest="450">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="No active quests."
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Margin="0,50,0,0"/>
+                    <CollectionView ItemsSource="{Binding PlayerQuests}">
+                        <CollectionView.EmptyView>
+                            <Label Text="No active quests."
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="0,50,0,0"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Stroke="Gray"
+                                        StrokeThickness="1"
+                                        Padding="10"
+                                        Margin="0,5">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"/>
+                                        <Label Text="{Binding Description}"
+                                               FontSize="14"/>
+                                        <Label Text="{Binding Reward, StringFormat='Reward: {0}'}"
+                                               FontSize="12"
+                                               TextColor="Green"/>
+                                        <Button Text="Accept Quest"
+                                                Clicked="OnAcceptQuestClicked"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Green"
+                                                TextColor="White"
+                                                Margin="0,5,0,0"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
             </ScrollView>
             

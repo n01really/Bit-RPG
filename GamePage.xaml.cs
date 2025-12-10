@@ -1,6 +1,8 @@
 namespace Bit_RPG;
 using Bit_RPG.Char;
+using Bit_RPG.Jobs;
 using CommunityToolkit.Maui.Views;
+using System.Linq;
 
 public partial class GamePage : ContentPage
 {
@@ -61,7 +63,27 @@ public partial class GamePage : ContentPage
     private void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
-        EventLog += $"\n{Event}";
+        
+        // Complete active quests
+        if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
+        {
+            var completedQuests = Player.ActiveQuests.ToList();
+            
+            foreach (var quest in completedQuests)
+            {
+                Quests.CompleteQuest(quest, Player);
+                Event = $"\nQuest Completed: {quest.Name}!\nRewards: {quest.Reward}";
+                EventLog += $"\n{Event}";
+            }
+            
+            // Clear completed quests
+            Player.ActiveQuests.Clear();
+        }
+        else
+        {
+            EventLog += $"\n{Event}";
+        }
+        
         SemanticScreenReader.Announce($"Week {Week}");
     }
 

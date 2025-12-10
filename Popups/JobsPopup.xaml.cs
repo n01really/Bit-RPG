@@ -19,7 +19,7 @@ public partial class JobsPopup : Popup
     {
         _player.Jobb = new Job 
         { 
-            Name = "Adventurer's Guild",
+            Name = "Adventurers Guild",
             Description = "Take on quests and explore dangerous dungeons to earn rewards and fame."
         };
         Close();
@@ -29,7 +29,7 @@ public partial class JobsPopup : Popup
     {
         _player.Jobb = new Job 
         { 
-            Name = "Blacksmith's Guild",
+            Name = "Blacksmiths Guild",
             Description = "Craft and repair weapons and armor for adventurers and townsfolk."
         };
         Close();
@@ -39,7 +39,7 @@ public partial class JobsPopup : Popup
     {
         _player.Jobb = new Job 
         { 
-            Name = "Mage's Guild",
+            Name = "Mages Guild",
             Description = "Study and practice the arcane arts, offering magical services to those in need."
         };
         Close();

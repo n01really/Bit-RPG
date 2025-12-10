@@ -1,25 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Bit_RPG.Char;
 using Bit_RPG.Events;
 using Bit_RPG.Jobs;
+using Bit_RPG.Models;
 
 namespace Bit_RPG.Char
 {
 
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public string PlayerName { get; set; }
         public int Age { get; set; }
         public bool Male { get; set; }
         public bool Female { get; set; }
         public string Pronouns { get; set; }
         public int Level { get; set; }
-        public int Money { get; set; }
-        public int Experience { get; set; }
+
+        private int _money;
+        public int Money
+        {
+            get => _money;
+            set
+            {
+                if (_money != value)
+                {
+                    _money = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _experience;
+        public int Experience
+        {
+            get => _experience;
+            set
+            {
+                if (_experience != value)
+                {
+                    _experience = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public int JobExperience { get; set; }
         public Job Jobb { get; set; }
         public int JobRank { get; set; }
@@ -35,5 +72,6 @@ namespace Bit_RPG.Char
         public int Magic { get; set; }
         public int MaxMana { get; set; }
         public int MDefense { get; set; }
+        public List<QuestModel> ActiveQuests { get; set; } = new List<QuestModel>();
     }
 }
