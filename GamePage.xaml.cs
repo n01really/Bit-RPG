@@ -1,5 +1,6 @@
 namespace Bit_RPG;
 using Bit_RPG.Char;
+using CommunityToolkit.Maui.Views;
 
 public partial class GamePage : ContentPage
 {
@@ -64,23 +65,27 @@ public partial class GamePage : ContentPage
         SemanticScreenReader.Announce($"Week {Week}");
     }
 
-    private void OnCharacterClicked(object sender, EventArgs e)
+    private async void OnCharacterClicked(object sender, EventArgs e)
     {
-        // Placeholder for character page navigation
+        var popup = new CharacterPopup(Player);
+        await this.ShowPopupAsync(popup);
     }
 
-    private void OnInventoryClicked(object sender, EventArgs e)
+    private async void OnInventoryClicked(object sender, EventArgs e)
     {
-        // Placeholder for inventory page navigation
+        var popup = new InventoryPopup(Player);
+        await this.ShowPopupAsync(popup);
     }
 
-    private void OnJobsClicked(object sender, EventArgs e)
+    private async void OnJobsClicked(object sender, EventArgs e)
     {
-        // Placeholder for jobs page navigation
+        var popup = new JobsPopup(Player);
+        await this.ShowPopupAsync(popup);
     }
 
-    private void OnQuestsClicked(object sender, EventArgs e)
+    private async void OnQuestsClicked(object sender, EventArgs e)
     {
-        // Placeholder for quests page navigation
+        var popup = new QuestsPopup(Player);
+        await this.ShowPopupAsync(popup);
     }
 }

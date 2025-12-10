@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Bit_RPG.JobsPopup"
+               Size="400,600">
+    <Border Stroke="Gray"
+            StrokeThickness="2"
+            Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+            Padding="20">
+        <VerticalStackLayout Spacing="15">
+            <Label Text="Jobs"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            
+            <BoxView HeightRequest="1"
+                     Color="Gray"/>
+            
+            <ScrollView HeightRequest="450">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Adventurer's Guild"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                    <Label Text="Take on quests and explore dangerous dungeons to earn rewards and fame."
+                           FontSize="14"/>
+                    
+                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    
+                    <Label Text="Blacksmith's Guild"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                    <Label Text="Craft and repair weapons and armor for adventurers and townsfolk."
+                           FontSize="14"/>
+                    
+                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    
+                    <Label Text="Mage's Guild"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                    <Label Text="Study and practice the arcane arts, offering magical services to those in need."
+                           FontSize="14"/>
+                    
+                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    
+                    <Label Text="Thieves Guild"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                    <Label Text="Engage in stealthy activities, from pickpocketing to high-stakes heists."
+                           FontSize="14"/>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <Button Text="Close"
+                    Clicked="OnCloseClicked"
+                    HorizontalOptions="Center"
+                    Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>
