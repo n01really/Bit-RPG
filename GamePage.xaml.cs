@@ -112,7 +112,16 @@ public partial class GamePage : ContentPage
             EventLog += activeEventStatus;
         }
         
+        // Scroll to bottom to show latest events
+        ScrollToBottom();
+        
         SemanticScreenReader.Announce($"Week {Week}");
+    }
+
+    private async void ScrollToBottom()
+    {
+        await Task.Delay(100); // Small delay to ensure UI has updated
+        await EventScrollView.ScrollToAsync(0, double.MaxValue, true);
     }
 
     private async void OnCharacterClicked(object sender, EventArgs e)

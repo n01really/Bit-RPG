@@ -49,7 +49,7 @@
                 StrokeThickness="1"
                 HeightRequest="700"
                 Padding="10">
-            <ScrollView>
+            <ScrollView x:Name="EventScrollView">
                 <Label
                         Text="{Binding EventLog}"
                         HorizontalOptions="Center"
