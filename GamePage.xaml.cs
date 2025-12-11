@@ -1,6 +1,7 @@
 namespace Bit_RPG;
 using Bit_RPG.Char;
 using Bit_RPG.Jobs;
+using Bit_RPG.Events;
 using CommunityToolkit.Maui.Views;
 using System.Linq;
 
@@ -50,19 +51,30 @@ public partial class GamePage : ContentPage
         }
     }
 
+    // Add CurrentEvents instance
+    private CurrentEvents _currentEvents;
+
     public GamePage(Char.Player player)
     {
         InitializeComponent();
         BindingContext = this;
         Player = player;
         Week = 1;
-        Event = $"Welcome {player.PlayerName}! Your adventure begins this is a placeholder until n01really makes an event handler";
+        
+        // Initialize event system
+        _currentEvents = new CurrentEvents();
+        ActiveWorldEvents.InitializeWorldEvents(_currentEvents);
+        
+        Event = $"Welcome {player.PlayerName}! Your adventure begins...";
         EventLog = Event;
     }
     
     private void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
+        
+        // Check for world events every click (will only trigger every 4 clicks)
+        var worldEvent = ActiveWorldEvents.ProcessContinueClick(_currentEvents);
         
         // Complete active quests
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
@@ -79,9 +91,25 @@ public partial class GamePage : ContentPage
             // Clear completed quests
             Player.ActiveQuests.Clear();
         }
-        else
+        
+        // Display world event if one was triggered
+        if (worldEvent != null)
         {
-            EventLog += $"\n{Event}";
+            Event = $"\n\n{worldEvent.GetFormattedText()}";
+            EventLog += Event;
+        }
+        else if (!Player.ActiveQuests?.Any() ?? true)
+        {
+            // Only show "nothing happened" if no quests and no world event
+            Event = $"\nWeek {Week}: Nothing eventful happened this week.";
+            EventLog += Event;
+        }
+        
+        // Display active event status if there is one
+        if (_currentEvents.HasActiveEvent())
+        {
+            string activeEventStatus = $"\n[Active: {EventPicker.GetEventSummary(_currentEvents)}]";
+            EventLog += activeEventStatus;
         }
         
         SemanticScreenReader.Announce($"Week {Week}");

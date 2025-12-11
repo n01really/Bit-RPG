@@ -18,5 +18,29 @@ namespace Bit_RPG.Events
         public bool isDroughtActive { get; set; }
         public bool IsStormActive { get; set; }
         public bool IsBorderClosed { get; set; }
+        
+        public int ClickedSinceLastEvent { get; set; }
+        public int ClicksRequiredForEvent { get; set; } = 4;
+
+        public bool HasActiveEvent()
+        {
+            return IsEarthquakeActive || IsFloodActive || IsFireActive || IsBanditRaidActive ||
+                   IsFamineActive || IsPlagueActive || IsWarActive || isDroughtActive || IsStormActive ||
+                   IsBorderClosed;
+        }
+
+        public void ClearAllEvents()
+        {
+            IsEarthquakeActive = false;
+            IsFloodActive = false;
+            IsFireActive = false;
+            IsBanditRaidActive = false;
+            IsFamineActive = false;
+            IsPlagueActive = false;
+            IsWarActive = false;
+            isDroughtActive = false;
+            IsStormActive = false;
+            IsBorderClosed = false;
+        }
     }
 }

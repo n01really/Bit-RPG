@@ -9,18 +9,25 @@ namespace Bit_RPG.Events
 {
     internal class ActiveWorldEvents
     {
-        public static void WorldEvents(CurrentEvents events)
+        public static void InitializeWorldEvents(CurrentEvents events)
         {
-            events.IsEarthquakeActive = false;
-            events.IsFloodActive = false;
-            events.IsFireActive = false;
-            events.IsBanditRaidActive = false;
-            events.IsFamineActive = false;
-            events.IsPlagueActive = false;
-            events.IsWarActive = false;
-            events.isDroughtActive = false;
-            events.IsStormActive = false;
-            events.IsBorderClosed = false;
+            events.ClearAllEvents();
+            events.ClickedSinceLastEvent = 0;
+        }
+
+        public static EventResult? ProcessContinueClick(CurrentEvents events)
+        {
+            return EventPicker.TryTriggerEvent(events);
+        }
+
+        public static EventResult TriggerRandomEvent(CurrentEvents events)
+        {
+            return EventPicker.PickRandomEvent(events);
+        }
+
+        public static EventResult TriggerSpecificEvent(CurrentEvents events, string category)
+        {
+            return EventPicker.PickSpecificEvent(events, category);
         }
     }
 }
