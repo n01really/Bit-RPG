@@ -8,5 +8,22 @@ namespace Bit_RPG.Events
 {
     internal class WorldEvents
     {
+        public static void CountyEvent()
+        {
+
+        }
+        public static void TownEvent()
+        {
+
+        }
+        public static void DisasterEvent()
+        {
+
+        }
+
+
+
+
+
     }
 }
