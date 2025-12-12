@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bit_RPG.World
+namespace Bit_RPG.Char.NPCs
 {
-    internal class Countries
+    internal class DwarvenNpc
     {
     }
 }
