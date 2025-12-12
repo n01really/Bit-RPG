@@ -13,6 +13,6 @@ namespace Bit_RPG.Models
         public string Mayor { get; set; }
         public List<string> NearbyVillages { get; set; }
         public List<string> NearbyCities { get; set; }
-        public List<string> NearbyDungeons { get; set; }
+        public List<string>? NearbyDungeons { get; set; }
     }
 }
