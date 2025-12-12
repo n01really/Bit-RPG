@@ -6,15 +6,31 @@
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
-            Spacing="25">
+            Spacing="25"
+            VerticalOptions="Center">
+            
+            <Label
+                Text="Bit RPG"
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="0,0,0,40" />
             
             <Button
                 x:Name="StartGameBtn"
-                Text="Start Game"
-                SemanticProperties.Hint="Navigate to the game page"
+                Text="New Game"
+                SemanticProperties.Hint="Start a new game"
                 Clicked="OnStartGameClicked"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                WidthRequest="200" />
             
+            <Button
+                x:Name="LoadGameBtn"
+                Text="Load Game"
+                SemanticProperties.Hint="Load a saved game"
+                Clicked="OnLoadGameClicked"
+                HorizontalOptions="Center"
+                WidthRequest="200" />
 
         </VerticalStackLayout>
     </ScrollView>

@@ -6,6 +6,7 @@ using CommunityToolkit.Maui.Views;
 using System.Linq;
 using Bit_RPG.Models;
 using Bit_RPG.Char.NPCs;
+using Bit_RPG.Services;
 
 public partial class GamePage : ContentPage
 {
@@ -53,8 +54,9 @@ public partial class GamePage : ContentPage
         }
     }
 
-    // Add CurrentEvents instance
     private CurrentEvents _currentEvents;
+    private TownsModels _currentTown;
+    private List<NpcData> _generatedNpcs = new List<NpcData>();
 
     public GamePage(Char.Player player)
     {
@@ -63,13 +65,11 @@ public partial class GamePage : ContentPage
         Player = player;
         Week = 1;
         
-        // Initialize event system
         _currentEvents = new CurrentEvents();
         ActiveWorldEvents.InitializeWorldEvents(_currentEvents);
         
-        // Create town instance
         HumanNpc humanNames = new HumanNpc();
-        TownsModels silverholdTown1 = new TownsModels
+        _currentTown = new TownsModels
         {
             Name = "Arn",
             Description = "A peaceful town along the Silver River, known for its fishing industry.",
@@ -78,24 +78,54 @@ public partial class GamePage : ContentPage
             NearbyVillages = new List<string> { "Riverside Hamlet" },
             NearbyCities = new List<string> { "Silverhold" }
         };
+
+        NpcTracker.AddNpc(_generatedNpcs, _currentTown.Mayor, NpcType.Mayor, "Human", _currentTown.Name);
         
         Event = $"it has been 300 Years Since the Dark Lord Death, You are {Player.PlayerName}, a {Player.Race} you studied to become a {Player.Class}. " +
             $"At the age of {Player.Age}, you decided to move to a new Town to start a new life. " +
-            $"\n\nYou have arrived at {silverholdTown1.Name}, {silverholdTown1.Description} " +
-            $"The town is located in {silverholdTown1.Country} and is governed by {silverholdTown1.Mayor}. " +
-            $"Nearby cities include: {string.Join(", ", silverholdTown1.NearbyCities)}. " +
-            $"Nearby villages include: {string.Join(", ", silverholdTown1.NearbyVillages)}.";
+            $"\n\nYou have arrived at {_currentTown.Name}, {_currentTown.Description} " +
+            $"The town is located in {_currentTown.Country} and is governed by {_currentTown.Mayor}. " +
+            $"Nearby cities include: {string.Join(", ", _currentTown.NearbyCities)}. " +
+            $"Nearby villages include: {string.Join(", ", _currentTown.NearbyVillages)}.";
         EventLog = Event;
+
+        _ = SaveGameAsync();
+    }
+
+    public GamePage(GameSaveModel gameSave)
+    {
+        InitializeComponent();
+        BindingContext = this;
+        
+        Player = gameSave.Player;
+        Week = gameSave.CurrentWeek;
+        EventLog = gameSave.EventLog;
+        _generatedNpcs = gameSave.GeneratedNpcs ?? new List<NpcData>();
+        _currentTown = gameSave.CurrentTown;
+        
+        _currentEvents = new CurrentEvents
+        {
+            IsWarActive = gameSave.CurrentEvents.IsWarActive,
+            IsBorderClosed = gameSave.CurrentEvents.IsBorderClosed,
+            IsPlagueActive = gameSave.CurrentEvents.IsPlagueActive,
+            IsBanditRaidActive = gameSave.CurrentEvents.IsBanditRaidActive,
+            IsFamineActive = gameSave.CurrentEvents.IsFamineActive,
+            IsFireActive = gameSave.CurrentEvents.IsFireActive,
+            IsEarthquakeActive = gameSave.CurrentEvents.IsEarthquakeActive,
+            IsFloodActive = gameSave.CurrentEvents.IsFloodActive,
+            isDroughtActive = gameSave.CurrentEvents.IsDroughtActive,
+            IsStormActive = gameSave.CurrentEvents.IsStormActive
+        };
+
+        Event = $"\n\nGame Loaded - Week {Week}";
     }
     
-    private void OnForwardGameClicked(object sender, EventArgs e)
+    private async void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
         
-        // Check for world events every click (will only trigger every 4 clicks)
         var worldEvent = ActiveWorldEvents.ProcessContinueClick(_currentEvents);
         
-        // Complete active quests
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
         {
             var completedQuests = Player.ActiveQuests.ToList();
@@ -107,11 +137,9 @@ public partial class GamePage : ContentPage
                 EventLog += $"\n{Event}";
             }
             
-            // Clear completed quests
             Player.ActiveQuests.Clear();
         }
         
-        // Display world event if one was triggered
         if (worldEvent != null)
         {
             Event = $"\n\n{worldEvent.GetFormattedText()}";
@@ -119,27 +147,65 @@ public partial class GamePage : ContentPage
         }
         else if (!Player.ActiveQuests?.Any() ?? true)
         {
-            // Only show "nothing happened" if no quests and no world event
             Event = $"\nWeek {Week}: Nothing eventful happened this week.";
             EventLog += Event;
         }
         
-        // Display active event status if there is one
         if (_currentEvents.HasActiveEvent())
         {
             string activeEventStatus = $"\n[Active: {EventPicker.GetEventSummary(_currentEvents)}]";
             EventLog += activeEventStatus;
         }
         
-        // Scroll to bottom to show latest events
         ScrollToBottom();
         
         SemanticScreenReader.Announce($"Week {Week}");
+
+        await SaveGameAsync();
+    }
+
+    private async Task SaveGameAsync()
+    {
+        try
+        {
+            var gameSave = new GameSaveModel
+            {
+                SaveDate = DateTime.Now,
+                CurrentWeek = Week,
+                EventLog = EventLog,
+                Player = Player,
+                GeneratedNpcs = _generatedNpcs,
+                CurrentTown = _currentTown,
+                CurrentEvents = new GameEventsData
+                {
+                    IsWarActive = _currentEvents.IsWarActive,
+                    IsBorderClosed = _currentEvents.IsBorderClosed,
+                    IsPlagueActive = _currentEvents.IsPlagueActive,
+                    IsBanditRaidActive = _currentEvents.IsBanditRaidActive,
+                    IsFamineActive = _currentEvents.IsFamineActive,
+                    IsFireActive = _currentEvents.IsFireActive,
+                    IsEarthquakeActive = _currentEvents.IsEarthquakeActive,
+                    IsFloodActive = _currentEvents.IsFloodActive,
+                    IsDroughtActive = _currentEvents.isDroughtActive,
+                    IsStormActive = _currentEvents.IsStormActive
+                }
+            };
+
+            bool success = await SaveService.SaveGameAsync(gameSave);
+            if (success)
+            {
+                System.Diagnostics.Debug.WriteLine($"Game saved successfully at week {Week}");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error saving game: {ex.Message}");
+        }
     }
 
     private async void ScrollToBottom()
     {
-        await Task.Delay(100); // Small delay to ensure UI has updated
+        await Task.Delay(100);
         await EventScrollView.ScrollToAsync(0, double.MaxValue, true);
     }
 

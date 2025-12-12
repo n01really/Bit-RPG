@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bit_RPG.Models
 {
-    internal class VillageModel
+    public class VillageModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
