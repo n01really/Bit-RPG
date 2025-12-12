@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bit_RPG.Char;
+using Bit_RPG.Char.NPCs;
 using Bit_RPG.Models;
 
 namespace Bit_RPG.Jobs
@@ -16,7 +17,7 @@ namespace Bit_RPG.Jobs
             {
                 new QuestModel(
                     "Gather Materials",
-                    "Collect various materials for crafting and trade.",
+                    "Collect various materials for crafting and trade. for: " + new HumanNpc().GetRandomName(),
                     "100 Gold, 5 XP",
                     "Adventurers Guild"
                 ),

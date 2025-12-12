@@ -18,18 +18,32 @@ namespace Bit_RPG.World
                 Name = "Eldoria",
                 Description = "A prosperous kingdom known for its rich culture",
                 Capital = "Silverhold",
-                Ruler = humanNames.GetRandomNobleRulerName()
-
+                Ruler = humanNames.GetRandomNobleRulerName(),
+                MajorityRace = "Human"
             };
             CountryModel HunanCountry2 = new CountryModel
             {
-               
-
+                Name = "Valoria",
+                Description = "A land of brave warriors and skilled artisans",
+                Capital = "Ironpeak",
+                Ruler = humanNames.GetRandomNobleRulerName(),
+                MajorityRace = "Human"
             };
             CountryModel HumanCountry3 = new CountryModel
             {
-               
-
+                Name = "Nordheim",
+                Description = "A rugged land of fierce warriors and harsh winters",
+                Capital = "Frosthold",
+                Ruler = humanNames.GetRandomNobleRulerName(),
+                MajorityRace = "Human"
+            };
+            CountryModel HumanCountry4 = new CountryModel
+            {
+                Name = "Aranthia",
+                Description = "A kingdom of scholars and mages, known for its grand libraries",
+                Capital = "Starhaven",
+                Ruler = humanNames.GetRandomNobleRulerName(),
+                MajorityRace = "Human"
             };
         }
     }
