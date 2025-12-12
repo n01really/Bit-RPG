@@ -4,6 +4,8 @@ using Bit_RPG.Jobs;
 using Bit_RPG.Events;
 using CommunityToolkit.Maui.Views;
 using System.Linq;
+using Bit_RPG.Models;
+using Bit_RPG.Char.NPCs;
 
 public partial class GamePage : ContentPage
 {
@@ -65,7 +67,24 @@ public partial class GamePage : ContentPage
         _currentEvents = new CurrentEvents();
         ActiveWorldEvents.InitializeWorldEvents(_currentEvents);
         
-        Event = $"Welcome {player.PlayerName}! Your adventure begins...";
+        // Create town instance
+        HumanNpc humanNames = new HumanNpc();
+        TownsModels silverholdTown1 = new TownsModels
+        {
+            Name = "Arn",
+            Description = "A peaceful town along the Silver River, known for its fishing industry.",
+            Mayor = humanNames.GetRandomRulerName(),
+            Country = "Eldoria",
+            NearbyVillages = new List<string> { "Riverside Hamlet" },
+            NearbyCities = new List<string> { "Silverhold" }
+        };
+        
+        Event = $"it has been 300 Years Since the Dark Lord Death, You are {Player.PlayerName}, a {Player.Race} you studied to become a {Player.Class}. " +
+            $"At the age of {Player.Age}, you decided to move to a new Town to start a new life. " +
+            $"\n\nYou have arrived at {silverholdTown1.Name}, {silverholdTown1.Description} " +
+            $"The town is located in {silverholdTown1.Country} and is governed by {silverholdTown1.Mayor}. " +
+            $"Nearby cities include: {string.Join(", ", silverholdTown1.NearbyCities)}. " +
+            $"Nearby villages include: {string.Join(", ", silverholdTown1.NearbyVillages)}.";
         EventLog = Event;
     }
     
