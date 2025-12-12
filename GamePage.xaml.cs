@@ -68,6 +68,11 @@ public partial class GamePage : ContentPage
         _currentEvents = new CurrentEvents();
         ActiveWorldEvents.InitializeWorldEvents(_currentEvents);
         
+        // Generate world population at game start
+        System.Diagnostics.Debug.WriteLine("Generating world population...");
+        WorldPopulation.GenerateWorldPopulation(1000);
+        System.Diagnostics.Debug.WriteLine($"World population generated: {WorldPopulation.GetPopulationCount()} NPCs");
+        
         HumanNpc humanNames = new HumanNpc();
         _currentTown = new TownsModels
         {
@@ -102,6 +107,24 @@ public partial class GamePage : ContentPage
         EventLog = gameSave.EventLog;
         _generatedNpcs = gameSave.GeneratedNpcs ?? new List<NpcData>();
         _currentTown = gameSave.CurrentTown;
+        
+        // Load world population from save
+        if (gameSave.WorldPopulation != null && gameSave.WorldPopulation.Count > 0)
+        {
+            WorldPopulation.InitializePopulation();
+            foreach (var npc in gameSave.WorldPopulation)
+            {
+                WorldPopulation.AddNPC(npc.Name, npc.Age, npc.Gender, npc.Race, npc.Job, npc.Location);
+            }
+            System.Diagnostics.Debug.WriteLine($"Loaded world population: {WorldPopulation.GetPopulationCount()} NPCs");
+        }
+        else
+        {
+            // Generate if no population exists in save
+            System.Diagnostics.Debug.WriteLine("No saved population found, generating new...");
+            WorldPopulation.GenerateWorldPopulation(1000);
+            System.Diagnostics.Debug.WriteLine($"World population generated: {WorldPopulation.GetPopulationCount()} NPCs");
+        }
         
         _currentEvents = new CurrentEvents
         {
@@ -175,6 +198,7 @@ public partial class GamePage : ContentPage
                 EventLog = EventLog,
                 Player = Player,
                 GeneratedNpcs = _generatedNpcs,
+                WorldPopulation = WorldPopulation.GetPopulation().ToList(),
                 CurrentTown = _currentTown,
                 CurrentEvents = new GameEventsData
                 {
@@ -195,6 +219,7 @@ public partial class GamePage : ContentPage
             if (success)
             {
                 System.Diagnostics.Debug.WriteLine($"Game saved successfully at week {Week}");
+                System.Diagnostics.Debug.WriteLine($"Saved {gameSave.WorldPopulation.Count} NPCs in world population");
             }
         }
         catch (Exception ex)

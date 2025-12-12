@@ -12,6 +12,7 @@ namespace Bit_RPG.Models
         public string EventLog { get; set; }
         public Player Player { get; set; }
         public List<NpcData> GeneratedNpcs { get; set; } = new List<NpcData>();
+        public List<WorldNPC> WorldPopulation { get; set; } = new List<WorldNPC>();
         public TownsModels CurrentTown { get; set; }
         public GameEventsData CurrentEvents { get; set; }
 
