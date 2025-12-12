@@ -86,6 +86,31 @@ namespace Bit_RPG.Char.NPCs
 
             return $"{title} {firstName} {surname} of {house}";
         }
+
+        public string GetRandomRulerName()
+        {
+            bool isMale = random.Next(2) == 0;
+            string title = isMale ? "Mayor" : "Mayoress";
+            string firstName = isMale
+                ? MaleNames[random.Next(MaleNames.Count)]
+                : FemaleNames[random.Next(FemaleNames.Count)];
+            string surname = Surnames[random.Next(Surnames.Count)];
+
+            return $"{title} {firstName} {surname}";
+        }
+
+        public string GetRandomHeadman()
+        {
+            bool isMale = random.Next(2) == 0;
+            string title = isMale ? "Headman" : "Headwoman";
+            string firstName = isMale
+                ? MaleNames[random.Next(MaleNames.Count)]
+                : FemaleNames[random.Next(FemaleNames.Count)];
+            string surname = Surnames[random.Next(Surnames.Count)];
+
+            return $"{title} {firstName} {surname}";
+        }
+
         public string GetRandomNobleRulerName()
         {
             bool isMale = random.Next(2) == 0;
