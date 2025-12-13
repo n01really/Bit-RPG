@@ -171,7 +171,7 @@ public partial class GamePage : ContentPage
             EventLog += Event;
         }
         
-        var worldEvent = ActiveWorldEvents.ProcessContinueClick(_currentEvents);
+        var events = ActiveWorldEvents.ProcessContinueClick(_currentEvents, Player);
         
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
         {
@@ -187,9 +187,9 @@ public partial class GamePage : ContentPage
             Player.ActiveQuests.Clear();
         }
         
-        if (worldEvent != null)
+        if (events != null && events.HasAnyEvent)
         {
-            Event = $"\n\n{worldEvent.GetFormattedText()}";
+            Event = $"\n\n{events.GetFormattedText()}";
             EventLog += Event;
         }
         else if (!Player.ActiveQuests?.Any() ?? true)

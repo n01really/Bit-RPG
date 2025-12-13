@@ -9,6 +9,7 @@ using Bit_RPG.Char;
 using Bit_RPG.Events;
 using Bit_RPG.Jobs;
 using Bit_RPG.Models;
+using Bit_RPG.World;
 
 namespace Bit_RPG.Char
 {
@@ -23,7 +24,21 @@ namespace Bit_RPG.Char
         }
 
         public string PlayerName { get; set; }
-        public int Age { get; set; }
+        
+        private int _age;
+        public int Age
+        {
+            get => _age;
+            set
+            {
+                if (_age != value)
+                {
+                    _age = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
         public bool Male { get; set; }
         public bool Female { get; set; }
         public string Pronouns { get; set; }
@@ -56,8 +71,19 @@ namespace Bit_RPG.Char
                 }
             }
         }
-
-        public int JobExperience { get; set; }
+        private int _jobExperience;
+        public int JobExperience
+        {
+            get => _jobExperience;
+            set
+            {
+                if (_jobExperience != value)
+                {
+                    _jobExperience = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public Job Jobb { get; set; }
         public int JobRank { get; set; }
         public RaceType Race { get; set; }
@@ -72,6 +98,7 @@ namespace Bit_RPG.Char
         public int Magic { get; set; }
         public int MaxMana { get; set; }
         public int MDefense { get; set; }
+        public Location CurrentLocation { get; set; }
         public List<QuestModel> ActiveQuests { get; set; } = new List<QuestModel>();
     }
 }
