@@ -34,10 +34,14 @@
                         FontSize="16"/>
                 <Label
                         Grid.Column="4"
-                        Text="{Binding Player.Money, StringFormat='Money: {0}'}"
+                        Text="{Binding Player.Money, StringFormat='Gold: {0}'}"
                         FontSize="16"/>
                 <Label
                         Grid.Column="5"
+                        Text="{Binding Year, StringFormat='Year: {0}'}"
+                        FontSize="16"/>
+                <Label
+                        Grid.Column="6"
                         Text="{Binding Week, StringFormat='Week: {0}'}"
                         FontSize="16"
                         HorizontalOptions="End"/>

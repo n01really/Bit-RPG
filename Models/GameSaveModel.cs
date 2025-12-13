@@ -15,6 +15,7 @@ namespace Bit_RPG.Models
         public List<WorldNPC> WorldPopulation { get; set; } = new List<WorldNPC>();
         public TownsModels CurrentTown { get; set; }
         public GameEventsData CurrentEvents { get; set; }
+        public int CurrentYear { get; set; }
 
         public GameSaveModel()
         {

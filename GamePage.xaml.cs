@@ -21,6 +21,17 @@ public partial class GamePage : ContentPage
         }
     }
     
+    private int _year;
+    public int Year
+    {
+        get => _year;
+        set
+        {
+            _year = value;
+            OnPropertyChanged();
+        }
+    }
+    
     private string _event;
     public string Event
     {
@@ -64,6 +75,7 @@ public partial class GamePage : ContentPage
         BindingContext = this;
         Player = player;
         Week = 1;
+        Year = 301;
         
         _currentEvents = new CurrentEvents();
         ActiveWorldEvents.InitializeWorldEvents(_currentEvents);
@@ -86,8 +98,9 @@ public partial class GamePage : ContentPage
 
         NpcTracker.AddNpc(_generatedNpcs, _currentTown.Mayor, NpcType.Mayor, "Human", _currentTown.Name);
         
-        Event = $"it has been 300 Years Since the Dark Lord Death, You are {Player.PlayerName}, a {Player.Race} you studied to become a {Player.Class}. " +
-            $"At the age of {Player.Age}, you decided to move to a new Town to start a new life. " +
+        Event = $"The year is {Year} ADE of the Bright Era. it has been 300 years since the death of the darklord." +
+            $" You are {Player.PlayerName}, a {Player.Race} you studied to become a {Player.Class}. " +
+            $"You have just come of age.At the age of {Player.Age}, you decided to move to a new Town to start a new life. " +
             $"\n\nYou have arrived at {_currentTown.Name}, {_currentTown.Description} " +
             $"The town is located in {_currentTown.Country} and is governed by {_currentTown.Mayor}. " +
             $"Nearby cities include: {string.Join(", ", _currentTown.NearbyCities)}. " +
@@ -104,6 +117,7 @@ public partial class GamePage : ContentPage
         
         Player = gameSave.Player;
         Week = gameSave.CurrentWeek;
+        Year = gameSave.CurrentYear;
         EventLog = gameSave.EventLog;
         _generatedNpcs = gameSave.GeneratedNpcs ?? new List<NpcData>();
         _currentTown = gameSave.CurrentTown;
@@ -140,12 +154,22 @@ public partial class GamePage : ContentPage
             IsStormActive = gameSave.CurrentEvents.IsStormActive
         };
 
-        Event = $"\n\nGame Loaded - Week {Week}";
+        Event = $"\n\nGame Loaded - Week {Week}, Year {Year} ADE";
     }
     
     private async void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
+        
+        // Check if a year has passed (52 weeks)
+        if (Week > 52)
+        {
+            Week = 1;
+            Year++;
+            Player.Age++;
+            Event = $"\n\n=== Year {Year} ADE has begun! ===";
+            EventLog += Event;
+        }
         
         var worldEvent = ActiveWorldEvents.ProcessContinueClick(_currentEvents);
         
@@ -170,7 +194,7 @@ public partial class GamePage : ContentPage
         }
         else if (!Player.ActiveQuests?.Any() ?? true)
         {
-            Event = $"\nWeek {Week}: Nothing eventful happened this week.";
+            Event = $"\nWeek {Week}, Year {Year} ADE: Nothing eventful happened this week.";
             EventLog += Event;
         }
         
@@ -182,7 +206,7 @@ public partial class GamePage : ContentPage
         
         ScrollToBottom();
         
-        SemanticScreenReader.Announce($"Week {Week}");
+        SemanticScreenReader.Announce($"Week {Week}, Year {Year} ADE");
 
         await SaveGameAsync();
     }
@@ -195,6 +219,7 @@ public partial class GamePage : ContentPage
             {
                 SaveDate = DateTime.Now,
                 CurrentWeek = Week,
+                CurrentYear = Year,
                 EventLog = EventLog,
                 Player = Player,
                 GeneratedNpcs = _generatedNpcs,
@@ -218,7 +243,7 @@ public partial class GamePage : ContentPage
             bool success = await SaveService.SaveGameAsync(gameSave);
             if (success)
             {
-                System.Diagnostics.Debug.WriteLine($"Game saved successfully at week {Week}");
+                System.Diagnostics.Debug.WriteLine($"Game saved successfully at week {Week}, year {Year} ADE");
                 System.Diagnostics.Debug.WriteLine($"Saved {gameSave.WorldPopulation.Count} NPCs in world population");
             }
         }
