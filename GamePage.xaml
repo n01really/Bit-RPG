@@ -9,42 +9,45 @@
         Spacing="25">
         
         <!-- Player Information and Week Panel -->
-        <Border
-                Stroke="Gray"
-                StrokeThickness="2"
-                Padding="15"
-                Margin="0,10,0,0">
-            <Grid ColumnDefinitions="*,*,*,*,*,*" RowDefinitions="Auto">
-                <Label
-                        Grid.Column="0"
-                        Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
-                        FontSize="16"
-                        FontAttributes="Bold"/>
-                <Label
-                        Grid.Column="1"
-                        Text="{Binding Player.Age, StringFormat='Age: {0}'}"
-                        FontSize="16"/>
-                <Label
-                        Grid.Column="2"
-                        Text="{Binding Player.Race, StringFormat='Race: {0}'}"
-                        FontSize="16"/>
-                <Label
-                        Grid.Column="3"
-                        Text="{Binding Player.Class, StringFormat='Class: {0}'}"
-                        FontSize="16"/>
-                <Label
-                        Grid.Column="4"
-                        Text="{Binding Player.Money, StringFormat='Gold: {0}'}"
-                        FontSize="16"/>
-                <Label
-                        Grid.Column="5"
-                        Text="{Binding Year, StringFormat='Year: {0}'}"
-                        FontSize="16"/>
-                <Label
-                        Grid.Column="6"
-                        Text="{Binding Week, StringFormat='Week: {0}'}"
-                        FontSize="16"
-                        HorizontalOptions="End"/>
+        <Border Stroke="Gray"
+                StrokeThickness="1"
+                Padding="10"
+                Margin="0,5,0,0">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*" 
+                  ColumnSpacing="15">
+                <Label Grid.Column="0"
+                       Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
+                       FontSize="12"
+                       FontAttributes="Bold"/>
+                <Label Grid.Column="1"
+                       Text="{Binding Player.Age, StringFormat='Age: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="2"
+                       Text="{Binding Player.Race, StringFormat='Race: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="3"
+                       Text="{Binding Player.Class, StringFormat='Class: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="4"
+                       Text="{Binding Player.Money, StringFormat='Gold: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="5"
+                       Text="{Binding Player.Level, StringFormat='Lvl: {0}'}"
+                       FontSize="12"
+                       FontAttributes="Bold"/>
+                <Label Grid.Column="6"
+                       Text="{Binding Player.Experience, StringFormat='XP: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="7"
+                       Text="{Binding Player.ExperienceForNextLevel, StringFormat='Next: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="8"
+                       Text="{Binding Year, StringFormat='Year: {0}'}"
+                       FontSize="12"/>
+                <Label Grid.Column="9"
+                       Text="{Binding Week, StringFormat='Week: {0}'}"
+                       FontSize="12"
+                       HorizontalOptions="End"/>
             </Grid>
         </Border>
 
