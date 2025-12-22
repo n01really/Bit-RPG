@@ -16,6 +16,7 @@ namespace Bit_RPG.Events
         public string EventDescription { get; set; }
         public string EventCategory { get; set; }
         public JobEventModel JobEvent { get; set; }
+        public WeeklyEventModel WeeklyEvent { get; set; }
         
         public EventResult(string eventName, string eventDescription, string eventScope)
         {
@@ -38,8 +39,9 @@ namespace Bit_RPG.Events
     {
         public EventResult WorldEvent { get; set; }
         public EventResult JobEvent { get; set; }
+        public EventResult WeeklyEvent { get; set; }
 
-        public bool HasAnyEvent => WorldEvent != null || JobEvent != null;
+        public bool HasAnyEvent => WorldEvent != null || JobEvent != null || WeeklyEvent != null;
 
         public string GetFormattedText()
         {
@@ -55,26 +57,137 @@ namespace Bit_RPG.Events
                 eventTexts.Add(JobEvent.GetFormattedText());
             }
 
+            if (WeeklyEvent != null)
+            {
+                eventTexts.Add(WeeklyEvent.GetFormattedText());
+            }
+
             return string.Join("\n\n", eventTexts);
         }
     }
     
+    /// <summary>
+    /// EventPicker is responsible for determining which events trigger and when.
+    /// 
+    /// EVENT FREQUENCY GUIDE:
+    /// =====================
+    /// To change how often events occur, modify the following values in TryTriggerEvent():
+    /// 
+    /// 1. CLICKS REQUIRED FOR EVENT:
+    ///    - Located in CurrentEvents.cs: ClicksRequiredForEvent = 4
+    ///    - This is how many times you click "Continue" before an event CAN trigger
+    ///    - Lower number = events can happen more frequently
+    ///    - Higher number = events happen less frequently
+    ///    - Example: Change to 10 for events every 10 weeks
+    /// 
+    /// 2. WORLD EVENT CHANCE:
+    ///    - Current: if (worldEventChance < 15) // 15% chance
+    ///    - Change the number to adjust probability:
+    ///      - < 5 = 5% chance (rare)
+    ///      - < 25 = 25% chance (common)
+    ///      - < 50 = 50% chance (very common)
+    ///    - These are major events like wars, disasters, famines
+    /// 
+    /// 3. JOB EVENT CHANCE:
+    ///    - Current: if (jobEventChance < 33) // 33% chance
+    ///    - Triggers only if player has a job
+    ///    - Change number to adjust how often job events occur
+    /// 
+    /// 4. WEEKLY EVENT CHANCE:
+    ///    - Current: Always triggers (100% chance) every continue press
+    ///    - To make it less frequent, add a random check:
+    ///      int weeklyEventChance = _random.Next(0, 100);
+    ///      if (weeklyEventChance < 50) // 50% chance
+    ///    - These are small, slice-of-life events
+    /// 
+    /// ADDING NEW EVENTS:
+    /// ==================
+    /// 
+    /// FOR WORLD EVENTS (Wars, Disasters, etc.):
+    /// -----------------------------------------
+    /// 1. Go to Events/WorldEvents.cs
+    /// 2. Add your event to the appropriate method:
+    ///    - CountryEvent() for kingdom-wide events
+    ///    - TownEvent() for local events
+    ///    - DisasterEvent() for natural disasters
+    /// 3. Add a new case to the switch statement
+    /// 4. Update CurrentEvents.cs to add a new bool flag if needed
+    /// 
+    /// Example:
+    ///   case 3:
+    ///       events.IsVolcanoActive = true;
+    ///       return new EventResult("Volcano Eruption", 
+    ///           "A nearby volcano erupts!", "Disaster");
+    /// 
+    /// FOR JOB EVENTS:
+    /// --------------
+    /// 1. Go to Events/JobEvents.cs
+    /// 2. Add your event to the appropriate guild method:
+    ///    - AdventureGuildEvent()
+    ///    - BlacksmithGuildEvent()
+    ///    - MagesGuildEvent()
+    ///    - ThievesGuildEvent()
+    /// 3. OR create a new guild method for a new job type
+    /// 4. Add the method call in PickJobEvent() below
+    /// 
+    /// FOR WEEKLY EVENTS:
+    /// -----------------
+    /// 1. Go to Events/WeeklyEvents.cs
+    /// 2. Create a new private static method:
+    ///    private static WeeklyEventModel YourNewEvent(Player player)
+    /// 3. Add it to GetRandomWeeklyEvent() switch statement
+    /// 4. Increment the random range (currently _random.Next(1, 11))
+    ///    to include your new event ID
+    /// 
+    /// Example:
+    ///   private static WeeklyEventModel CarnivalEvent(Player player)
+    ///   {
+    ///       return new WeeklyEventModel
+    ///       {
+    ///           Id = 11,
+    ///           Description = "A traveling carnival arrives in town!",
+    ///           Location = player.CurrentLocation,
+    ///           CurrentLocation = player
+    ///       };
+    ///   }
+    ///   
+    ///   Then in GetRandomWeeklyEvent():
+    ///   int eventId = _random.Next(1, 12); // Changed from 11 to 12
+    ///   // ... add case 11 => CarnivalEvent(player),
+    /// 
+    /// FOR NEW EVENT CATEGORIES:
+    /// ------------------------
+    /// 1. Create a new file in Events folder (e.g., ReligiousEvents.cs)
+    /// 2. Follow the pattern of WorldEvents.cs or JobEvents.cs
+    /// 3. Add a call to your new event type in TryTriggerEvent() below
+    /// 4. Add the new category to MultiEventResult if needed
+    /// 
+    /// </summary>
     internal class EventPicker
     {
         private static Random _random = new Random();
 
+        /// <summary>
+        /// Main event trigger method called when player clicks "Continue"
+        /// Tracks clicks and decides when to trigger events based on thresholds
+        /// </summary>
         public static MultiEventResult? TryTriggerEvent(CurrentEvents events, Player player = null)
         {
+            // Track how many times continue has been clicked since last event check
             events.ClickedSinceLastEvent++;
+            
+            // Only check for events after required number of clicks (default: 4)
+            // TO CHANGE: Modify ClicksRequiredForEvent in CurrentEvents.cs
             if (events.ClickedSinceLastEvent >= events.ClicksRequiredForEvent)
             { 
                 events.ClickedSinceLastEvent = 0;
                 
                 var result = new MultiEventResult();
                 
-                // 15% chance to trigger a world event
+                // WORLD EVENTS - Major events like wars, disasters, etc.
+                // TO CHANGE FREQUENCY: Modify the "< 15" to a different percentage
                 int worldEventChance = _random.Next(0, 100);
-                if (worldEventChance < 15)
+                if (worldEventChance < 15)  // 15% chance
                 {
                     events.ClearAllEvents();
                     int eventCategory = _random.Next(0, 3);
@@ -87,15 +200,29 @@ namespace Bit_RPG.Events
                     };
                 }
                 
-                // If player has a job, 1/3 chance to also trigger a job event
+                // JOB EVENTS - Triggers if player has a job
+                // TO CHANGE FREQUENCY: Modify the "< 33" to a different percentage
                 if (player != null && player.Jobb != null)
                 {
                     int jobEventChance = _random.Next(0, 100);
-                    if (jobEventChance < 33)  // 33% chans
+                    if (jobEventChance < 33)  // 33% chance
                     {
                         result.JobEvent = PickJobEvent(player);
                     }
                 }
+                
+                // WEEKLY EVENTS - Small slice-of-life events
+                // Currently: Always triggers (100% chance)
+                // TO MAKE LESS FREQUENT: Add a random chance check here
+                var weeklyEventModel = WeeklyEvents.GetRandomWeeklyEvent(player);
+                result.WeeklyEvent = new EventResult(
+                    "Weekly Event",
+                    weeklyEventModel.Description,
+                    "Weekly"
+                )
+                {
+                    WeeklyEvent = weeklyEventModel
+                };
                 
                 // Only return result if at least one event occurred
                 if (result.HasAnyEvent)
@@ -129,11 +256,22 @@ namespace Bit_RPG.Events
             if (player != null && player.Jobb != null)
             {
                 int jobEventChance = _random.Next(0, 100);
-                if (jobEventChance < 33)  // 33% chans
+                if (jobEventChance < 33)  // 33% chance
                 {
                     result.JobEvent = PickJobEvent(player);
                 }
             }
+
+            // Always include a weekly event
+            var weeklyEventModel = WeeklyEvents.GetRandomWeeklyEvent(player);
+            result.WeeklyEvent = new EventResult(
+                "Weekly Event",
+                weeklyEventModel.Description,
+                "Weekly"
+            )
+            {
+                WeeklyEvent = weeklyEventModel
+            };
 
             return result;
         }
@@ -165,6 +303,11 @@ namespace Bit_RPG.Events
             }
         }
 
+        /// <summary>
+        /// Picks a job-specific event based on the player's current job
+        /// TO ADD NEW JOB TYPES: Add a new CanTrigger method and event method in JobEvents.cs,
+        /// then add an else if block here following the existing pattern
+        /// </summary>
         public static EventResult PickJobEvent(Player player)
         {
             if (player?.Jobb == null)
