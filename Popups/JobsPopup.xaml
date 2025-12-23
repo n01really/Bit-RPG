@@ -19,51 +19,63 @@
             
             <ScrollView HeightRequest="450">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Adventurer's Guild"
-                           FontSize="18"
-                           FontAttributes="Bold"/>
-                    <Label Text="Take on quests and explore dangerous dungeons to earn rewards and fame."
-                           FontSize="14"/>
-                    <Button Text="Select Job"
-                            Clicked="OnAdventurersGuildClicked"
-                            HorizontalOptions="End"
-                            Margin="0,5,0,0"/>
+                    <VerticalStackLayout x:Name="AdventurersGuildSection" Spacing="10">
+                        <Label Text="Adventurer's Guild"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Take on quests and explore dangerous dungeons to earn rewards and fame."
+                               FontSize="14"/>
+                        <Button x:Name="AdventurersGuildButton"
+                                Text="Select Job"
+                                Clicked="OnAdventurersGuildClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
                     
-                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    <VerticalStackLayout x:Name="BlacksmithsGuildSection" Spacing="10">
+                        <Label Text="Blacksmith's Guild"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Craft and repair weapons and armor for adventurers and townsfolk."
+                               FontSize="14"/>
+                        <Button x:Name="BlacksmithsGuildButton"
+                                Text="Select Job"
+                                Clicked="OnBlacksmithsGuildClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
                     
-                    <Label Text="Blacksmith's Guild"
-                           FontSize="18"
-                           FontAttributes="Bold"/>
-                    <Label Text="Craft and repair weapons and armor for adventurers and townsfolk."
-                           FontSize="14"/>
-                    <Button Text="Select Job"
-                            Clicked="OnBlacksmithsGuildClicked"
-                            HorizontalOptions="End"
-                            Margin="0,5,0,0"/>
+                    <VerticalStackLayout x:Name="MagesGuildSection" Spacing="10">
+                        <Label Text="Mage's Guild"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Study and practice the arcane arts, offering magical services to those in need."
+                               FontSize="14"/>
+                        <Button x:Name="MagesGuildButton"
+                                Text="Select Job"
+                                Clicked="OnMagesGuildClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
                     
-                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
-                    
-                    <Label Text="Mage's Guild"
-                           FontSize="18"
-                           FontAttributes="Bold"/>
-                    <Label Text="Study and practice the arcane arts, offering magical services to those in need."
-                           FontSize="14"/>
-                    <Button Text="Select Job"
-                            Clicked="OnMagesGuildClicked"
-                            HorizontalOptions="End"
-                            Margin="0,5,0,0"/>
-                    
-                    <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
-                    
-                    <Label Text="Thieves Guild"
-                           FontSize="18"
-                           FontAttributes="Bold"/>
-                    <Label Text="Engage in stealthy activities, from pickpocketing to high-stakes heists."
-                           FontSize="14"/>
-                    <Button Text="Select Job"
-                            Clicked="OnThievesGuildClicked"
-                            HorizontalOptions="End"
-                            Margin="0,5,0,0"/>
+                    <VerticalStackLayout x:Name="ThievesGuildSection" Spacing="10">
+                        <Label Text="Thieves Guild"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Engage in stealthy activities, from pickpocketing to high-stakes heists."
+                               FontSize="14"/>
+                        <Button x:Name="ThievesGuildButton"
+                                Text="Select Job"
+                                Clicked="OnThievesGuildClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
             
