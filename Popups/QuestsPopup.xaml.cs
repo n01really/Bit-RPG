@@ -17,12 +17,19 @@ public partial class QuestsPopup : Popup
         InitializeComponent();
         _player = player;
         
-        // Get all quests and filter by player's job
+        // Get all quests and filter by player's job and rank
         var allQuests = Quests.GetAvailableQuests();
         
         if (player.Jobb != null && !string.IsNullOrEmpty(player.Jobb.Name))
         {
-            PlayerQuests = allQuests.Where(q => q.JobName == player.Jobb.Name).ToList();
+            var currentRank = player.Jobb.Rank;
+            var nextRank = currentRank == JobRank.S ? JobRank.S : (JobRank)((int)currentRank + 1);
+            
+            // Filter quests: must match job name AND be current rank or one rank above
+            PlayerQuests = allQuests
+                .Where(q => q.JobName == player.Jobb.Name && 
+                           (q.RequiredRank == currentRank || q.RequiredRank == nextRank))
+                .ToList();
         }
         else
         {
@@ -41,6 +48,17 @@ public partial class QuestsPopup : Popup
             {
                 await Application.Current.MainPage.DisplayAlert("Quest Already Accepted", 
                     $"You have already accepted the quest: {quest.Name}", "OK");
+                return;
+            }
+
+            // Check if player meets the rank requirement
+            var currentRank = _player.Jobb.Rank;
+            var nextRank = currentRank == JobRank.S ? JobRank.S : (JobRank)((int)currentRank + 1);
+            
+            if (quest.RequiredRank > nextRank)
+            {
+                await Application.Current.MainPage.DisplayAlert("Insufficient Rank", 
+                    $"You need to be at least Rank {quest.RequiredRank} to accept this quest. Your current rank is {currentRank}.", "OK");
                 return;
             }
 

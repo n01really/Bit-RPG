@@ -13,10 +13,27 @@ public partial class JobsPopup : Popup
         InitializeComponent();
         _player = player;
         BindingContext = player;
+        
+        if (player.Jobb != null)
+        {
+            CurrentJobInfo.IsVisible = true;
+            RankProgress.Text = $"Progress: {player.Jobb.GetRankProgressText()}\n{player.Jobb.GetRankUpRequirementsText(player.Skills)}";
+        }
+        else
+        {
+            CurrentJobInfo.IsVisible = false;
+        }
     }
 
     private void OnAdventurersGuildClicked(object sender, EventArgs e)
     {
+        if (_player.Jobb != null && _player.Jobb.Name == "Adventurers Guild")
+        {
+            Application.Current.MainPage.DisplayAlert("Already Joined", 
+                "You are already a member of the Adventurers Guild.", "OK");
+            return;
+        }
+
         _player.Jobb = new Job 
         { 
             Name = "Adventurers Guild",
@@ -27,6 +44,13 @@ public partial class JobsPopup : Popup
 
     private void OnBlacksmithsGuildClicked(object sender, EventArgs e)
     {
+        if (_player.Jobb != null && _player.Jobb.Name == "Blacksmiths Guild")
+        {
+            Application.Current.MainPage.DisplayAlert("Already Joined", 
+                "You are already a member of the Blacksmiths Guild.", "OK");
+            return;
+        }
+
         _player.Jobb = new Job 
         { 
             Name = "Blacksmiths Guild",
@@ -37,6 +61,13 @@ public partial class JobsPopup : Popup
 
     private void OnMagesGuildClicked(object sender, EventArgs e)
     {
+        if (_player.Jobb != null && _player.Jobb.Name == "Mages Guild")
+        {
+            Application.Current.MainPage.DisplayAlert("Already Joined", 
+                "You are already a member of the Mages Guild.", "OK");
+            return;
+        }
+
         _player.Jobb = new Job 
         { 
             Name = "Mages Guild",
@@ -47,6 +78,13 @@ public partial class JobsPopup : Popup
 
     private void OnThievesGuildClicked(object sender, EventArgs e)
     {
+        if (_player.Jobb != null && _player.Jobb.Name == "Thieves Guild")
+        {
+            Application.Current.MainPage.DisplayAlert("Already Joined", 
+                "You are already a member of the Thieves Guild.", "OK");
+            return;
+        }
+
         _player.Jobb = new Job 
         { 
             Name = "Thieves Guild",
