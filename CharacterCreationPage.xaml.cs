@@ -92,7 +92,8 @@ public partial class CharacterCreationPage : ContentPage
             Age = 16,
             Male = _maleRadio.IsChecked,
             Female = _femaleRadio.IsChecked,
-            Pronouns = _maleRadio.IsChecked ? "he/him" : "she/her"
+            Pronouns = _maleRadio.IsChecked ? "he/him" : "she/her",
+            Level = 1  // Start at level 1
         };
 
         // Apply race

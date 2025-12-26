@@ -74,6 +74,10 @@ public partial class GamePage : ContentPage
         InitializeComponent();
         BindingContext = this;
         Player = player;
+        
+        // Subscribe to level up event
+        Player.LeveledUp += OnPlayerLeveledUp;
+        
         Week = 1;
         Year = 301;
         
@@ -116,6 +120,10 @@ public partial class GamePage : ContentPage
         BindingContext = this;
         
         Player = gameSave.Player;
+        
+        
+        Player.LeveledUp += OnPlayerLeveledUp;
+        
         Week = gameSave.CurrentWeek;
         Year = gameSave.CurrentYear;
         EventLog = gameSave.EventLog;
@@ -156,6 +164,16 @@ public partial class GamePage : ContentPage
 
         Event = $"\n\nGame Loaded - Week {Week}, Year {Year} ADE";
     }
+
+    // Handle when player levels up
+    private async void OnPlayerLeveledUp(object sender, EventArgs e)
+    {
+        var popup = new LevelUpPopup(Player);
+        await this.ShowPopupAsync(popup);
+        
+        Event = $"\n\n?? LEVEL UP! You are now level {Player.Level}! You gained 15 skill points!";
+        EventLog += Event;
+    }
     
     private async void OnForwardGameClicked(object sender, EventArgs e)
     {
@@ -171,7 +189,7 @@ public partial class GamePage : ContentPage
             EventLog += Event;
         }
         
-        var worldEvent = ActiveWorldEvents.ProcessContinueClick(_currentEvents);
+        var events = ActiveWorldEvents.ProcessContinueClick(_currentEvents, Player);
         
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
         {
@@ -187,9 +205,9 @@ public partial class GamePage : ContentPage
             Player.ActiveQuests.Clear();
         }
         
-        if (worldEvent != null)
+        if (events != null && events.HasAnyEvent)
         {
-            Event = $"\n\n{worldEvent.GetFormattedText()}";
+            Event = $"\n\n{events.GetFormattedText()}";
             EventLog += Event;
         }
         else if (!Player.ActiveQuests?.Any() ?? true)

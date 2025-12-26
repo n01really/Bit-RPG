@@ -166,6 +166,10 @@ namespace Bit_RPG.Jobs
                 )
             };
         }
+        public static List<QuestModel> GetAcceptedQuests(Player player)
+        {
+            return player.ActiveQuests;
+        }
 
         public static string CompleteQuest(QuestModel quest, Player player)
         {
@@ -254,4 +258,5 @@ namespace Bit_RPG.Jobs
             skills.SlightofHand += 1;
         }
     }
+
 }

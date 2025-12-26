@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Bit_RPG.LevelUpPopup"
+               Size="400,600">
+    <Border Stroke="Gray"
+            StrokeThickness="2"
+            Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+            Padding="20">
+        <ScrollView>
+            <VerticalStackLayout Spacing="15">
+                <Label Text="Level Up!"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                
+                <BoxView HeightRequest="1"
+                         Color="Gray"/>
+                
+                <!-- Skill Points Display -->
+                <Label Text="{Binding SkillPoints, StringFormat='Skill Points: {0}'}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"/>
+                
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      RowSpacing="10" 
+                      ColumnSpacing="8">
+                    
+                    <Label Grid.Row="0" Grid.Column="0" Text="Level:" FontAttributes="Bold"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Level}"/>
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Text="Health:" FontAttributes="Bold"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding MaxHealth}"/>
+                    
+                    <Label Grid.Row="2" Grid.Column="0" Text="Mana:" FontAttributes="Bold"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding MaxMana}"/>
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Text="Strength:" FontAttributes="Bold"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Strength}"/>
+                    
+                    <Label Grid.Row="4" Grid.Column="0" Text="Agility:" FontAttributes="Bold"/>
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Agility}"/>
+                    
+                    <Label Grid.Row="5" Grid.Column="0" Text="Intelligence:" FontAttributes="Bold"/>
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Intelligence}"/>
+                    
+                    <Label Grid.Row="6" Grid.Column="0" Text="Attack:" FontAttributes="Bold"/>
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Attack}"/>
+                    
+                    <Label Grid.Row="7" Grid.Column="0" Text="Defense:" FontAttributes="Bold"/>
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Defense}"/>
+                    
+                    <Label Grid.Row="8" Grid.Column="0" Text="Magic Defense:" FontAttributes="Bold"/>
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding MDefense}"/>
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Stealth:" FontAttributes="Bold"/>
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding Skills.Stealth}"/>
+                    <Border Grid.Row="9" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Stealth"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="9" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Stealth"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="10" Grid.Column="0" Text="Marksmanship:" FontAttributes="Bold"/>
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Skills.Marksmanship}"/>
+                    <Border Grid.Row="10" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Marksmanship"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="10" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Marksmanship"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="11" Grid.Column="0" Text="Slight of Hand:" FontAttributes="Bold"/>
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Skills.SlightofHand}"/>
+                    <Border Grid.Row="11" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="SlightofHand"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="11" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="SlightofHand"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="12" Grid.Column="0" Text="Lockpicking:" FontAttributes="Bold"/>
+                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding Skills.Lockpicking}"/>
+                    <Border Grid.Row="12" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Lockpicking"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="12" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Lockpicking"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="13" Grid.Column="0" Text="Conjuration:" FontAttributes="Bold"/>
+                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding Skills.Conjuration}"/>
+                    <Border Grid.Row="13" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Conjuration"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="13" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Conjuration"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="14" Grid.Column="0" Text="Destruction:" FontAttributes="Bold"/>
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding Skills.Destruction}"/>
+                    <Border Grid.Row="14" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Destruction"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="14" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Destruction"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="15" Grid.Column="0" Text="Illusion:" FontAttributes="Bold"/>
+                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding Skills.Illusion}"/>
+                    <Border Grid.Row="15" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Illusion"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="15" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Illusion"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="16" Grid.Column="0" Text="Restoration:" FontAttributes="Bold"/>
+                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Skills.Restoration}"/>
+                    <Border Grid.Row="16" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Restoration"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="16" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Restoration"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="17" Grid.Column="0" Text="First Aid:" FontAttributes="Bold"/>
+                    <Label Grid.Row="17" Grid.Column="1" Text="{Binding Skills.FirstAid}"/>
+                    <Border Grid.Row="17" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="FirstAid"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="17" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="FirstAid"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="18" Grid.Column="0" Text="Swordsmanship:" FontAttributes="Bold"/>
+                    <Label Grid.Row="18" Grid.Column="1" Text="{Binding Skills.Swordsmanship}"/>
+                    <Border Grid.Row="18" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Swordsmanship"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="18" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Swordsmanship"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="19" Grid.Column="0" Text="Long Weapons:" FontAttributes="Bold"/>
+                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding Skills.LongWeapons}"/>
+                    <Border Grid.Row="19" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="LongWeapons"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="19" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="LongWeapons"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="20" Grid.Column="0" Text="Heavy Weapons:" FontAttributes="Bold"/>
+                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding Skills.HeavyWeapons}"/>
+                    <Border Grid.Row="20" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="HeavyWeapons"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="20" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="HeavyWeapons"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="21" Grid.Column="0" Text="Heavy Armor:" FontAttributes="Bold"/>
+                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding Skills.HeavyArmor}"/>
+                    <Border Grid.Row="21" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="HeavyArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="21" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="HeavyArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="22" Grid.Column="0" Text="Medium Armor:" FontAttributes="Bold"/>
+                    <Label Grid.Row="22" Grid.Column="1" Text="{Binding Skills.MediumArmor}"/>
+                    <Border Grid.Row="22" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="MediumArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="22" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="MediumArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="23" Grid.Column="0" Text="Light Armor:" FontAttributes="Bold"/>
+                    <Label Grid.Row="23" Grid.Column="1" Text="{Binding Skills.LightArmor}"/>
+                    <Border Grid.Row="23" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="LightArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="23" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="LightArmor"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="24" Grid.Column="0" Text="Smithing:" FontAttributes="Bold"/>
+                    <Label Grid.Row="24" Grid.Column="1" Text="{Binding Skills.Smithing}"/>
+                    <Border Grid.Row="24" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Smithing"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="24" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Smithing"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="25" Grid.Column="0" Text="Alchemy:" FontAttributes="Bold"/>
+                    <Label Grid.Row="25" Grid.Column="1" Text="{Binding Skills.Alchemy}"/>
+                    <Border Grid.Row="25" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Alchemy"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="25" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Alchemy"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Grid.Row="26" Grid.Column="0" Text="Enchanting:" FontAttributes="Bold"/>
+                    <Label Grid.Row="26" Grid.Column="1" Text="{Binding Skills.Enchanting}"/>
+                    <Border Grid.Row="26" Grid.Column="2" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="DarkRed">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDecreaseSkill" CommandParameter="Enchanting"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="-" 
+                               TextColor="White"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Row="26" Grid.Column="3" 
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12.5"/>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnIncreaseSkill" CommandParameter="Enchanting"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="+" 
+                               TextColor="White"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+                
+                <Button Text="Finish"
+                        Clicked="OnFinishClicked"
+                        HorizontalOptions="Center"
+                        Margin="0,20,0,0"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Border>
+</toolkit:Popup>
