@@ -8,6 +8,16 @@ using Bit_RPG.Char.NPCs;
 
 namespace Bit_RPG.Jobs
 {
+    public enum JobRank
+    {
+        E = 0,
+        D = 1,
+        C = 2,
+        B = 3,
+        A = 4,
+        S = 5
+    }
+
     public class Job
     {
         public string Name { get; set; }

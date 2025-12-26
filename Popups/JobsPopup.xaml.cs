@@ -13,6 +13,15 @@ public partial class JobsPopup : Popup
         InitializeComponent();
         _player = player;
         BindingContext = player;
+        
+        if (player.Jobb != null)
+        {
+            CurrentJobInfo.IsVisible = true;
+            RankProgress.Text = $"Progress: {player.Jobb.GetRankProgressText()}\n{player.Jobb.GetRankUpRequirementsText(player.Skills)}";
+        }
+        else
+        {
+            CurrentJobInfo.IsVisible = false;
         UpdateJobVisibility();
     }
 

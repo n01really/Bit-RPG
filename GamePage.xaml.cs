@@ -197,9 +197,9 @@ public partial class GamePage : ContentPage
             
             foreach (var quest in completedQuests)
             {
-                Quests.CompleteQuest(quest, Player);
-                Event = $"\nQuest Completed: {quest.Name}!\nRewards: {quest.Reward}";
-                EventLog += $"\n{Event}";
+                var completionMessage = Quests.CompleteQuest(quest, Player);
+                Event = completionMessage;
+                EventLog += Event;
             }
             
             Player.ActiveQuests.Clear();
