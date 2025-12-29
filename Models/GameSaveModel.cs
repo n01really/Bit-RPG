@@ -54,5 +54,10 @@ namespace Bit_RPG.Models
         public bool IsFloodActive { get; set; }
         public bool IsDroughtActive { get; set; }
         public bool IsStormActive { get; set; }
+        public int ClickedSinceLastEvent { get; set; }
+        public int ClicksRequiredForEvent { get; set; } = 8;
+        public int EventDurationRemaining { get; set; }
+        public int WorldEventChancePercentage { get; set; } = 15;
+        public int DefaultEventDuration { get; set; } = 2;
     }
 }

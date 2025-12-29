@@ -69,6 +69,25 @@
                               HorizontalOptions="Center"
                               Margin="0,0,0,0">
             
+            <!-- Activities Button (Far Left, small circular) -->
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border WidthRequest="25"
+                        HeightRequest="25"
+                        StrokeThickness="0"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12.5"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnActivitiesClicked"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label Text="Activities" 
+                       FontSize="10"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+            
             <!-- Left Column: Inventory (top) and Character (bottom) -->
             <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
                 <!-- Inventory Button -->

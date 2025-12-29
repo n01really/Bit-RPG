@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Bit_RPG.ActivitiesPopup"
+               Size="400,600">
+    <Border Stroke="Gray"
+            StrokeThickness="2"
+            Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+            Padding="20">
+        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+            <Label Grid.Row="0"
+                   Text="Activities"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            
+            <BoxView Grid.Row="1"
+                     HeightRequest="1"
+                     Color="Gray"/>
+
+            <ScrollView Grid.Row="2">
+                <VerticalStackLayout Spacing="10">
+                    <!-- Market Section -->
+                    <VerticalStackLayout x:Name="MarketSection" Spacing="10">
+                        <Label Text="Market"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Browse and trade goods with merchants from all over the land."
+                               FontSize="14"
+                               TextColor="Gray"/>
+                        <Button x:Name="MarketButton"
+                                Text="Visit Market"
+                                Clicked="OnMarketClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Guild Hall Section -->
+                    <VerticalStackLayout x:Name="GuildHallSection" Spacing="10">
+                        <Label Text="Guild Hall"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Meet with guildmates and the guild master, or train your skills."
+                               FontSize="14"
+                               TextColor="Gray"/>
+                        <Button x:Name="GuildHallButton"
+                                Text="Visit Guild Hall"
+                                Clicked="OnGuildHallClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Smithy Section -->
+                    <VerticalStackLayout x:Name="SmithySection" Spacing="10">
+                        <Label Text="Smithy"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Commission armor and weapons, craft your own, or train smithing skills."
+                               FontSize="14"
+                               TextColor="Gray"/>
+                        <Button x:Name="SmithyButton"
+                                Text="Visit Smithy"
+                                Clicked="OnSmithyClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                        
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Travel Section -->
+                    <VerticalStackLayout x:Name="TravelSection" Spacing="10">
+                        <Label Text="Travel"
+                               FontSize="18"
+                               FontAttributes="Bold"/>
+                        <Label Text="Journey to distant lands and explore new territories."
+                               FontSize="14"
+                               TextColor="Gray"/>
+                        <Button x:Name="TravelButton"
+                                Text="Travel"
+                                Clicked="OnTravelClicked"
+                                HorizontalOptions="End"
+                                Margin="0,5,0,0"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <Button Grid.Row="3"
+                    Text="Close"
+                    Clicked="OnCloseClicked"
+                    HorizontalOptions="Center"
+                    Margin="0,10,0,0"/>
+        </Grid>
+    </Border>
+</toolkit:Popup>

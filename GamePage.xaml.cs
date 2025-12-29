@@ -159,7 +159,12 @@ public partial class GamePage : ContentPage
             IsEarthquakeActive = gameSave.CurrentEvents.IsEarthquakeActive,
             IsFloodActive = gameSave.CurrentEvents.IsFloodActive,
             isDroughtActive = gameSave.CurrentEvents.IsDroughtActive,
-            IsStormActive = gameSave.CurrentEvents.IsStormActive
+            IsStormActive = gameSave.CurrentEvents.IsStormActive,
+            ClickedSinceLastEvent = gameSave.CurrentEvents.ClickedSinceLastEvent,
+            ClicksRequiredForEvent = gameSave.CurrentEvents.ClicksRequiredForEvent,
+            EventDurationRemaining = gameSave.CurrentEvents.EventDurationRemaining,
+            WorldEventChancePercentage = gameSave.CurrentEvents.WorldEventChancePercentage,
+            DefaultEventDuration = gameSave.CurrentEvents.DefaultEventDuration
         };
 
         Event = $"\n\nGame Loaded - Week {Week}, Year {Year} ADE";
@@ -189,7 +194,11 @@ public partial class GamePage : ContentPage
             EventLog += Event;
         }
         
+        // Process world events and job events (these happen every 4 weeks)
         var events = ActiveWorldEvents.ProcessContinueClick(_currentEvents, Player);
+        
+        // Always get a weekly event (happens EVERY week)
+        var weeklyEvent = WeeklyEvents.GetRandomWeeklyEvent(Player);
         
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
         {
@@ -205,12 +214,37 @@ public partial class GamePage : ContentPage
             Player.ActiveQuests.Clear();
         }
         
-        if (events != null && events.HasAnyEvent)
+        // Display world/job events if they occurred (excluding weekly events)
+        if (events != null && (events.WorldEvent != null || events.JobEvent != null))
         {
-            Event = $"\n\n{events.GetFormattedText()}";
+            var eventTexts = new List<string>();
+            
+            if (events.WorldEvent != null)
+            {
+                eventTexts.Add(events.WorldEvent.GetFormattedText());
+            }
+            
+            if (events.JobEvent != null)
+            {
+                eventTexts.Add(events.JobEvent.GetFormattedText());
+            }
+            
+            if (eventTexts.Any())
+            {
+                Event = $"\n\n{string.Join("\n\n", eventTexts)}";
+                EventLog += Event;
+            }
+        }
+        
+        // Always display the weekly event (without header formatting)
+        if (weeklyEvent != null)
+        {
+            Event = $"\n\n{weeklyEvent.Description}";
             EventLog += Event;
         }
-        else if (!Player.ActiveQuests?.Any() ?? true)
+        
+        // If no events at all occurred (not even weekly), show the "nothing happened" message
+        if ((events == null || !events.HasAnyEvent) && weeklyEvent == null && (!Player.ActiveQuests?.Any() ?? true))
         {
             Event = $"\nWeek {Week}, Year {Year} ADE: Nothing eventful happened this week.";
             EventLog += Event;
@@ -218,7 +252,11 @@ public partial class GamePage : ContentPage
         
         if (_currentEvents.HasActiveEvent())
         {
-            string activeEventStatus = $"\n[Active: {EventPicker.GetEventSummary(_currentEvents)}]";
+            string eventSummary = EventPicker.GetEventSummary(_currentEvents);
+            string weeksRemaining = _currentEvents.EventDurationRemaining > 0 
+                ? $" ({_currentEvents.EventDurationRemaining} weeks remaining)" 
+                : "";
+            string activeEventStatus = $"\n[Active: {eventSummary}{weeksRemaining}]";
             EventLog += activeEventStatus;
         }
         
@@ -254,7 +292,12 @@ public partial class GamePage : ContentPage
                     IsEarthquakeActive = _currentEvents.IsEarthquakeActive,
                     IsFloodActive = _currentEvents.IsFloodActive,
                     IsDroughtActive = _currentEvents.isDroughtActive,
-                    IsStormActive = _currentEvents.IsStormActive
+                    IsStormActive = _currentEvents.IsStormActive,
+                    ClickedSinceLastEvent = _currentEvents.ClickedSinceLastEvent,
+                    ClicksRequiredForEvent = _currentEvents.ClicksRequiredForEvent,
+                    EventDurationRemaining = _currentEvents.EventDurationRemaining,
+                    WorldEventChancePercentage = _currentEvents.WorldEventChancePercentage,
+                    DefaultEventDuration = _currentEvents.DefaultEventDuration
                 }
             };
 
@@ -298,6 +341,12 @@ public partial class GamePage : ContentPage
     private async void OnQuestsClicked(object sender, EventArgs e)
     {
         var popup = new QuestsPopup(Player);
+        await this.ShowPopupAsync(popup);
+    }
+
+    private async void OnActivitiesClicked(object sender, EventArgs e)
+    {
+        var popup = new ActivitiesPopup(Player);
         await this.ShowPopupAsync(popup);
     }
 }
