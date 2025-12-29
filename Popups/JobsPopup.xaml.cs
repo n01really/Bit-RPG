@@ -105,6 +105,17 @@ public partial class JobsPopup : Popup
 		}
 		else
 		{
+			// Check if player has enough AP
+			if (!_player.TrySpendActionPoints(1))
+			{
+				await Application.Current.MainPage.DisplayAlert("Insufficient Action Points", 
+					_player.ActionPoints == 0 
+						? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+						: "You need at least 1 AP to join a guild.", 
+					"OK");
+				return;
+			}
+			
 			_player.Jobb = Job.CreateAdventurersGuild("Arn");
 			Close();
 		}
@@ -134,6 +145,17 @@ public partial class JobsPopup : Popup
 		}
 		else
 		{
+			// Check if player has enough AP
+			if (!_player.TrySpendActionPoints(1))
+			{
+				await Application.Current.MainPage.DisplayAlert("Insufficient Action Points", 
+					_player.ActionPoints == 0 
+						? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+						: "You need at least 1 AP to join a guild.", 
+					"OK");
+				return;
+			}
+			
 			_player.Jobb = Job.CreateBlacksmithsGuild("Arn");
 			Close();
 		}
@@ -163,6 +185,17 @@ public partial class JobsPopup : Popup
 		}
 		else
 		{
+			// Check if player has enough AP
+			if (!_player.TrySpendActionPoints(1))
+			{
+				await Application.Current.MainPage.DisplayAlert("Insufficient Action Points", 
+					_player.ActionPoints == 0 
+						? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+						: "You need at least 1 AP to join a guild.", 
+					"OK");
+				return;
+			}
+			
 			_player.Jobb = Job.CreateMagesGuild("Arn");
 			Close();
 		}
@@ -192,6 +225,17 @@ public partial class JobsPopup : Popup
 		}
 		else
 		{
+			// Check if player has enough AP
+			if (!_player.TrySpendActionPoints(1))
+			{
+				await Application.Current.MainPage.DisplayAlert("Insufficient Action Points", 
+					_player.ActionPoints == 0 
+						? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+						: "You need at least 1 AP to join a guild.", 
+					"OK");
+				return;
+			}
+			
 			_player.Jobb = Job.CreateThievesGuild("Arn");
 			Close();
 		}

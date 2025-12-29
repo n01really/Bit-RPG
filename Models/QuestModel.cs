@@ -17,6 +17,9 @@ namespace Bit_RPG.Models
         public bool IsCompleted { get; set; }
         public JobRank RequiredRank { get; set; }
 
+        // Time limit in weeks after acceptance. 0 means no time limit.
+        public int WeeksRemaining { get; private set; } = 0;
+
         public QuestModel(string name, string description, string reward, string jobName, JobRank requiredRank = JobRank.E)
         {
             Name = name;
@@ -26,11 +29,28 @@ namespace Bit_RPG.Models
             IsAccepted = false;
             IsCompleted = false;
             RequiredRank = requiredRank;
+            WeeksRemaining = 0;
         }
 
         public string GetRankDisplayText()
         {
             return $"[Rank {RequiredRank}]";
         }
+
+        public void StartQuestTimer(int weeks = 4)
+        {
+            if (weeks <= 0)
+                WeeksRemaining = 0;
+            else
+                WeeksRemaining = weeks;
+        }
+
+        public void TickWeek()
+        {
+            if (WeeksRemaining > 0)
+                WeeksRemaining--;
+        }
+
+        public bool IsExpired => WeeksRemaining == 0 && IsAccepted && !IsCompleted;
     }
 }
