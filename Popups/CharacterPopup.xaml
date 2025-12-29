@@ -8,16 +8,18 @@
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
-        <ScrollView>
-            <VerticalStackLayout Spacing="15">
-                <Label Text="Character"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
-                
-                <BoxView HeightRequest="1"
-                         Color="Gray"/>
-                
+        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+            <Label Grid.Row="0"
+                   Text="Character"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+            
+            <BoxView Grid.Row="1"
+                     HeightRequest="1"
+                     Color="Gray"/>
+            
+            <ScrollView Grid.Row="2">
                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="10" ColumnSpacing="15">
                     <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold"/>
                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding PlayerName}"/>
@@ -109,12 +111,13 @@
                     <Label Grid.Row="28" Grid.Column="0" Text="Enchanting:" FontAttributes="Bold"/>
                     <Label Grid.Row="28" Grid.Column="1" Text="{Binding Skills.Enchanting}"/>
                 </Grid>
-                
-                <Button Text="Close"
-                        Clicked="OnCloseClicked"
-                        HorizontalOptions="Center"
-                        Margin="0,20,0,0"/>
-            </VerticalStackLayout>
-        </ScrollView>
+            </ScrollView>
+            
+            <Button Grid.Row="3"
+                    Text="Close"
+                    Clicked="OnCloseClicked"
+                    HorizontalOptions="Center"
+                    Margin="0,10,0,0"/>
+        </Grid>
     </Border>
 </toolkit:Popup>

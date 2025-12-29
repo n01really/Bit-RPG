@@ -2,15 +2,15 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.InventoryPopup"
-               Size="400,600">
+               x:Class="Bit_RPG.TrainingPopup"
+               Size="450,600">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
             <Label Grid.Row="0"
-                   Text="Inventory"
+                   Text="Skill Training"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
@@ -18,17 +18,24 @@
             <BoxView Grid.Row="1"
                      HeightRequest="1"
                      Color="Gray"/>
-            
-            <ScrollView Grid.Row="2">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="No items in inventory yet."
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Margin="0,50,0,0"/>
-                </VerticalStackLayout>
+
+            <Label Grid.Row="2"
+                   x:Name="SkillPointsLabel"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Label Grid.Row="3"
+                   Text="Select a skill to train (costs 1 skill point)"
+                   FontSize="12"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"/>
+
+            <ScrollView Grid.Row="4">
+                <VerticalStackLayout x:Name="SkillsContainer" Spacing="8"/>
             </ScrollView>
             
-            <Button Grid.Row="3"
+            <Button Grid.Row="5"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"

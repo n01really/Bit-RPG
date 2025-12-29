@@ -23,18 +23,25 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnGuildHallClicked(object sender, EventArgs e)
     {
-        await Application.Current.MainPage.DisplayAlert(
-            "Guild Hall", 
-            "The guild hall feature is coming soon! You'll be able to meet guildmates, talk to the guild master, and train your skills.", 
-            "OK");
+        if (_player.Jobb == null)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "No Guild Membership", 
+                "You must join a guild before you can visit the guild hall. Visit the Jobs menu to join a guild.", 
+                "OK");
+            return;
+        }
+
+        Close();
+        var guildHallPopup = new GuildHallPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(guildHallPopup);
     }
 
     private async void OnSmithyClicked(object sender, EventArgs e)
     {
-        await Application.Current.MainPage.DisplayAlert(
-            "Smithy", 
-            "The smithy feature is coming soon! You'll be able to commission armor and weapons, craft them yourself, and train your smithing skill.", 
-            "OK");
+        Close();
+        var smithyPopup = new SmithyPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(smithyPopup);
     }
 
     private async void OnTravelClicked(object sender, EventArgs e)
