@@ -37,7 +37,7 @@ namespace Bit_RPG.Models
             return $"[Rank {RequiredRank}]";
         }
 
-        public void StartQuestTimer(int weeks = 4)
+        public void StartQuestTimer(int weeks = 2)
         {
             if (weeks <= 0)
                 WeeksRemaining = 0;
