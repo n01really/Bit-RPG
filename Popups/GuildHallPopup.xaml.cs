@@ -1,5 +1,6 @@
 using Bit_RPG.Char;
 using Bit_RPG.Char.NPCs;
+using Bit_RPG.Models;
 using CommunityToolkit.Maui.Views;
 
 namespace Bit_RPG;
@@ -35,6 +36,8 @@ public partial class GuildHallPopup : Popup
             GuildMasterName.Text = "Unknown";
             GuildMasterInfo.Text = "No information available";
         }
+
+        GuildMembersContainer.Children.Clear();
 
         if (_player.Jobb.GuildMembers != null && _player.Jobb.GuildMembers.Count > 0)
         {
@@ -77,7 +80,7 @@ public partial class GuildHallPopup : Popup
                 
                 var currentMember = member;
                 talkButton.Clicked += (s, e) => OnTalkToMemberClicked(currentMember);
-                
+
                 memberLayout.Children.Add(talkButton);
                 memberBorder.Content = memberLayout;
                 GuildMembersContainer.Children.Add(memberBorder);
@@ -91,6 +94,65 @@ public partial class GuildHallPopup : Popup
                 FontSize = 12, 
                 TextColor = Colors.Gray 
             });
+        }
+
+        // Add active quest list for this guild (do quests here)
+        var playerQuests = _player.ActiveQuests.Where(q => q.JobName == _player.Jobb.Name).ToList();
+        var activeLabel = new Label { Text = "Active Quests", FontSize = 18, FontAttributes = FontAttributes.Bold };
+        GuildMembersContainer.Children.Add(activeLabel);
+
+        if (playerQuests.Count == 0)
+        {
+            GuildMembersContainer.Children.Add(new Label { Text = "No active quests for this guild.", FontSize = 12, TextColor = Colors.Gray });
+        }
+        else
+        {
+            foreach (var quest in playerQuests)
+            {
+                var qBorder = new Border
+                {
+                    Stroke = Colors.Gray,
+                    StrokeThickness = 1,
+                    Padding = 10,
+                    Margin = new Thickness(0, 5, 0, 0),
+                    BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#111111") : Colors.White
+                };
+
+                var qLayout = new VerticalStackLayout { Spacing = 5 };
+                qLayout.Children.Add(new Label { Text = quest.Name, FontSize = 16, FontAttributes = FontAttributes.Bold });
+                qLayout.Children.Add(new Label { Text = quest.Description, FontSize = 12 });
+                qLayout.Children.Add(new Label { Text = $"Reward: {quest.Reward}", FontSize = 12, TextColor = Colors.Green });
+                qLayout.Children.Add(new Label { Text = quest.WeeksRemaining > 0 ? $"Time remaining: {quest.WeeksRemaining} weeks" : "No time remaining", FontSize = 12, TextColor = Colors.Orange });
+
+                var doButton = new Button { Text = "Set out to do Quest", HorizontalOptions = LayoutOptions.Fill };
+                doButton.Clicked += async (s, e) =>
+                {
+                    // Spend AP
+                    if (!_player.TrySpendActionPoints(1))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Insufficient Action Points",
+                            _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to do a quest.",
+                            "OK");
+                        return;
+                    }
+
+                    // Complete quest
+                    var message = Jobs.Quests.CompleteQuest(quest, _player);
+                    quest.IsCompleted = true;
+
+                    // Remove from active quests
+                    _player.ActiveQuests.Remove(quest);
+
+                    await Application.Current.MainPage.DisplayAlert("Quest Completed", message, "OK");
+
+                    // Refresh popup UI
+                    Close();
+                };
+
+                qLayout.Children.Add(doButton);
+                qBorder.Content = qLayout;
+                GuildMembersContainer.Children.Add(qBorder);
+            }
         }
     }
 

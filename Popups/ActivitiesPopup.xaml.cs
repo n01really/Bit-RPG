@@ -15,6 +15,15 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnMarketClicked(object sender, EventArgs e)
     {
+        if (!_player.TrySpendActionPoints(1))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the market.",
+                "OK");
+            return;
+        }
+
         await Application.Current.MainPage.DisplayAlert(
             "Market", 
             "The market feature is coming soon!", 
@@ -32,6 +41,15 @@ public partial class ActivitiesPopup : Popup
             return;
         }
 
+        if (!_player.TrySpendActionPoints(1))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the guild hall.",
+                "OK");
+            return;
+        }
+
         Close();
         var guildHallPopup = new GuildHallPopup(_player);
         await Application.Current.MainPage.ShowPopupAsync(guildHallPopup);
@@ -39,6 +57,15 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnSmithyClicked(object sender, EventArgs e)
     {
+        if (!_player.TrySpendActionPoints(1))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the smithy.",
+                "OK");
+            return;
+        }
+
         Close();
         var smithyPopup = new SmithyPopup(_player);
         await Application.Current.MainPage.ShowPopupAsync(smithyPopup);
@@ -46,6 +73,15 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnTravelClicked(object sender, EventArgs e)
     {
+        if (!_player.TrySpendActionPoints(1))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to travel.",
+                "OK");
+            return;
+        }
+
         await Application.Current.MainPage.DisplayAlert(
             "Travel", 
             "The travel feature is coming soon!", 

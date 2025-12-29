@@ -90,6 +90,17 @@ public partial class QuestsPopup : Popup, INotifyPropertyChanged
     {
         if (sender is Button button && button.CommandParameter is QuestModel quest)
         {
+            // Check if player has enough AP
+            if (!_player.TrySpendActionPoints(1))
+            {
+                await Application.Current.MainPage.DisplayAlert("Insufficient Action Points", 
+                    _player.ActionPoints == 0 
+                        ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+                        : "You need at least 1 AP to accept a quest.", 
+                    "OK");
+                return;
+            }
+
             // Check if quest is already accepted
             if (_player.ActiveQuests.Any(q => q.Name == quest.Name))
             {
@@ -110,15 +121,17 @@ public partial class QuestsPopup : Popup, INotifyPropertyChanged
             }
 
             // Add quest to player's active quests
-            _player.ActiveQuests.Add(quest);
-            quest.IsAccepted = true;
+            var playerQuest = new QuestModel(quest.Name, quest.Description, quest.Reward, quest.JobName, quest.RequiredRank);
+            playerQuest.IsAccepted = true;
+            playerQuest.StartQuestTimer(4); // default 4 week time limit
+            _player.ActiveQuests.Add(playerQuest);
 
             // Update the UI
             AvailableQuests.Remove(quest);
-            AcceptedQuests.Add(quest);
+            AcceptedQuests.Add(playerQuest);
 
             await Application.Current.MainPage.DisplayAlert("Quest Accepted!", 
-                $"You have accepted: {quest.Name}", "OK");
+                $"You have accepted: {quest.Name}\nTime limit: {playerQuest.WeeksRemaining} weeks", "OK");
         }
     }
 

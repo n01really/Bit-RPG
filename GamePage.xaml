@@ -13,7 +13,7 @@
                 StrokeThickness="1"
                 Padding="10"
                 Margin="0,5,0,0">
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*" 
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*" 
                   ColumnSpacing="15">
                 <Label Grid.Column="0"
                        Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
@@ -42,9 +42,19 @@
                        Text="{Binding Player.ExperienceForNextLevel, StringFormat='Next: {0}'}"
                        FontSize="12"/>
                 <Label Grid.Column="8"
+                       FontSize="12"
+                       FontAttributes="Bold">
+                    <Label.Text>
+                        <MultiBinding StringFormat="AP: {0}/{1}">
+                            <Binding Path="Player.ActionPoints"/>
+                            <Binding Source="12"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+                <Label Grid.Column="9"
                        Text="{Binding Year, StringFormat='Year: {0}'}"
                        FontSize="12"/>
-                <Label Grid.Column="9"
+                <Label Grid.Column="10"
                        Text="{Binding Week, StringFormat='Week: {0}'}"
                        FontSize="12"
                        HorizontalOptions="End"/>

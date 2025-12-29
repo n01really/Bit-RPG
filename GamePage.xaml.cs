@@ -183,7 +183,10 @@ public partial class GamePage : ContentPage
     private async void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
-        
+
+        // Add 2 Action Points every week (max 12)
+        Player.AddActionPoints(2);
+
         // Check if a year has passed (52 weeks)
         if (Week > 52)
         {
@@ -202,16 +205,32 @@ public partial class GamePage : ContentPage
         
         if (Player.ActiveQuests != null && Player.ActiveQuests.Any())
         {
-            var completedQuests = Player.ActiveQuests.ToList();
-            
-            foreach (var quest in completedQuests)
+            // Copy to avoid modifying collection during iteration
+            var questsCopy = Player.ActiveQuests.ToList();
+
+            foreach (var quest in questsCopy)
             {
-                var completionMessage = Quests.CompleteQuest(quest, Player);
-                Event = completionMessage;
-                EventLog += Event;
+                // Decrement quest time limit
+                quest.TickWeek();
+
+                if (quest.IsCompleted)
+                {
+                    var completionMessage = Quests.CompleteQuest(quest, Player);
+                    Event = completionMessage;
+                    EventLog += Event;
+
+                    Player.ActiveQuests.Remove(quest);
+                }
+                else if (quest.WeeksRemaining <= 0 && quest.IsAccepted && !quest.IsCompleted)
+                {
+                    // Quest expired
+                    quest.IsAccepted = false;
+                    Player.ActiveQuests.Remove(quest);
+
+                    Event = $"\nQuest Failed: {quest.Name} has expired.";
+                    EventLog += Event;
+                }
             }
-            
-            Player.ActiveQuests.Clear();
         }
         
         // Display world/job events if they occurred (excluding weekly events)

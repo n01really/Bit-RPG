@@ -87,6 +87,25 @@ namespace Bit_RPG.Char
                 }
             }
         }
+        
+        private int _actionPoints = 5;
+        public int ActionPoints
+        {
+            get => _actionPoints;
+            set
+            {
+                var clampedValue = Math.Clamp(value, 0, MaxActionPoints);
+                if (_actionPoints != clampedValue)
+                {
+                    _actionPoints = clampedValue;
+                    System.Diagnostics.Debug.WriteLine($"[Player] ActionPoints set to {_actionPoints}");
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public const int MaxActionPoints = 12;
+        
         private int _jobExperience;
         public int JobExperience
         {
@@ -165,6 +184,22 @@ namespace Bit_RPG.Char
 
             // Raise the LeveledUp event
             LeveledUp?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool TrySpendActionPoints(int amount)
+        {
+            if (amount <= 0) return true;
+            if (ActionPoints < amount) return false;
+            ActionPoints -= amount;
+            System.Diagnostics.Debug.WriteLine($"[Player] Spent {amount} AP, remaining {ActionPoints}");
+            return true;
+        }
+
+        public void AddActionPoints(int amount)
+        {
+            if (amount <= 0) return;
+            ActionPoints = Math.Min(ActionPoints + amount, MaxActionPoints);
+            System.Diagnostics.Debug.WriteLine($"[Player] Added {amount} AP, now {ActionPoints}");
         }
     }
 }
