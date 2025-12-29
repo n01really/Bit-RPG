@@ -19,8 +19,15 @@ namespace Bit_RPG.Events
         public bool IsStormActive { get; set; }
         public bool IsBorderClosed { get; set; }
         
+        // Duration tracking (weeks remaining for active event)
+        public int EventDurationRemaining { get; set; }
+        
         public int ClickedSinceLastEvent { get; set; }
-        public int ClicksRequiredForEvent { get; set; } = 4;
+        
+        // WORLD EVENT FREQUENCY SETTINGS
+        public int ClicksRequiredForEvent { get; set; } = 8; // Check every 8 weeks
+        public int WorldEventChancePercentage { get; set; } = 15; // 15% chance
+        public int DefaultEventDuration { get; set; } = 2; // Events last 2 weeks
 
         public bool HasActiveEvent()
         {
@@ -41,6 +48,21 @@ namespace Bit_RPG.Events
             isDroughtActive = false;
             IsStormActive = false;
             IsBorderClosed = false;
+            EventDurationRemaining = 0;
+        }
+        
+        public void DecrementEventDuration()
+        {
+            if (EventDurationRemaining > 0)
+            {
+                EventDurationRemaining--;
+                
+                // Clear events when duration expires
+                if (EventDurationRemaining <= 0)
+                {
+                    ClearAllEvents();
+                }
+            }
         }
     }
 }

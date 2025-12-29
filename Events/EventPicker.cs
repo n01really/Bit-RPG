@@ -69,36 +69,68 @@ namespace Bit_RPG.Events
     /// <summary>
     /// EventPicker is responsible for determining which events trigger and when.
     /// 
-    /// EVENT FREQUENCY GUIDE:
-    /// =====================
-    /// To change how often events occur, modify the following values in TryTriggerEvent():
+    /// EVENT FREQUENCY & DURATION GUIDE:
+    /// ==================================
+    /// To change how often events occur and how long they last, modify CurrentEvents.cs:
     /// 
-    /// 1. CLICKS REQUIRED FOR EVENT:
-    ///    - Located in CurrentEvents.cs: ClicksRequiredForEvent = 4
-    ///    - This is how many times you click "Continue" before an event CAN trigger
-    ///    - Lower number = events can happen more frequently
-    ///    - Higher number = events happen less frequently
-    ///    - Example: Change to 10 for events every 10 weeks
+    /// 1. CLICKS REQUIRED FOR EVENT CHECK:
+    ///    - Located in CurrentEvents.cs: ClicksRequiredForEvent = 8 (default)
+    ///    - This is how many weeks between event checks
+    ///    - Lower number = more frequent checks (e.g., 4 = every 4 weeks)
+    ///    - Higher number = less frequent checks (e.g., 12 = every 12 weeks)
     /// 
-    /// 2. WORLD EVENT CHANCE:
-    ///    - Current: if (worldEventChance < 15) // 15% chance
-    ///    - Change the number to adjust probability:
-    ///      - < 5 = 5% chance (rare)
-    ///      - < 25 = 25% chance (common)
-    ///      - < 50 = 50% chance (very common)
-    ///    - These are major events like wars, disasters, famines
+    /// 2. WORLD EVENT PROBABILITY:
+    ///    - Located in CurrentEvents.cs: WorldEventChancePercentage = 15 (default)
+    ///    - This is the % chance an event triggers when checked
+    ///    - Higher number = more likely (e.g., 50 = 50% chance)
+    ///    - Lower number = less likely (e.g., 10 = 10% chance)
     /// 
-    /// 3. JOB EVENT CHANCE:
-    ///    - Current: if (jobEventChance < 33) // 33% chance
+    /// 3. EVENT DURATION:
+    ///    - Located in CurrentEvents.cs: DefaultEventDuration = 2 (default)
+    ///    - This is how many weeks an event lasts once triggered
+    ///    - Higher number = events last longer (e.g., 8 weeks)
+    ///    - Lower number = events end sooner (e.g., 1 week)
+    /// 
+    /// EXAMPLES:
+    /// ---------
+    /// For RARE but LONG events:
+    ///   ClicksRequiredForEvent = 12      // Check every 12 weeks
+    ///   WorldEventChancePercentage = 20  // 20% chance when checked
+    ///   DefaultEventDuration = 8         // Lasts 8 weeks
+    /// 
+    /// For FREQUENT but SHORT events:
+    ///   ClicksRequiredForEvent = 4       // Check every 4 weeks
+    ///   WorldEventChancePercentage = 40  // 40% chance when checked
+    ///   DefaultEventDuration = 2         // Lasts 2 weeks
+    /// 
+    /// Current Default Settings:
+    /// -------------------------
+    /// Check every 8 weeks, 15% chance, lasts 2 weeks
+    /// This means on average: event every ~53 weeks, lasting 2 weeks each
+    /// 
+    /// SIMULTANEOUS EVENTS:
+    /// -------------------
+    /// The system supports multiple event types occurring at the same time:
+    /// - World Events (wars, disasters, etc.) - ONE at a time
+    /// - Job Events - Can occur WITH world events
+    /// - Weekly Events - ALWAYS occur, regardless of other events
+    /// 
+    /// Example: In the same week you could have:
+    ///   - "=== War Declared ===" (world event)
+    ///   - "You completed a guild mission..." (job event)
+    ///   - "The market is bustling today..." (weekly event)
+    /// 
+    /// 4. JOB EVENT CHANCE:
+    ///    - Current: 33% chance when event check occurs
     ///    - Triggers only if player has a job
-    ///    - Change number to adjust how often job events occur
+    ///    - These do NOT have duration (instant events)
+    ///    - Can occur simultaneously with world and weekly events
     /// 
-    /// 4. WEEKLY EVENT CHANCE:
-    ///    - Current: Always triggers (100% chance) every continue press
-    ///    - To make it less frequent, add a random check:
-    ///      int weeklyEventChance = _random.Next(0, 100);
-    ///      if (weeklyEventChance < 50) // 50% chance
+    /// 5. WEEKLY EVENT CHANCE:
+    ///    - Current: Always triggers (100% chance) every week
     ///    - These are small, slice-of-life events
+    ///    - These do NOT have duration (instant events)
+    ///    - Always occur, even if world/job events also trigger
     /// 
     /// ADDING NEW EVENTS:
     /// ==================
@@ -173,21 +205,27 @@ namespace Bit_RPG.Events
         /// </summary>
         public static MultiEventResult? TryTriggerEvent(CurrentEvents events, Player player = null)
         {
+            // Decrement duration of active events
+            if (events.HasActiveEvent())
+            {
+                events.DecrementEventDuration();
+            }
+            
             // Track how many times continue has been clicked since last event check
             events.ClickedSinceLastEvent++;
             
-            // Only check for events after required number of clicks (default: 4)
-            // TO CHANGE: Modify ClicksRequiredForEvent in CurrentEvents.cs
-            if (events.ClickedSinceLastEvent >= events.ClicksRequiredForEvent)
+            // Only check for NEW events after required number of clicks AND if no event is currently active
+            // TO CHANGE: Modify ClicksRequiredForEvent in CurrentEvents (default: 8 weeks)
+            if (events.ClickedSinceLastEvent >= events.ClicksRequiredForEvent && !events.HasActiveEvent())
             { 
                 events.ClickedSinceLastEvent = 0;
                 
                 var result = new MultiEventResult();
                 
                 // WORLD EVENTS - Major events like wars, disasters, etc.
-                // TO CHANGE FREQUENCY: Modify the "< 15" to a different percentage
+                // TO CHANGE FREQUENCY: Modify WorldEventChancePercentage in CurrentEvents (default: 30%)
                 int worldEventChance = _random.Next(0, 100);
-                if (worldEventChance < 15)  // 15% chance
+                if (worldEventChance < events.WorldEventChancePercentage)
                 {
                     events.ClearAllEvents();
                     int eventCategory = _random.Next(0, 3);
@@ -198,6 +236,9 @@ namespace Bit_RPG.Events
                         2 => WorldEvents.DisasterEvent(events),
                         _ => new EventResult("Unknown Event", "Something strange has occurred.", "Unknown"),
                     };
+                    
+                    // Set event duration (default: 4 weeks)
+                    events.EventDurationRemaining = events.DefaultEventDuration;
                 }
                 
                 // JOB EVENTS - Triggers if player has a job
