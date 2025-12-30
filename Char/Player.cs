@@ -201,5 +201,6 @@ namespace Bit_RPG.Char
             ActionPoints = Math.Min(ActionPoints + amount, MaxActionPoints);
             System.Diagnostics.Debug.WriteLine($"[Player] Added {amount} AP, now {ActionPoints}");
         }
+        public List<ItemModel> Inventory { get; set; } = new List<ItemModel>();
     }
 }
