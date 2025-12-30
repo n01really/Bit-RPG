@@ -13,17 +13,21 @@ namespace Bit_RPG.Models
         public float Weight { get; set; }
         public int BaseValue { get; set; }
     }
-    public class WeponModel : ItemModel
+    public class WeaponModel : ItemModel
     {
         public int Damage { get; set; }
         public float AttackSpeed { get; set; }
+
+        [Flags]
         public enum WeaponType
         {
-            Blade,
-            HeavyWeapon,
-            RangedWeapon,
-            LongWeapon
+            None = 0,
+            Blade = 1 << 0,        // 1
+            HeavyWeapon = 1 << 1,  // 2
+            RangedWeapon = 1 << 2, // 4
+            LongWeapon = 1 << 3    // 8
         }
+        public WeaponType Type { get; set; }
     }
     public class ArmorModel : ItemModel
     {
@@ -36,7 +40,7 @@ namespace Bit_RPG.Models
             Heavy
         }
     }
-    public class ingredientModel : ItemModel
+    public class IngredientModel : ItemModel
     {
         public string Effect { get; set; }
         public int Duration { get; set; } // Duration in seconds
@@ -57,4 +61,5 @@ namespace Bit_RPG.Models
         CraftingItem,
         Misc
     }
+
 }
