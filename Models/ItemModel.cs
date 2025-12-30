@@ -8,6 +8,10 @@ namespace Bit_RPG.Models
 {
     public class ItemModel
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public float Weight { get; set; }
+        public int BaseValue { get; set; }
     }
     public class WeponModel : ItemModel
     {
