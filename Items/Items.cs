@@ -9,11 +9,12 @@ namespace Bit_RPG.Items
 {
     internal class Items
     {
+        //The first number in the id represents the Row of the Category in the Array the second number represents the position in the Row.
         public static void Weapons() 
         { 
             WeaponModel Blade1 = new WeaponModel 
             {
-                Id = 1,
+                Id = 11,
                 Name = "Wooden Sword",
                 Weight = 3.5f,
                 BaseValue = 10,
@@ -23,7 +24,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel blade2 = new WeaponModel
             {
-                Id = 5,
+                Id = 12,
                 Name = "Iron Short Sword",
                 Weight = 1.5f,
                 BaseValue = 25,
@@ -33,7 +34,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel blade3 = new WeaponModel
             {
-                Id = 6,
+                Id = 13,
                 Name = "Iron Dagger",
                 Weight = 2.0f,
                 BaseValue = 40,
@@ -43,7 +44,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel blade4 = new WeaponModel
             {
-                Id = 7,
+                Id = 14,
                 Name = "Iron Longsword",
                 Weight = 4.0f,
                 BaseValue = 60,
@@ -53,7 +54,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Ranged1 = new WeaponModel
             {
-                Id = 2,
+                Id = 15,
                 Name = "Short Bow",
                 Weight = 2.0f,
                 BaseValue = 15,
@@ -63,7 +64,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Ranged2 = new WeaponModel
             {
-                Id = 8,
+                Id = 16,
                 Name = "Long Bow",
                 Weight = 3.0f,
                 BaseValue = 30,
@@ -73,7 +74,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Ranged3 = new WeaponModel
             {
-                Id = 9,
+                Id = 17,
                 Name = "Hunting bow",
                 Weight = 4.5f,
                 BaseValue = 50,
@@ -83,7 +84,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Ranged4 = new WeaponModel
             {
-                Id = 10,
+                Id = 18,
                 Name = "Iron Crossbow",
                 Weight = 6.0f,
                 BaseValue = 80,
@@ -93,7 +94,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Long1 = new WeaponModel
             {
-                Id = 3,
+                Id = 19,
                 Name = "Wooden Staff",
                 Weight = 4.0f,
                 BaseValue = 20,
@@ -102,7 +103,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Long2 = new WeaponModel
             {
-                Id = 11,
+                Id = 110,
                 Name = "Iron Spear",
                 Weight = 5.0f,
                 BaseValue = 35,
@@ -112,7 +113,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Long3 = new WeaponModel
             {
-                Id = 12,
+                Id = 111,
                 Name = "Iron glaive",
                 Weight = 7.0f,
                 BaseValue = 55,
@@ -122,7 +123,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Long4 = new WeaponModel
             {
-                Id = 15,
+                Id = 112,
                 Name = "Iron Halberd",
                 Weight = 10.0f,
                 BaseValue = 90,
@@ -132,7 +133,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Heavy1 = new WeaponModel
             {
-                Id = 4,
+                Id = 113,
                 Name = "Stone Axe",
                 Weight = 5.0f,
                 BaseValue = 12,
@@ -142,7 +143,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Heavy2 = new WeaponModel
             {
-                Id = 13,
+                Id = 114,
                 Name = "Iron Warhammer",
                 Weight = 8.0f,
                 BaseValue = 40,
@@ -152,7 +153,7 @@ namespace Bit_RPG.Items
             };
             WeaponModel Heavy3 = new WeaponModel
             {
-                Id = 14,
+                Id = 115,
                 Name = "Iron Battleaxe",
                 Weight = 9.0f,
                 BaseValue = 70,
@@ -163,11 +164,81 @@ namespace Bit_RPG.Items
         }
         public static void Armors(ArmorModel Armor)
         {
-
+            ArmorModel Light1 = new ArmorModel
+            {
+                Id = 21,
+                Name = "Leather Armor",
+                Weight = 5.0f,
+                BaseValue = 25,
+                Defense = 3,
+                Type = ArmorModel.ArmorType.Light
+            };
+            ArmorModel Light2 = new ArmorModel
+            {
+                Id = 22,
+                Name = "Elven Armor",
+                Weight = 7.0f,
+                BaseValue = 50,
+                Defense = 5,
+                Type = ArmorModel.ArmorType.Light
+            };
+            ArmorModel Medium1 = new ArmorModel
+            {
+                Id = 23,
+                Name = "Chainmail Armor",
+                Weight = 15.0f,
+                BaseValue = 75,
+                Defense = 8,
+                Type = ArmorModel.ArmorType.Medium
+            };
+            ArmorModel Medium2 = new ArmorModel
+            {
+                Id = 24,
+                Name = "Dwarven Armor",
+                Weight = 20.0f,
+                BaseValue = 100,
+                Defense = 10,
+                Type = ArmorModel.ArmorType.Medium
+            };
+            ArmorModel Heavy1 = new ArmorModel
+            {
+                Id = 25,
+                Name = "Iron Armor",
+                Weight = 30.0f,
+                BaseValue = 150,
+                Defense = 15,
+                Type = ArmorModel.ArmorType.Heavy
+            };
+            ArmorModel Heavy2 = new ArmorModel
+            {
+                Id = 26,
+                Name = "Steel Plate Armor",
+                Weight = 35.0f,
+                BaseValue = 200,
+                Defense = 20,
+                Type = ArmorModel.ArmorType.Heavy
+            };
         }
         public static void Ingredients(IngredientModel Ingredient)
         {
-
+            IngredientModel Herb1 = new IngredientModel
+            {
+                Id = 31,
+                Name = "Herth Herb",
+                Weight = 0.1f,
+                BaseValue = 5,
+                Effect = "Restores 10 HP",
+                Duration = 0
+            };
+            IngredientModel Herb2 = new IngredientModel
+            {
+                Id = 32,
+                Name = "Mort Wood",
+                Weight = 0.1f,
+                BaseValue = 5,
+                Effect = "Restores 10 MP",
+                Duration = 0
+            };
         }
         public static void CraftingItems(CraftingItemModel CraftingItem)
         {

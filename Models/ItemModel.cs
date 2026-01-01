@@ -33,6 +33,7 @@ namespace Bit_RPG.Models
     {
         public int Defense { get; set; }
         
+        public ArmorType Type { get; set; }
         public enum ArmorType
         {
             Light,
