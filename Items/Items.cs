@@ -99,7 +99,8 @@ namespace Bit_RPG.Items
                 Weight = 4.0f,
                 BaseValue = 20,
                 Damage = 6,
-                AttackSpeed = 1.0f
+                AttackSpeed = 1.0f,
+                Type = WeaponModel.WeaponType.LongWeapon
             };
             WeaponModel Long2 = new WeaponModel
             {
