@@ -199,7 +199,7 @@ namespace Bit_RPG.Items
             weaponsList.Add(Heavy3);
         }
 
-        public static void Armors(ArmorModel Armor)
+        public static void Armors()
         {
             ArmorModel Light1 = new ArmorModel
             {
@@ -268,7 +268,7 @@ namespace Bit_RPG.Items
             armorsList.Add(Heavy2);
         }
 
-        public static void Ingredients(IngredientModel Ingredient)
+        public static void Ingredients()
         {
             IngredientModel Herb1 = new IngredientModel
             {
@@ -291,16 +291,140 @@ namespace Bit_RPG.Items
                 Duration = 0
             };
             ingredientsList.Add(Herb2);
+
+            IngredientModel Herb3 = new IngredientModel
+            {
+                Id = 33,
+                Name = "Red Mushroom",
+                Weight = 0.2f,
+                BaseValue = 8,
+                Effect = "Restores 15 HP",
+                Duration = 0
+            };
+            ingredientsList.Add(Herb3);
+
+            IngredientModel Herb4 = new IngredientModel
+            {
+                Id = 34,
+                Name = "Blue Flower",
+                Weight = 0.1f,
+                BaseValue = 10,
+                Effect = "Restores 20 MP",
+                Duration = 0
+            };
+            ingredientsList.Add(Herb4);
+
+            IngredientModel Herb5 = new IngredientModel
+            {
+                Id = 35,
+                Name = "Dragon Scale",
+                Weight = 0.5f,
+                BaseValue = 50,
+                Effect = "Increases Fire Resistance",
+                Duration = 300
+            };
+            ingredientsList.Add(Herb5);
         }
 
-        public static void CraftingItems(CraftingItemModel CraftingItem)
+        public static void CraftingItems()
         {
+            CraftingItemModel Craft1 = new CraftingItemModel
+            {
+                Id = 41,
+                Name = "Iron Ore",
+                Weight = 2.0f,
+                BaseValue = 15
+            };
+            craftingItemsList.Add(Craft1);
 
+            CraftingItemModel Craft2 = new CraftingItemModel
+            {
+                Id = 42,
+                Name = "Leather Strip",
+                Weight = 0.5f,
+                BaseValue = 5
+            };
+            craftingItemsList.Add(Craft2);
+
+            CraftingItemModel Craft3 = new CraftingItemModel
+            {
+                Id = 43,
+                Name = "Wood Plank",
+                Weight = 1.0f,
+                BaseValue = 3
+            };
+            craftingItemsList.Add(Craft3);
+
+            CraftingItemModel Craft4 = new CraftingItemModel
+            {
+                Id = 44,
+                Name = "Steel Ingot",
+                Weight = 3.0f,
+                BaseValue = 30
+            };
+            craftingItemsList.Add(Craft4);
+
+            CraftingItemModel Craft5 = new CraftingItemModel
+            {
+                Id = 45,
+                Name = "Magic Crystal",
+                Weight = 0.3f,
+                BaseValue = 100
+            };
+            craftingItemsList.Add(Craft5);
         }
 
-        public static void Miscs(MiscItemModel Misc)
+        public static void Miscs()
         {
+            MiscItemModel Misc1 = new MiscItemModel
+            {
+                Id = 51,
+                Name = "Old Key",
+                Weight = 0.1f,
+                BaseValue = 10,
+                Description = "A rusty old key, might open something"
+            };
+            miscItemsList.Add(Misc1);
 
+            MiscItemModel Misc2 = new MiscItemModel
+            {
+                Id = 52,
+                Name = "Ancient Coin",
+                Weight = 0.1f,
+                BaseValue = 25,
+                Description = "A valuable coin from a bygone era"
+            };
+            miscItemsList.Add(Misc2);
+
+            MiscItemModel Misc3 = new MiscItemModel
+            {
+                Id = 53,
+                Name = "Gemstone",
+                Weight = 0.2f,
+                BaseValue = 75,
+                Description = "A beautiful gemstone that sparkles in the light"
+            };
+            miscItemsList.Add(Misc3);
+
+            MiscItemModel Misc4 = new MiscItemModel
+            {
+                Id = 54,
+                Name = "Quest Letter",
+                Weight = 0.1f,
+                BaseValue = 0,
+                Description = "An important letter for a quest"
+            };
+            miscItemsList.Add(Misc4);
+
+            MiscItemModel Misc5 = new MiscItemModel
+            {
+                Id = 55,
+                Name = "Lucky Charm",
+                Weight = 0.1f,
+                BaseValue = 50,
+                Description = "A charm said to bring good fortune"
+            };
+            miscItemsList.Add(Misc5);
         }
 
         // Array containing all items
@@ -318,10 +442,10 @@ namespace Bit_RPG.Items
             miscItemsList.Clear();
 
             Weapons();
-            Armors(null);
-            Ingredients(null);
-            CraftingItems(null);
-            Miscs(null);
+            Armors();
+            Ingredients();
+            CraftingItems();
+            Miscs();
         }
 
         public Array GetAllItems()
