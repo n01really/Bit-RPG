@@ -8,7 +8,7 @@ namespace Bit_RPG;
 public partial class LevelUpPopup : Popup
 {
     private Player _player;
-    private Dictionary<string, int> _initialSkillValues;
+    private Dictionary<string, int> _initialAttributeValues;
     
     public LevelUpPopup(Player player)
     {
@@ -16,79 +16,78 @@ public partial class LevelUpPopup : Popup
         _player = player;
         BindingContext = _player;
         
-        // Store initial skill values to prevent decreasing below starting point
-        _initialSkillValues = new Dictionary<string, int>();
-        var skillProperties = _player.Skills.GetType().GetProperties();
-        foreach (var prop in skillProperties)
+        // Store initial attribute values to prevent decreasing below starting point
+        _initialAttributeValues = new Dictionary<string, int>
         {
-            if (prop.PropertyType == typeof(int))
-            {
-                _initialSkillValues[prop.Name] = (int)prop.GetValue(_player.Skills);
-            }
-        }
+            { "MaxHealth", _player.MaxHealth },
+            { "MaxMana", _player.MaxMana },
+            { "Strength", _player.Strength },
+            { "Agility", _player.Agility },
+            { "Intelligence", _player.Intelligence }
+        };
     }
 
-    private async void OnIncreaseSkill(object sender, EventArgs e)
+    private async void OnIncreaseAttribute(object sender, EventArgs e)
     {
-        if (sender is Border border && border.GestureRecognizers[0] is TapGestureRecognizer tap && tap.CommandParameter is string skillName)
+        if (sender is Border border && border.GestureRecognizers[0] is TapGestureRecognizer tap && tap.CommandParameter is string attributeName)
         {
-            // Check if player has skill points available
+            // Check if player has attribute points available
             if (_player.SkillPoints <= 0)
             {
-                await Application.Current.MainPage.DisplayAlert("No Skill Points", 
-                    "You don't have any skill points available!", "OK");
+                await Application.Current.MainPage.DisplayAlert("No Attribute Points", 
+                    "You don't have any attribute points available!", "OK");
                 return;
             }
 
-            // Get the Skills property using reflection
-            var skillProperty = _player.Skills.GetType().GetProperty(skillName);
+            // Get the attribute property using reflection
+            var attributeProperty = _player.GetType().GetProperty(attributeName);
             
-            if (skillProperty != null)
+            if (attributeProperty != null)
             {
-                // Get current skill value
-                int currentValue = (int)skillProperty.GetValue(_player.Skills);
+                // Get current attribute value
+                int currentValue = (int)attributeProperty.GetValue(_player);
                 
-                // Check if skill is already at max (100)
-                if (currentValue >= 100)
+                // Check if attribute is already at max (150)
+                if (currentValue >= 150)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Max Skill Level", 
-                        $"{skillName} is already at maximum level (100)!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Max Attribute Level", 
+                        $"{attributeName} is already at maximum level (150)!", "OK");
                     return;
                 }
                 
-                // Increase the skill - this will automatically trigger OnPropertyChanged in the Skills class
-                skillProperty.SetValue(_player.Skills, currentValue + 1);
+                // Increase the attribute
+                attributeProperty.SetValue(_player, currentValue + 1);
                 
-                // Decrease skill points - this will automatically trigger OnPropertyChanged in the Player class
+                // Decrease attribute points
                 _player.SkillPoints--;
             }
         }
     }
 
-    private async void OnDecreaseSkill(object sender, EventArgs e)
+    private async void OnDecreaseAttribute(object sender, EventArgs e)
     {
-        if (sender is Border border && border.GestureRecognizers[0] is TapGestureRecognizer tap && tap.CommandParameter is string skillName)
+        if (sender is Border border && border.GestureRecognizers[0] is TapGestureRecognizer tap && tap.CommandParameter is string attributeName)
         {
-            // Get the Skills property using reflection
-            var skillProperty = _player.Skills.GetType().GetProperty(skillName);
+            // Get the attribute property using reflection
+            var attributeProperty = _player.GetType().GetProperty(attributeName);
             
-            if (skillProperty != null)
+            if (attributeProperty != null)
             {
-                // Get current skill value
-                int currentValue = (int)skillProperty.GetValue(_player.Skills);
+                // Get current attribute value
+                int currentValue = (int)attributeProperty.GetValue(_player);
                 
-                // Check if skill is at or below initial value
-                if (!_initialSkillValues.ContainsKey(skillName) || currentValue <= _initialSkillValues[skillName])
+                // Check if attribute is at or below initial value
+                if (!_initialAttributeValues.ContainsKey(attributeName) || currentValue <= _initialAttributeValues[attributeName])
                 {
                     await Application.Current.MainPage.DisplayAlert("Cannot Decrease", 
-                        $"Cannot decrease {skillName} below its starting value!", "OK");
+                        $"Cannot decrease {attributeName} below its starting value!", "OK");
                     return;
                 }
                 
-                // Decrease the skill - this will automatically trigger OnPropertyChanged in the Skills class
-                skillProperty.SetValue(_player.Skills, currentValue - 1);
+                // Decrease the attribute
+                attributeProperty.SetValue(_player, currentValue - 1);
                 
-                // Refund skill point - this will automatically trigger OnPropertyChanged in the Player class
+                // Refund attribute point
                 _player.SkillPoints++;
             }
         }

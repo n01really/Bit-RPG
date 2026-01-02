@@ -14,6 +14,7 @@ namespace Bit_RPG.Items
         private static List<IngredientModel> ingredientsList = new List<IngredientModel>();
         private static List<CraftingItemModel> craftingItemsList = new List<CraftingItemModel>();
         private static List<MiscItemModel> miscItemsList = new List<MiscItemModel>();
+        private static List<PotionModel> potionsList = new List<PotionModel>();
 
         //The first number in the id represents the Row of the Category in the Array the second number represents the position in the Row.
         public static void Weapons() 
@@ -427,12 +428,146 @@ namespace Bit_RPG.Items
             miscItemsList.Add(Misc5);
         }
 
+        public static void Potions()
+        {
+            PotionModel Potion1 = new PotionModel
+            {
+                Id = 61,
+                Name = "Minor Health Potion",
+                Weight = 0.2f,
+                BaseValue = 15,
+                Effect = "Restores 25 HP",
+                HealthRestore = 25,
+                ManaRestore = 0,
+                Duration = 0
+            };
+            potionsList.Add(Potion1);
+
+            PotionModel Potion2 = new PotionModel
+            {
+                Id = 62,
+                Name = "Minor Mana Potion",
+                Weight = 0.2f,
+                BaseValue = 15,
+                Effect = "Restores 25 MP",
+                HealthRestore = 0,
+                ManaRestore = 25,
+                Duration = 0
+            };
+            potionsList.Add(Potion2);
+
+            PotionModel Potion3 = new PotionModel
+            {
+                Id = 63,
+                Name = "Health Potion",
+                Weight = 0.3f,
+                BaseValue = 35,
+                Effect = "Restores 50 HP",
+                HealthRestore = 50,
+                ManaRestore = 0,
+                Duration = 0
+            };
+            potionsList.Add(Potion3);
+
+            PotionModel Potion4 = new PotionModel
+            {
+                Id = 64,
+                Name = "Mana Potion",
+                Weight = 0.3f,
+                BaseValue = 35,
+                Effect = "Restores 50 MP",
+                HealthRestore = 0,
+                ManaRestore = 50,
+                Duration = 0
+            };
+            potionsList.Add(Potion4);
+
+            PotionModel Potion5 = new PotionModel
+            {
+                Id = 65,
+                Name = "Greater Health Potion",
+                Weight = 0.4f,
+                BaseValue = 70,
+                Effect = "Restores 100 HP",
+                HealthRestore = 100,
+                ManaRestore = 0,
+                Duration = 0
+            };
+            potionsList.Add(Potion5);
+
+            PotionModel Potion6 = new PotionModel
+            {
+                Id = 66,
+                Name = "Greater Mana Potion",
+                Weight = 0.4f,
+                BaseValue = 70,
+                Effect = "Restores 100 MP",
+                HealthRestore = 0,
+                ManaRestore = 100,
+                Duration = 0
+            };
+            potionsList.Add(Potion6);
+
+            PotionModel Potion7 = new PotionModel
+            {
+                Id = 67,
+                Name = "Rejuvenation Potion",
+                Weight = 0.5f,
+                BaseValue = 100,
+                Effect = "Restores 50 HP and 50 MP",
+                HealthRestore = 50,
+                ManaRestore = 50,
+                Duration = 0
+            };
+            potionsList.Add(Potion7);
+
+            PotionModel Potion8 = new PotionModel
+            {
+                Id = 68,
+                Name = "Strength Elixir",
+                Weight = 0.3f,
+                BaseValue = 80,
+                Effect = "Increases Strength by 5 for 5 minutes",
+                HealthRestore = 0,
+                ManaRestore = 0,
+                Duration = 300
+            };
+            potionsList.Add(Potion8);
+
+            PotionModel Potion9 = new PotionModel
+            {
+                Id = 69,
+                Name = "Agility Elixir",
+                Weight = 0.3f,
+                BaseValue = 80,
+                Effect = "Increases Agility by 5 for 5 minutes",
+                HealthRestore = 0,
+                ManaRestore = 0,
+                Duration = 300
+            };
+            potionsList.Add(Potion9);
+
+            PotionModel Potion10 = new PotionModel
+            {
+                Id = 610,
+                Name = "Intelligence Elixir",
+                Weight = 0.3f,
+                BaseValue = 80,
+                Effect = "Increases Intelligence by 5 for 5 minutes",
+                HealthRestore = 0,
+                ManaRestore = 0,
+                Duration = 300
+            };
+            potionsList.Add(Potion10);
+        }
+
         // Array containing all items
         // Row 1: Weapons (IDs 11-115)
         // Row 2: Armors (IDs 21-26)
-        // Row 3: Ingredients (IDs 31-32)
-        // Row 4: CraftingItems (IDs 41-4X)
-        // Row 5: Misc (IDs 51-5X)
+        // Row 3: Ingredients (IDs 31-35)
+        // Row 4: CraftingItems (IDs 41-45)
+        // Row 5: Misc (IDs 51-55)
+        // Row 6: Potions (IDs 61-610)
         public static void InitializeAllItems()
         {
             weaponsList.Clear();
@@ -440,12 +575,14 @@ namespace Bit_RPG.Items
             ingredientsList.Clear();
             craftingItemsList.Clear();
             miscItemsList.Clear();
+            potionsList.Clear();
 
             Weapons();
             Armors();
             Ingredients();
             CraftingItems();
             Miscs();
+            Potions();
         }
 
         public Array GetAllItems()
@@ -458,7 +595,8 @@ namespace Bit_RPG.Items
                 armorsList.ToArray(),
                 ingredientsList.ToArray(),
                 craftingItemsList.ToArray(),
-                miscItemsList.ToArray()
+                miscItemsList.ToArray(),
+                potionsList.ToArray()
             };
         }
 
@@ -481,6 +619,8 @@ namespace Bit_RPG.Items
                     return craftingItemsList.FirstOrDefault(c => c.Id == id);
                 case 5: // Misc Items
                     return miscItemsList.FirstOrDefault(m => m.Id == id);
+                case 6: // Potions
+                    return potionsList.FirstOrDefault(p => p.Id == id);
                 default:
                     return null;
             }

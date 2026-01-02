@@ -54,13 +54,21 @@ namespace Bit_RPG.Models
     {
         public string Description { get; set; }
     }
+    public class PotionModel : ItemModel
+    {
+        public string Effect { get; set; }
+        public int HealthRestore { get; set; }
+        public int ManaRestore { get; set; }
+        public int Duration { get; set; } // Duration in seconds for buffs
+    }
     public enum ItemType
     {
         Weapon,
         Armor,
         Ingredient,
         CraftingItem,
-        Misc
+        Misc,
+        Potion
     }
 
 }

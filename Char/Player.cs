@@ -124,17 +124,117 @@ namespace Bit_RPG.Char
         public RaceType Race { get; set; }
         public ClassType Class { get; set; }
         public Skills Skills { get; set; }
-        public int Strength { get; set; }
-        public int Agility { get; set; }
-        public int Intelligence { get; set; }
-        public int Attack { get; set; }
-        public int Defense { get; set; }
-        public int MaxHealth { get; set; }
+        
+        private int _strength;
+        public int Strength
+        {
+            get => _strength;
+            set
+            {
+                if (_strength != value)
+                {
+                    _strength = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        private int _agility;
+        public int Agility
+        {
+            get => _agility;
+            set
+            {
+                if (_agility != value)
+                {
+                    _agility = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        private int _intelligence;
+        public int Intelligence
+        {
+            get => _intelligence;
+            set
+            {
+                if (_intelligence != value)
+                {
+                    _intelligence = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        private int _attack;
+        public int Attack
+        {
+            get => _attack;
+            set
+            {
+                if (_attack != value)
+                {
+                    _attack = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        private int _defense;
+        public int Defense
+        {
+            get => _defense;
+            set
+            {
+                if (_defense != value)
+                {
+                    _defense = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        private int _maxHealth;
+        public int MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                if (_maxHealth != value)
+                {
+                    _maxHealth = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
         public int Magic { get; set; }
-        public int MaxMana { get; set; }
+        
+        private int _maxMana;
+        public int MaxMana
+        {
+            get => _maxMana;
+            set
+            {
+                if (_maxMana != value)
+                {
+                    _maxMana = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
         public int MDefense { get; set; }
         public Location CurrentLocation { get; set; }
         public List<QuestModel> ActiveQuests { get; set; } = new List<QuestModel>();
+        public List<ItemModel> Inventory { get; set; } = new List<ItemModel>();
+        public Inventory InventoryManager { get; private set; }
+
+        public Player()
+        {
+            InventoryManager = new Inventory(this);
+        }
 
         // Constants
         public const int MaxLevel = 100;
@@ -158,29 +258,13 @@ namespace Bit_RPG.Char
                 return;
 
             Level++;
-            SkillPoints += 15; // Add 15 skill points per level
+            SkillPoints += 5; // Give 5 attribute points per level for stats
             Experience -= ExperienceForNextLevel; // Carry over excess XP
             
-            // Increase stats by 5 each level (max 150)
-            MaxHealth = Math.Min(MaxHealth + 5, 150);
-            MaxMana = Math.Min(MaxMana + 5, 150);
-            Strength = Math.Min(Strength + 5, 150);
-            Agility = Math.Min(Agility + 5, 150);
-            Intelligence = Math.Min(Intelligence + 5, 150);
-            Attack = Math.Min(Attack + 5, 150);
-            Defense = Math.Min(Defense + 5, 150);
-            MDefense = Math.Min(MDefense + 5, 150);
+            // Stats no longer auto-increase - player must allocate them manually
             
             OnPropertyChanged(nameof(Level));
             OnPropertyChanged(nameof(ExperienceForNextLevel));
-            OnPropertyChanged(nameof(MaxHealth));
-            OnPropertyChanged(nameof(MaxMana));
-            OnPropertyChanged(nameof(Strength));
-            OnPropertyChanged(nameof(Agility));
-            OnPropertyChanged(nameof(Intelligence));
-            OnPropertyChanged(nameof(Attack));
-            OnPropertyChanged(nameof(Defense));
-            OnPropertyChanged(nameof(MDefense));
 
             // Raise the LeveledUp event
             LeveledUp?.Invoke(this, EventArgs.Empty);
@@ -201,6 +285,5 @@ namespace Bit_RPG.Char
             ActionPoints = Math.Min(ActionPoints + amount, MaxActionPoints);
             System.Diagnostics.Debug.WriteLine($"[Player] Added {amount} AP, now {ActionPoints}");
         }
-        public List<ItemModel> Inventory { get; set; } = new List<ItemModel>();
     }
 }

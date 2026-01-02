@@ -2,15 +2,15 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.TrainingPopup"
-               Size="450,600">
+               x:Class="Bit_RPG.CraftingTrainingPopup"
+               Size="450,500">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
             <Label Grid.Row="0"
-                   Text="Skill Training"
+                   Text="Crafting Skill Training"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
@@ -26,7 +26,7 @@
                    HorizontalOptions="Center"/>
 
             <Label Grid.Row="3"
-                   Text="Pay gold to train your guild skills"
+                   Text="Pay gold to train your crafting skills"
                    FontSize="12"
                    TextColor="Gray"
                    HorizontalOptions="Center"/>
