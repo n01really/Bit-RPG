@@ -5,154 +5,142 @@
              x:Class="Bit_RPG.GamePage"
              Title="GamePage">
     <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25">
+        Padding="15,0"
+        Spacing="15">
         
         <!-- Player Information and Week Panel -->
         <Border Stroke="Gray"
                 StrokeThickness="1"
-                Padding="10"
+                Padding="8"
                 Margin="0,5,0,0">
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*" 
-                  ColumnSpacing="15">
-                <Label Grid.Column="0"
-                       Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
-                       FontSize="12"
-                       FontAttributes="Bold"/>
-                <Label Grid.Column="1"
-                       Text="{Binding Player.Age, StringFormat='Age: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="2"
-                       Text="{Binding Player.Race, StringFormat='Race: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="3"
-                       Text="{Binding Player.Class, StringFormat='Class: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="4"
-                       Text="{Binding Player.Money, StringFormat='Gold: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="5"
-                       Text="{Binding Player.Level, StringFormat='Lvl: {0}'}"
-                       FontSize="12"
-                       FontAttributes="Bold"/>
-                <Label Grid.Column="6"
-                       Text="{Binding Player.Experience, StringFormat='XP: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="7"
-                       Text="{Binding Player.ExperienceForNextLevel, StringFormat='Next: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="8"
-                       FontSize="12"
-                       FontAttributes="Bold">
-                    <Label.Text>
-                        <MultiBinding StringFormat="AP: {0}/{1}">
-                            <Binding Path="Player.ActionPoints"/>
-                            <Binding Source="12"/>
-                        </MultiBinding>
-                    </Label.Text>
-                </Label>
-                <Label Grid.Column="9"
-                       Text="{Binding Year, StringFormat='Year: {0}'}"
-                       FontSize="12"/>
-                <Label Grid.Column="10"
-                       Text="{Binding Week, StringFormat='Week: {0}'}"
-                       FontSize="12"
-                       HorizontalOptions="End"/>
-            </Grid>
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="{Binding Player.PlayerName, StringFormat='Name: {0}'}"
+                           FontSize="10"
+                           FontAttributes="Bold"/>
+                    <Label Text="{Binding Player.Age, StringFormat='Age: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Player.Race, StringFormat='Race: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Player.Class, StringFormat='Class: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Player.Money, StringFormat='Gold: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Player.Level, StringFormat='Lvl: {0}'}"
+                           FontSize="10"
+                           FontAttributes="Bold"/>
+                    <Label Text="{Binding Player.Experience, StringFormat='XP: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Player.ExperienceForNextLevel, StringFormat='Next: {0}'}"
+                           FontSize="10"/>
+                    <Label FontSize="10"
+                           FontAttributes="Bold">
+                        <Label.Text>
+                            <MultiBinding StringFormat="AP: {0}/{1}">
+                                <Binding Path="Player.ActionPoints"/>
+                                <Binding Source="12"/>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label Text="{Binding Year, StringFormat='Year: {0}'}"
+                           FontSize="10"/>
+                    <Label Text="{Binding Week, StringFormat='Week: {0}'}"
+                           FontSize="10"/>
+                </HorizontalStackLayout>
+            </ScrollView>
         </Border>
 
-        <Border
-                Stroke="Gray"
+        <Border Stroke="Gray"
                 StrokeThickness="1"
-                HeightRequest="700"
-                Padding="10">
+                HeightRequest="450"
+                Padding="8">
             <ScrollView x:Name="EventScrollView">
-                <Label
-                        Text="{Binding EventLog}"
-                        HorizontalOptions="Center"
-                        FontSize="18"/>
+                <Label Text="{Binding EventLog}"
+                       HorizontalOptions="Center"
+                       FontSize="14"
+                       LineBreakMode="WordWrap"/>
             </ScrollView>
         </Border>
         
         <!-- All Buttons Layout -->
-        <HorizontalStackLayout Spacing="20" 
+        <HorizontalStackLayout Spacing="15" 
                               HorizontalOptions="Center"
-                              Margin="0,0,0,0">
+                              Margin="0,5,0,10">
             
             <!-- Activities Button (Far Left, small circular) -->
-            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
-                <Border WidthRequest="25"
-                        HeightRequest="25"
+            <VerticalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                <Border WidthRequest="30"
+                        HeightRequest="30"
                         StrokeThickness="0"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="12.5"/>
+                        <RoundRectangle CornerRadius="15"/>
                     </Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnActivitiesClicked"/>
                     </Border.GestureRecognizers>
                 </Border>
                 <Label Text="Activities" 
-                       FontSize="10"
+                       FontSize="9"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
             
             <!-- Left Column: Inventory (top) and Character (bottom) -->
-            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
                 <!-- Inventory Button -->
-                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Border WidthRequest="25"
-                            HeightRequest="25"
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Border WidthRequest="30"
+                            HeightRequest="30"
                             StrokeThickness="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12.5"/>
+                            <RoundRectangle CornerRadius="15"/>
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnInventoryClicked"/>
                         </Border.GestureRecognizers>
                     </Border>
                     <Label Text="Inventory" 
-                           FontSize="10"
+                           FontSize="9"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
                 
                 <!-- Character Button -->
-                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Border WidthRequest="25"
-                            HeightRequest="25"
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Border WidthRequest="30"
+                            HeightRequest="30"
                             StrokeThickness="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12.5"/>
+                            <RoundRectangle CornerRadius="15"/>
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnCharacterClicked"/>
                         </Border.GestureRecognizers>
                     </Border>
                     <Label Text="Character" 
-                           FontSize="10"
+                           FontSize="9"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
             </VerticalStackLayout>
             
             <!-- Continue Button (Circular, in the middle, larger) -->
-            <Border WidthRequest="80"
-                    HeightRequest="80"
+            <Border WidthRequest="70"
+                    HeightRequest="70"
                     StrokeThickness="0"
                     BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="40"/>
+                    <RoundRectangle CornerRadius="35"/>
                 </Border.StrokeShape>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnForwardGameClicked"/>
                 </Border.GestureRecognizers>
                 <Label Text="Continue" 
                        TextColor="White"
-                       FontSize="12"
+                       FontSize="11"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        HorizontalTextAlignment="Center"
@@ -160,41 +148,41 @@
             </Border>
             
             <!-- Right Column: Jobs (top) and Quests (bottom) -->
-            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
                 <!-- Jobs Button -->
-                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Border WidthRequest="25"
-                            HeightRequest="25"
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Border WidthRequest="30"
+                            HeightRequest="30"
                             StrokeThickness="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12.5"/>
+                            <RoundRectangle CornerRadius="15"/>
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnJobsClicked"/>
                         </Border.GestureRecognizers>
                     </Border>
                     <Label Text="Jobs" 
-                           FontSize="10"
+                           FontSize="9"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
                 
                 <!-- Quests Button -->
-                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Border WidthRequest="25"
-                            HeightRequest="25"
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                    <Border WidthRequest="30"
+                            HeightRequest="30"
                             StrokeThickness="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12.5"/>
+                            <RoundRectangle CornerRadius="15"/>
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnQuestsClicked"/>
                         </Border.GestureRecognizers>
                     </Border>
                     <Label Text="Quests" 
-                           FontSize="10"
+                           FontSize="9"
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>

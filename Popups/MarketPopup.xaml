@@ -2,35 +2,39 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.Popups.MarketPopup"
-               Size="700,700">
+               x:Class="Bit_RPG.Popups.MarketPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="12"
+            MaximumWidthRequest="700"
+            MaximumHeightRequest="700"
+            WidthRequest="380"
+            HeightRequest="600"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="10">
             <Label Grid.Row="0"
                    Text="Market"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
 
             <Label Grid.Row="1"
                    x:Name="LocationLabel"
                    Text=""
-                   FontSize="14"
+                   FontSize="12"
                    TextColor="Gray"
                    HorizontalOptions="Center"
-                   Margin="0,-10,0,0"/>
+                   Margin="0,-6,0,0"/>
 
             <HorizontalStackLayout Grid.Row="2" 
                                    HorizontalOptions="Center"
-                                   Spacing="20">
+                                   Spacing="12">
                 <Label Text="Your Gold:" 
-                       FontSize="18"
+                       FontSize="15"
                        FontAttributes="Bold"/>
                 <Label Text="{Binding Money}" 
-                       FontSize="18"
+                       FontSize="15"
                        TextColor="Gold"/>
             </HorizontalStackLayout>
 
@@ -38,19 +42,19 @@
                      HeightRequest="1"
                      Color="Gray"/>
 
-            <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="8">
                 <!-- Market Items (Buy) -->
                 <Border Grid.Column="0"
                         Stroke="Gray"
                         StrokeThickness="1"
-                        Padding="10">
+                        Padding="8">
                     <Grid RowDefinitions="Auto,*">
                         <Label Grid.Row="0"
                                Text="Market Items (Buy)"
-                               FontSize="18"
+                               FontSize="14"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
-                               Margin="0,0,0,10"/>
+                               Margin="0,0,0,8"/>
 
                         <ScrollView Grid.Row="1">
                             <CollectionView x:Name="MarketItemsCollection"
@@ -59,19 +63,22 @@
                                     <DataTemplate>
                                         <Border Stroke="Gray"
                                               StrokeThickness="1"
-                                              Padding="10"
-                                              Margin="0,5">
-                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="5">
+                                              Padding="6"
+                                              Margin="0,3">
+                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="3">
                                                 <Label Grid.Row="0"
                                                      Text="{Binding Name}"
-                                                     FontSize="16"
-                                                     FontAttributes="Bold"/>
+                                                     FontSize="12"
+                                                     FontAttributes="Bold"
+                                                     LineBreakMode="TailTruncation"/>
                                                 <Label Grid.Row="1"
                                                      Text="{Binding ItemDetails}"
-                                                     FontSize="12"
-                                                     TextColor="Gray"/>
+                                                     FontSize="10"
+                                                     TextColor="Gray"
+                                                     LineBreakMode="TailTruncation"
+                                                     MaxLines="2"/>
                                                 <Label Grid.Row="2"
-                                                     FontSize="14">
+                                                     FontSize="11">
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Price: "/>
@@ -87,6 +94,8 @@
                                                       CommandParameter="{Binding .}"
                                                       BackgroundColor="Green"
                                                       TextColor="White"
+                                                      FontSize="10"
+                                                      Padding="8,4"
                                                       HorizontalOptions="End"/>
                                             </Grid>
                                         </Border>
@@ -101,14 +110,14 @@
                 <Border Grid.Column="1"
                         Stroke="Gray"
                         StrokeThickness="1"
-                        Padding="10">
+                        Padding="8">
                     <Grid RowDefinitions="Auto,*">
                         <Label Grid.Row="0"
                                Text="Your Inventory (Sell)"
-                               FontSize="18"
+                               FontSize="14"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
-                               Margin="0,0,0,10"/>
+                               Margin="0,0,0,8"/>
 
                         <ScrollView Grid.Row="1">
                             <CollectionView x:Name="PlayerItemsCollection"
@@ -117,19 +126,22 @@
                                     <DataTemplate>
                                         <Border Stroke="Gray"
                                               StrokeThickness="1"
-                                              Padding="10"
-                                              Margin="0,5">
-                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="5">
+                                              Padding="6"
+                                              Margin="0,3">
+                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="3">
                                                 <Label Grid.Row="0"
                                                      Text="{Binding Name}"
-                                                     FontSize="16"
-                                                     FontAttributes="Bold"/>
+                                                     FontSize="12"
+                                                     FontAttributes="Bold"
+                                                     LineBreakMode="TailTruncation"/>
                                                 <Label Grid.Row="1"
                                                      Text="{Binding ItemDetails}"
-                                                     FontSize="12"
-                                                     TextColor="Gray"/>
+                                                     FontSize="10"
+                                                     TextColor="Gray"
+                                                     LineBreakMode="TailTruncation"
+                                                     MaxLines="2"/>
                                                 <Label Grid.Row="2"
-                                                     FontSize="14">
+                                                     FontSize="11">
                                                     <Label.FormattedText>
                                                         <FormattedString>
                                                             <Span Text="Sell for: "/>
@@ -145,6 +157,8 @@
                                                       CommandParameter="{Binding .}"
                                                       BackgroundColor="DarkOrange"
                                                       TextColor="White"
+                                                      FontSize="10"
+                                                      Padding="8,4"
                                                       HorizontalOptions="End"/>
                                             </Grid>
                                         </Border>
@@ -160,7 +174,8 @@
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>

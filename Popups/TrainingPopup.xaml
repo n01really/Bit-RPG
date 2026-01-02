@@ -2,16 +2,20 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.TrainingPopup"
-               Size="450,600">
+               x:Class="Bit_RPG.TrainingPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="15"
+            MaximumWidthRequest="500"
+            MaximumHeightRequest="700"
+            WidthRequest="380"
+            HeightRequest="550"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="12">
             <Label Grid.Row="0"
                    Text="Skill Training"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
@@ -21,25 +25,26 @@
 
             <Label Grid.Row="2"
                    x:Name="PlayerGoldLabel"
-                   FontSize="14"
+                   FontSize="13"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
 
             <Label Grid.Row="3"
                    Text="Pay gold to train your guild skills"
-                   FontSize="12"
+                   FontSize="11"
                    TextColor="Gray"
                    HorizontalOptions="Center"/>
 
             <ScrollView Grid.Row="4">
-                <VerticalStackLayout x:Name="SkillsContainer" Spacing="8"/>
+                <VerticalStackLayout x:Name="SkillsContainer" Spacing="6"/>
             </ScrollView>
             
             <Button Grid.Row="5"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>

@@ -9,41 +9,44 @@
             Stroke="#e94560"
             StrokeThickness="2"
             StrokeShape="RoundRectangle 10"
-            Padding="20"
-            WidthRequest="700"
-            HeightRequest="600">
+            Padding="15"
+            MaximumWidthRequest="600"
+            MaximumHeightRequest="650"
+            WidthRequest="380"
+            HeightRequest="550"
+            Margin="10">
         
         <Grid RowDefinitions="Auto,Auto,*,Auto">
             <Label Grid.Row="0"
                    Text="Travel"
-                   FontSize="28"
+                   FontSize="22"
                    FontAttributes="Bold"
                    TextColor="#e94560"
                    HorizontalOptions="Center"
-                   Margin="0,0,0,20"/>
+                   Margin="0,0,0,15"/>
 
             <Border Grid.Row="1"
                     BackgroundColor="#16213e"
                     Stroke="#0f3460"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 5"
-                    Padding="15"
-                    Margin="0,0,0,20">
+                    Padding="12"
+                    Margin="0,0,0,15">
                 <StackLayout>
                     <Label Text="Current Location:"
-                           FontSize="14"
+                           FontSize="12"
                            TextColor="#a0a0a0"
-                           Margin="0,0,0,5"/>
+                           Margin="0,0,0,4"/>
                     <Label x:Name="CurrentLocationLabel"
                            Text="Arn, Town in Eldoria"
-                           FontSize="18"
+                           FontSize="16"
                            FontAttributes="Bold"
                            TextColor="#e94560"/>
                     <Label x:Name="APLabel"
                            Text="Action Points: 5/12"
-                           FontSize="14"
+                           FontSize="12"
                            TextColor="#0f3460"
-                           Margin="0,5,0,0"/>
+                           Margin="0,4,0,0"/>
                 </StackLayout>
             </Border>
 
@@ -56,24 +59,26 @@
                                     Stroke="#0f3460"
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 5"
-                                    Padding="15"
-                                    Margin="0,0,0,10">
+                                    Padding="12"
+                                    Margin="0,0,0,8">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnDestinationTapped"/>
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="*,Auto">
                                     <StackLayout Grid.Column="0">
                                         <Label Text="{Binding Name}"
-                                               FontSize="18"
+                                               FontSize="15"
                                                FontAttributes="Bold"
                                                TextColor="#e94560"/>
                                         <Label Text="{Binding Description}"
-                                               FontSize="14"
+                                               FontSize="12"
                                                TextColor="#a0a0a0"
-                                               Margin="0,5,0,0"/>
-                                        <Label FontSize="12"
+                                               Margin="0,4,0,0"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2"/>
+                                        <Label FontSize="11"
                                                TextColor="#0f3460"
-                                               Margin="0,5,0,0">
+                                               Margin="0,4,0,0">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Type: "/>
@@ -87,11 +92,12 @@
                                             BackgroundColor="#0f3460"
                                             Stroke="#e94560"
                                             StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 20"
-                                            Padding="15,10"
-                                            VerticalOptions="Center">
+                                            StrokeShape="RoundRectangle 15"
+                                            Padding="12,8"
+                                            VerticalOptions="Center"
+                                            Margin="8,0,0,0">
                                         <Label TextColor="White"
-                                               FontSize="16"
+                                               FontSize="14"
                                                FontAttributes="Bold">
                                             <Label.FormattedText>
                                                 <FormattedString>
@@ -110,26 +116,27 @@
 
             <Grid Grid.Row="3" 
                   ColumnDefinitions="*,*"
-                  Margin="0,20,0,0">
+                  ColumnSpacing="8"
+                  Margin="0,15,0,0">
                 <Button Grid.Column="0"
                         Text="Close"
                         BackgroundColor="#e94560"
                         TextColor="White"
-                        FontSize="16"
+                        FontSize="14"
                         FontAttributes="Bold"
                         CornerRadius="5"
-                        Clicked="OnCloseClicked"
-                        Margin="0,0,5,0"/>
+                        Padding="0,10"
+                        Clicked="OnCloseClicked"/>
                 
                 <Button Grid.Column="1"
                         Text="Refresh"
                         BackgroundColor="#0f3460"
                         TextColor="White"
-                        FontSize="16"
+                        FontSize="14"
                         FontAttributes="Bold"
                         CornerRadius="5"
-                        Clicked="OnRefreshClicked"
-                        Margin="5,0,0,0"/>
+                        Padding="0,10"
+                        Clicked="OnRefreshClicked"/>
             </Grid>
         </Grid>
     </Border>

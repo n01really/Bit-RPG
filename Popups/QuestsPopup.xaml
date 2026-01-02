@@ -2,16 +2,20 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.QuestsPopup"
-               Size="450,700">
+               x:Class="Bit_RPG.QuestsPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="15"
+            MaximumWidthRequest="500"
+            MaximumHeightRequest="700"
+            WidthRequest="380"
+            HeightRequest="600"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
             <Label Grid.Row="0"
                    Text="Quests"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
@@ -20,12 +24,12 @@
                      Color="Gray"/>
             
             <ScrollView Grid.Row="2">
-                <VerticalStackLayout Spacing="20">
+                <VerticalStackLayout Spacing="15">
                     
                     <!-- Available Quests Section -->
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="8">
                         <Label Text="Available Quests"
-                               FontSize="20"
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light=DarkBlue, Dark=LightBlue}"/>
                         
@@ -34,38 +38,41 @@
                                 <Label Text="No available quests."
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       Margin="0,10,0,0"
+                                       Margin="0,8,0,0"
                                        TextColor="Gray"
-                                       FontSize="14"/>
+                                       FontSize="12"/>
                             </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Stroke="Gray"
                                             StrokeThickness="1"
-                                            Padding="10"
-                                            Margin="0,5">
-                                        <VerticalStackLayout Spacing="5">
-                                            <HorizontalStackLayout Spacing="10">
+                                            Padding="8"
+                                            Margin="0,4">
+                                        <VerticalStackLayout Spacing="4">
+                                            <HorizontalStackLayout Spacing="8">
                                                 <Label Text="{Binding Name}"
-                                                       FontSize="18"
+                                                       FontSize="14"
                                                        FontAttributes="Bold"/>
                                                 <Label Text="{Binding RequiredRank, StringFormat='[Rank {0}]'}"
-                                                       FontSize="14"
+                                                       FontSize="11"
                                                        FontAttributes="Bold"
                                                        TextColor="Orange"
                                                        VerticalOptions="Center"/>
                                             </HorizontalStackLayout>
                                             <Label Text="{Binding Description}"
-                                                   FontSize="14"/>
+                                                   FontSize="11"
+                                                   LineBreakMode="WordWrap"/>
                                             <Label Text="{Binding Reward, StringFormat='Reward: {0}'}"
-                                                   FontSize="12"
+                                                   FontSize="11"
                                                    TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"/>
                                             <Button Text="Accept Quest"
                                                     Clicked="OnAcceptQuestClicked"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="{AppThemeBinding Light=Green, Dark=DarkGreen}"
                                                     TextColor="White"
-                                                    Margin="0,5,0,0"/>
+                                                    Padding="12,6"
+                                                    FontSize="11"
+                                                    Margin="0,4,0,0"/>
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -73,14 +80,14 @@
                         </CollectionView>
                     </VerticalStackLayout>
 
-                    <BoxView HeightRequest="2"
+                    <BoxView HeightRequest="1"
                              Color="Gray"
-                             Margin="0,10"/>
+                             Margin="0,8"/>
 
                     <!-- Accepted Quests Section -->
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="8">
                         <Label Text="Accepted Quests"
-                               FontSize="20"
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"/>
                         
@@ -89,39 +96,42 @@
                                 <Label Text="No accepted quests."
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       Margin="0,10,0,0"
+                                       Margin="0,8,0,0"
                                        TextColor="Gray"
-                                       FontSize="14"/>
+                                       FontSize="12"/>
                             </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Stroke="{AppThemeBinding Light=Green, Dark=LightGreen}"
                                             StrokeThickness="2"
-                                            Padding="10"
-                                            Margin="0,5"
+                                            Padding="8"
+                                            Margin="0,4"
                                             Background="{AppThemeBinding Light=#F0FFF0, Dark=#1A3A1A}">
-                                        <VerticalStackLayout Spacing="5">
-                                            <HorizontalStackLayout Spacing="10">
+                                        <VerticalStackLayout Spacing="4">
+                                            <HorizontalStackLayout Spacing="8">
                                                 <Label Text="{Binding Name}"
-                                                       FontSize="18"
+                                                       FontSize="14"
                                                        FontAttributes="Bold"/>
                                                 <Label Text="{Binding RequiredRank, StringFormat='[Rank {0}]'}"
-                                                       FontSize="14"
+                                                       FontSize="11"
                                                        FontAttributes="Bold"
                                                        TextColor="Orange"
                                                        VerticalOptions="Center"/>
                                             </HorizontalStackLayout>
                                             <Label Text="{Binding Description}"
-                                                   FontSize="14"/>
+                                                   FontSize="11"
+                                                   LineBreakMode="WordWrap"/>
                                             <Label Text="{Binding Reward, StringFormat='Reward: {0}'}"
-                                                   FontSize="12"
+                                                   FontSize="11"
                                                    TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"/>
                                             <Button Text="Cancel Quest"
                                                     Clicked="OnCancelQuestClicked"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="{AppThemeBinding Light=DarkRed, Dark=#8B0000}"
                                                     TextColor="White"
-                                                    Margin="0,5,0,0"/>
+                                                    Padding="12,6"
+                                                    FontSize="11"
+                                                    Margin="0,4,0,0"/>
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>
@@ -136,7 +146,8 @@
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>

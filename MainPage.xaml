@@ -5,16 +5,16 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
+            Padding="20"
+            Spacing="20"
             VerticalOptions="Center">
             
             <Label
                 Text="Bit RPG"
-                FontSize="32"
+                FontSize="28"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Margin="0,0,0,40" />
+                Margin="0,20,0,30" />
             
             <Button
                 x:Name="StartGameBtn"
@@ -22,6 +22,8 @@
                 SemanticProperties.Hint="Start a new game"
                 Clicked="OnStartGameClicked"
                 HorizontalOptions="Center"
+                Padding="40,12"
+                FontSize="16"
                 WidthRequest="200" />
             
             <Button
@@ -30,6 +32,8 @@
                 SemanticProperties.Hint="Load a saved game"
                 Clicked="OnLoadGameClicked"
                 HorizontalOptions="Center"
+                Padding="40,12"
+                FontSize="16"
                 WidthRequest="200" />
 
         </VerticalStackLayout>
