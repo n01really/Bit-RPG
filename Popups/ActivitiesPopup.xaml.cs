@@ -49,8 +49,8 @@ public partial class ActivitiesPopup : Popup
                 break;
 
             case LocationType.Town:
-                // Towns have Market, Crafters, and Travel
-                GuildHallSection.IsVisible = false;
+                // Towns have Market, Guild Hall, Crafters, and Travel (no Apothecary)
+                GuildHallSection.IsVisible = true;
                 CraftersSection.IsVisible = true;
                 ApothecarySection.IsVisible = false;
                 break;
