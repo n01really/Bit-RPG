@@ -1,4 +1,5 @@
 using Bit_RPG.Char;
+using Bit_RPG.Popups;
 using CommunityToolkit.Maui.Views;
 
 namespace Bit_RPG;
@@ -72,19 +73,9 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnTravelClicked(object sender, EventArgs e)
     {
-        if (!_player.TrySpendActionPoints(1))
-        {
-            await Application.Current.MainPage.DisplayAlert(
-                "Insufficient Action Points", 
-                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to travel.",
-                "OK");
-            return;
-        }
-
-        await Application.Current.MainPage.DisplayAlert(
-            "Travel", 
-            "The travel feature is coming soon!", 
-            "OK");
+        Close();
+        var travelPopup = new TravelPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(travelPopup);
     }
 
     private async void OnApothecaryClicked(object sender, EventArgs e)

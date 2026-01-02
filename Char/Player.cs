@@ -10,6 +10,7 @@ using Bit_RPG.Events;
 using Bit_RPG.Jobs;
 using Bit_RPG.Models;
 using Bit_RPG.World;
+using PlayerLocation = Bit_RPG.Models.Location;
 
 namespace Bit_RPG.Char
 {
@@ -226,7 +227,7 @@ namespace Bit_RPG.Char
         }
         
         public int MDefense { get; set; }
-        public Location CurrentLocation { get; set; }
+        public PlayerLocation CurrentLocation { get; set; }
         public List<QuestModel> ActiveQuests { get; set; } = new List<QuestModel>();
         public List<ItemModel> Inventory { get; set; } = new List<ItemModel>();
         public Inventory InventoryManager { get; private set; }
@@ -234,6 +235,7 @@ namespace Bit_RPG.Char
         public Player()
         {
             InventoryManager = new Inventory(this);
+            CurrentLocation = TravelSystem.GetStartingLocation();
         }
 
         // Constants
