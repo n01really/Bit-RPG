@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bit_RPG.Items;
 
-namespace Bit_RPG.Itmes
+namespace Bit_RPG.Items
 {
-    internal class Items
+    internal class MarketInventory
     {
     }
 }
