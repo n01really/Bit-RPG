@@ -3,32 +3,91 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="Bit_RPG.InventoryPopup"
-               Size="400,600">
+               Size="600,700">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
             <Label Grid.Row="0"
                    Text="Inventory"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
-            
-            <BoxView Grid.Row="1"
+
+            <HorizontalStackLayout Grid.Row="1" 
+                                   HorizontalOptions="Center"
+                                   Spacing="20">
+                <Label Text="Attack:" FontSize="14"/>
+                <Label Text="{Binding Attack}" FontSize="14" TextColor="Red"/>
+                <Label Text="Defense:" FontSize="14" Margin="20,0,0,0"/>
+                <Label Text="{Binding Defense}" FontSize="14" TextColor="Blue"/>
+            </HorizontalStackLayout>
+
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Grid.Column="0" Stroke="Gray" StrokeThickness="1" Padding="10">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Equipped Weapon:" FontSize="12" FontAttributes="Bold"/>
+                        <Label x:Name="EquippedWeaponLabel" Text="None" FontSize="12" TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Stroke="Gray" StrokeThickness="1" Padding="10">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Equipped Armor:" FontSize="12" FontAttributes="Bold"/>
+                        <Label x:Name="EquippedArmorLabel" Text="None" FontSize="12" TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <BoxView Grid.Row="3"
                      HeightRequest="1"
                      Color="Gray"/>
             
-            <ScrollView Grid.Row="2">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="No items in inventory yet."
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Margin="0,50,0,0"/>
-                </VerticalStackLayout>
+            <ScrollView Grid.Row="4">
+                <CollectionView x:Name="InventoryCollection"
+                              SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="No items in inventory yet."
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="0,50,0,0"/>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="Gray"
+                                  StrokeThickness="1"
+                                  Padding="10"
+                                  Margin="0,5">
+                                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="5">
+                                    <Label Grid.Row="0"
+                                         Text="{Binding Name}"
+                                         FontSize="16"
+                                         FontAttributes="Bold"/>
+                                    <Label Grid.Row="1"
+                                         Text="{Binding ItemDetails}"
+                                         FontSize="12"
+                                         TextColor="Gray"/>
+                                    <HorizontalStackLayout Grid.Row="2" Spacing="10">
+                                        <Button Text="{Binding ActionButtonText}"
+                                              Clicked="OnItemActionClicked"
+                                              CommandParameter="{Binding .}"
+                                              BackgroundColor="{Binding ActionButtonColor}"
+                                              TextColor="White"
+                                              IsVisible="{Binding ShowActionButton}"/>
+                                        <Label Text="{Binding StatusText}"
+                                             FontSize="12"
+                                             TextColor="Green"
+                                             VerticalOptions="Center"
+                                             IsVisible="{Binding ShowStatus}"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </ScrollView>
             
-            <Button Grid.Row="3"
+            <Button Grid.Row="5"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"

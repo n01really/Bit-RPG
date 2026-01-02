@@ -24,10 +24,9 @@ public partial class ActivitiesPopup : Popup
             return;
         }
 
-        await Application.Current.MainPage.DisplayAlert(
-            "Market", 
-            "The market feature is coming soon!", 
-            "OK");
+        Close();
+        var marketPopup = new Popups.MarketPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(marketPopup);
     }
 
     private async void OnGuildHallClicked(object sender, EventArgs e)
@@ -55,20 +54,20 @@ public partial class ActivitiesPopup : Popup
         await Application.Current.MainPage.ShowPopupAsync(guildHallPopup);
     }
 
-    private async void OnSmithyClicked(object sender, EventArgs e)
+    private async void OnCraftersClicked(object sender, EventArgs e)
     {
         if (!_player.TrySpendActionPoints(1))
         {
             await Application.Current.MainPage.DisplayAlert(
                 "Insufficient Action Points", 
-                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the smithy.",
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the crafters.",
                 "OK");
             return;
         }
 
         Close();
-        var smithyPopup = new SmithyPopup(_player);
-        await Application.Current.MainPage.ShowPopupAsync(smithyPopup);
+        var craftersPopup = new CraftersPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(craftersPopup);
     }
 
     private async void OnTravelClicked(object sender, EventArgs e)

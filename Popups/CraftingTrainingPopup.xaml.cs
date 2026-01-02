@@ -4,12 +4,12 @@ using System.Reflection;
 
 namespace Bit_RPG;
 
-public partial class TrainingPopup : Popup
+public partial class CraftingTrainingPopup : Popup
 {
     private Player _player;
-    private const int TRAINING_COST_BASE = 20;
+    private const int TRAINING_COST_BASE = 25;
 
-    public TrainingPopup(Player player)
+    public CraftingTrainingPopup(Player player)
     {
         InitializeComponent();
         _player = player;
@@ -20,11 +20,16 @@ public partial class TrainingPopup : Popup
     {
         PlayerGoldLabel.Text = $"Your Gold: {_player.Money}";
 
-        var relevantSkills = GetRelevantSkills();
+        var craftingSkills = new List<SkillInfo>
+        {
+            new SkillInfo { Name = "Smithing", PropertyName = nameof(_player.Skills.Smithing), CurrentValue = _player.Skills.Smithing, Description = "Craft weapons and armor" },
+            new SkillInfo { Name = "Alchemy", PropertyName = nameof(_player.Skills.Alchemy), CurrentValue = _player.Skills.Alchemy, Description = "Brew potions and elixirs" },
+            new SkillInfo { Name = "Enchanting", PropertyName = nameof(_player.Skills.Enchanting), CurrentValue = _player.Skills.Enchanting, Description = "Enchant items with magic" }
+        };
 
         SkillsContainer.Children.Clear();
 
-        foreach (var skillInfo in relevantSkills)
+        foreach (var skillInfo in craftingSkills)
         {
             int trainingCost = CalculateTrainingCost(skillInfo.CurrentValue);
 
@@ -55,6 +60,12 @@ public partial class TrainingPopup : Popup
                 Text = skillInfo.Name, 
                 FontSize = 14, 
                 FontAttributes = FontAttributes.Bold 
+            });
+            skillInfoLayout.Children.Add(new Label 
+            { 
+                Text = skillInfo.Description, 
+                FontSize = 11, 
+                TextColor = Colors.Gray 
             });
             skillInfoLayout.Children.Add(new Label 
             { 
@@ -92,48 +103,8 @@ public partial class TrainingPopup : Popup
 
     private int CalculateTrainingCost(int currentLevel)
     {
-        // Cost increases with skill level: base cost + (level * 2)
-        return TRAINING_COST_BASE + (currentLevel * 2);
-    }
-
-    private List<SkillInfo> GetRelevantSkills()
-    {
-        // Exclude Smithing, Alchemy, and Enchanting - they're trained at the Crafters
-        var allSkills = new List<SkillInfo>
-        {
-            new SkillInfo { Name = "Stealth", PropertyName = nameof(_player.Skills.Stealth), CurrentValue = _player.Skills.Stealth },
-            new SkillInfo { Name = "Marksmanship", PropertyName = nameof(_player.Skills.Marksmanship), CurrentValue = _player.Skills.Marksmanship },
-            new SkillInfo { Name = "Slight of Hand", PropertyName = nameof(_player.Skills.SlightofHand), CurrentValue = _player.Skills.SlightofHand },
-            new SkillInfo { Name = "Lockpicking", PropertyName = nameof(_player.Skills.Lockpicking), CurrentValue = _player.Skills.Lockpicking },
-            new SkillInfo { Name = "Conjuration", PropertyName = nameof(_player.Skills.Conjuration), CurrentValue = _player.Skills.Conjuration },
-            new SkillInfo { Name = "Destruction", PropertyName = nameof(_player.Skills.Destruction), CurrentValue = _player.Skills.Destruction },
-            new SkillInfo { Name = "Illusion", PropertyName = nameof(_player.Skills.Illusion), CurrentValue = _player.Skills.Illusion },
-            new SkillInfo { Name = "Restoration", PropertyName = nameof(_player.Skills.Restoration), CurrentValue = _player.Skills.Restoration },
-            new SkillInfo { Name = "First Aid", PropertyName = nameof(_player.Skills.FirstAid), CurrentValue = _player.Skills.FirstAid },
-            new SkillInfo { Name = "Swordsmanship", PropertyName = nameof(_player.Skills.Swordsmanship), CurrentValue = _player.Skills.Swordsmanship },
-            new SkillInfo { Name = "Long Weapons", PropertyName = nameof(_player.Skills.LongWeapons), CurrentValue = _player.Skills.LongWeapons },
-            new SkillInfo { Name = "Heavy Weapons", PropertyName = nameof(_player.Skills.HeavyWeapons), CurrentValue = _player.Skills.HeavyWeapons },
-            new SkillInfo { Name = "Heavy Armor", PropertyName = nameof(_player.Skills.HeavyArmor), CurrentValue = _player.Skills.HeavyArmor },
-            new SkillInfo { Name = "Medium Armor", PropertyName = nameof(_player.Skills.MediumArmor), CurrentValue = _player.Skills.MediumArmor },
-            new SkillInfo { Name = "Light Armor", PropertyName = nameof(_player.Skills.LightArmor), CurrentValue = _player.Skills.LightArmor }
-        };
-
-        if (_player.Jobb == null)
-            return allSkills;
-
-        var relevantSkillNames = _player.Jobb.Name switch
-        {
-            "Adventurers Guild" => new[] { "Swordsmanship", "Long Weapons", "Heavy Weapons", "Marksmanship", 
-                                          "Heavy Armor", "Medium Armor", "Light Armor", "First Aid", "Lockpicking" },
-            "Blacksmiths Guild" => new[] { "Heavy Weapons", "Long Weapons", "Swordsmanship", 
-                                          "Heavy Armor", "Medium Armor" },
-            "Mages Guild" => new[] { "Conjuration", "Destruction", "Illusion", "Restoration" },
-            "Thieves Guild" => new[] { "Stealth", "Slight of Hand", "Lockpicking", "Marksmanship", 
-                                      "Light Armor", "Illusion" },
-            _ => Array.Empty<string>()
-        };
-
-        return allSkills.Where(s => relevantSkillNames.Contains(s.Name)).ToList();
+        // Crafting skills cost more: base cost + (level * 3)
+        return TRAINING_COST_BASE + (currentLevel * 3);
     }
 
     private async void TrainSkill(SkillInfo skillInfo, int cost)
@@ -176,5 +147,6 @@ public partial class TrainingPopup : Popup
         public string Name { get; set; }
         public string PropertyName { get; set; }
         public int CurrentValue { get; set; }
+        public string Description { get; set; }
     }
 }
