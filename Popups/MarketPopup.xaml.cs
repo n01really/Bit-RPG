@@ -20,8 +20,29 @@ public partial class MarketPopup : Popup
         this.player = player;
         BindingContext = player;
 
+        // Set location label
+        if (player.CurrentLocation != null)
+        {
+            LocationLabel.Text = $"{player.CurrentLocation.Name} Market";
+        }
+        else
+        {
+            LocationLabel.Text = "Local Market";
+        }
+
         marketInventory = new MarketInventory();
-        marketInventory.PopulateMarketInventory();
+        
+        // Use location-specific inventory if player has a location
+        if (player.CurrentLocation != null)
+        {
+            marketInventory.PopulateMarketInventoryForLocation(
+                player.CurrentLocation.Name, 
+                player.CurrentLocation.Type);
+        }
+        else
+        {
+            marketInventory.PopulateMarketInventory();
+        }
 
         marketItems = new ObservableCollection<MarketItemViewModel>();
         playerItems = new ObservableCollection<MarketItemViewModel>();

@@ -8,14 +8,22 @@
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="15">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
             <Label Grid.Row="0"
                    Text="Market"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
 
-            <HorizontalStackLayout Grid.Row="1" 
+            <Label Grid.Row="1"
+                   x:Name="LocationLabel"
+                   Text=""
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   Margin="0,-10,0,0"/>
+
+            <HorizontalStackLayout Grid.Row="2" 
                                    HorizontalOptions="Center"
                                    Spacing="20">
                 <Label Text="Your Gold:" 
@@ -26,11 +34,11 @@
                        TextColor="Gold"/>
             </HorizontalStackLayout>
 
-            <BoxView Grid.Row="2"
+            <BoxView Grid.Row="3"
                      HeightRequest="1"
                      Color="Gray"/>
 
-            <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="10">
                 <!-- Market Items (Buy) -->
                 <Border Grid.Column="0"
                         Stroke="Gray"
@@ -148,7 +156,7 @@
                 </Border>
             </Grid>
 
-            <Button Grid.Row="4"
+            <Button Grid.Row="5"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
