@@ -66,7 +66,7 @@ public partial class ActivitiesPopup : Popup
         }
 
         Close();
-        var craftersPopup = new CraftersPopup(_player);
+        var craftersPopup = new SmithyPopup(_player);
         await Application.Current.MainPage.ShowPopupAsync(craftersPopup);
     }
 
@@ -85,6 +85,31 @@ public partial class ActivitiesPopup : Popup
             "Travel", 
             "The travel feature is coming soon!", 
             "OK");
+    }
+
+    private async void OnApothecaryClicked(object sender, EventArgs e)
+    {
+        if (!_player.TrySpendActionPoints(1))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to visit the apothecary.",
+                "OK");
+            return;
+        }
+
+        if (_player.Skills.Alchemy < 10)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Skill Too Low",
+                "You need Alchemy level 10 to brew potions. Train your Alchemy skill at the Crafters Guild first!",
+                "OK");
+            return;
+        }
+
+        Close();
+        var craftingPopup = new Popups.CraftingPopup(_player, "Alchemy");
+        await Application.Current.MainPage.ShowPopupAsync(craftingPopup);
     }
 
     private void OnCloseClicked(object sender, EventArgs e)

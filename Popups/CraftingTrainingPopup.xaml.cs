@@ -103,7 +103,6 @@ public partial class CraftingTrainingPopup : Popup
 
     private int CalculateTrainingCost(int currentLevel)
     {
-        // Crafting skills cost more: base cost + (level * 3)
         return TRAINING_COST_BASE + (currentLevel * 3);
     }
 
@@ -123,7 +122,7 @@ public partial class CraftingTrainingPopup : Popup
             return;
         }
 
-        var property = typeof(Skills).GetProperty(skillInfo.PropertyName);
+        var property = typeof(Char.Skills).GetProperty(skillInfo.PropertyName);
         if (property != null)
         {
             int currentValue = (int)property.GetValue(_player.Skills);
@@ -144,9 +143,9 @@ public partial class CraftingTrainingPopup : Popup
 
     private class SkillInfo
     {
-        public string Name { get; set; }
-        public string PropertyName { get; set; }
+        public string Name { get; set; } = "";
+        public string PropertyName { get; set; } = "";
         public int CurrentValue { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
     }
 }

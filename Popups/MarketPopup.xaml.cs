@@ -126,6 +126,7 @@ public class MarketItemViewModel : INotifyPropertyChanged
                 ArmorModel armor => $"Armor ({armor.Type}) | Defense: {armor.Defense} | Weight: {armor.Weight:F1}",
                 IngredientModel ingredient => $"Ingredient | {ingredient.Effect} | Weight: {ingredient.Weight:F1}",
                 CraftingItemModel craft => $"Crafting Material | Weight: {craft.Weight:F1}",
+                PotionModel potion => $"Potion | {potion.Effect} | Weight: {potion.Weight:F1}",
                 MiscItemModel misc => $"Misc | {misc.Description}",
                 _ => $"Weight: {Item.Weight:F1}"
             };

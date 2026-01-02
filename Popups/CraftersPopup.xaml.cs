@@ -82,26 +82,18 @@ public partial class CraftersPopup : Popup
 
     private async void OnCraftingClicked(object sender, EventArgs e)
     {
-        string craftingOptions = "Crafting Options:\n\n";
-        
-        if (_player.Skills.Smithing >= 10)
-            craftingOptions += "• Iron Dagger (Smithing 10) - Cost: 20 gold\n";
-        if (_player.Skills.Smithing >= 25)
-            craftingOptions += "• Iron Sword (Smithing 25) - Cost: 30 gold\n";
-        if (_player.Skills.Smithing >= 40)
-            craftingOptions += "• Steel Sword (Smithing 40) - Cost: 60 gold\n";
-        if (_player.Skills.Smithing >= 30)
-            craftingOptions += "• Iron Armor (Smithing 30) - Cost: 50 gold\n";
-        if (_player.Skills.Smithing >= 50)
-            craftingOptions += "• Steel Armor (Smithing 50) - Cost: 100 gold\n";
+        if (_player.Skills.Smithing < 10)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Skill Too Low",
+                "You need Smithing level 10 to start crafting. Train your Smithing skill first!",
+                "OK");
+            return;
+        }
 
-        if (craftingOptions == "Crafting Options:\n\n")
-            craftingOptions += "Your smithing skill is too low. Train more to unlock crafting recipes!";
-
-        await Application.Current.MainPage.DisplayAlert(
-            "Crafting",
-            craftingOptions + "\n(Full crafting system coming in a future update)",
-            "OK");
+        Close();
+        var craftingPopup = new Popups.CraftingPopup(_player, "Smithing");
+        await Application.Current.MainPage.ShowPopupAsync(craftingPopup);
     }
 
     private async void OnTrainCraftingSkillsClicked(object sender, EventArgs e)

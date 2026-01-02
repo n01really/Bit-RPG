@@ -113,6 +113,7 @@ public class InventoryItemViewModel : INotifyPropertyChanged
                 ArmorModel armor => $"Armor ({armor.Type}) | Defense: {armor.Defense} | Weight: {armor.Weight:F1}",
                 IngredientModel ingredient => $"Ingredient | {ingredient.Effect}",
                 CraftingItemModel craft => $"Crafting Material | Used in smithy",
+                PotionModel potion => $"Potion | {potion.Effect}",
                 MiscItemModel misc => $"Misc | {misc.Description}",
                 _ => $"Weight: {Item.Weight:F1}"
             };
