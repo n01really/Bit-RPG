@@ -9,6 +9,12 @@ namespace Bit_RPG.Items
 {
     internal class Items
     {
+        private static List<WeaponModel> weaponsList = new List<WeaponModel>();
+        private static List<ArmorModel> armorsList = new List<ArmorModel>();
+        private static List<IngredientModel> ingredientsList = new List<IngredientModel>();
+        private static List<CraftingItemModel> craftingItemsList = new List<CraftingItemModel>();
+        private static List<MiscItemModel> miscItemsList = new List<MiscItemModel>();
+
         //The first number in the id represents the Row of the Category in the Array the second number represents the position in the Row.
         public static void Weapons() 
         { 
@@ -22,6 +28,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.2f,
                 Type = WeaponModel.WeaponType.Blade
             };
+            weaponsList.Add(Blade1);
+
             WeaponModel blade2 = new WeaponModel
             {
                 Id = 12,
@@ -32,6 +40,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.8f,
                 Type = WeaponModel.WeaponType.Blade
             };
+            weaponsList.Add(blade2);
+
             WeaponModel blade3 = new WeaponModel
             {
                 Id = 13,
@@ -42,6 +52,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.6f,
                 Type = WeaponModel.WeaponType.Blade
             };
+            weaponsList.Add(blade3);
+
             WeaponModel blade4 = new WeaponModel
             {
                 Id = 14,
@@ -52,6 +64,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.4f,
                 Type = WeaponModel.WeaponType.Blade| WeaponModel.WeaponType.LongWeapon
             };
+            weaponsList.Add(blade4);
+
             WeaponModel Ranged1 = new WeaponModel
             {
                 Id = 15,
@@ -62,6 +76,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.5f,
                 Type = WeaponModel.WeaponType.RangedWeapon
             };
+            weaponsList.Add(Ranged1);
+
             WeaponModel Ranged2 = new WeaponModel
             {
                 Id = 16,
@@ -72,6 +88,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.3f,
                 Type = WeaponModel.WeaponType.RangedWeapon
             };
+            weaponsList.Add(Ranged2);
+
             WeaponModel Ranged3 = new WeaponModel
             {
                 Id = 17,
@@ -82,6 +100,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.1f,
                 Type = WeaponModel.WeaponType.RangedWeapon
             };
+            weaponsList.Add(Ranged3);
+
             WeaponModel Ranged4 = new WeaponModel
             {
                 Id = 18,
@@ -92,6 +112,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.9f,
                 Type = WeaponModel.WeaponType.RangedWeapon| WeaponModel.WeaponType.HeavyWeapon
             };
+            weaponsList.Add(Ranged4);
+
             WeaponModel Long1 = new WeaponModel
             {
                 Id = 19,
@@ -102,6 +124,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 1.0f,
                 Type = WeaponModel.WeaponType.LongWeapon
             };
+            weaponsList.Add(Long1);
+
             WeaponModel Long2 = new WeaponModel
             {
                 Id = 110,
@@ -112,6 +136,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.8f,
                 Type = WeaponModel.WeaponType.LongWeapon
             };
+            weaponsList.Add(Long2);
+
             WeaponModel Long3 = new WeaponModel
             {
                 Id = 111,
@@ -122,6 +148,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.7f,
                 Type = WeaponModel.WeaponType.LongWeapon
             };
+            weaponsList.Add(Long3);
+
             WeaponModel Long4 = new WeaponModel
             {
                 Id = 112,
@@ -132,6 +160,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.6f,
                 Type = WeaponModel.WeaponType.LongWeapon| WeaponModel.WeaponType.HeavyWeapon
             };
+            weaponsList.Add(Long4);
+
             WeaponModel Heavy1 = new WeaponModel
             {
                 Id = 113,
@@ -142,6 +172,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.9f,
                 Type = WeaponModel.WeaponType.HeavyWeapon
             };
+            weaponsList.Add(Heavy1);
+
             WeaponModel Heavy2 = new WeaponModel
             {
                 Id = 114,
@@ -152,6 +184,8 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.6f,
                 Type = WeaponModel.WeaponType.HeavyWeapon
             };
+            weaponsList.Add(Heavy2);
+
             WeaponModel Heavy3 = new WeaponModel
             {
                 Id = 115,
@@ -162,7 +196,9 @@ namespace Bit_RPG.Items
                 AttackSpeed = 0.5f,
                 Type = WeaponModel.WeaponType.HeavyWeapon
             };
+            weaponsList.Add(Heavy3);
         }
+
         public static void Armors(ArmorModel Armor)
         {
             ArmorModel Light1 = new ArmorModel
@@ -174,6 +210,8 @@ namespace Bit_RPG.Items
                 Defense = 3,
                 Type = ArmorModel.ArmorType.Light
             };
+            armorsList.Add(Light1);
+
             ArmorModel Light2 = new ArmorModel
             {
                 Id = 22,
@@ -183,6 +221,8 @@ namespace Bit_RPG.Items
                 Defense = 5,
                 Type = ArmorModel.ArmorType.Light
             };
+            armorsList.Add(Light2);
+
             ArmorModel Medium1 = new ArmorModel
             {
                 Id = 23,
@@ -192,6 +232,8 @@ namespace Bit_RPG.Items
                 Defense = 8,
                 Type = ArmorModel.ArmorType.Medium
             };
+            armorsList.Add(Medium1);
+
             ArmorModel Medium2 = new ArmorModel
             {
                 Id = 24,
@@ -201,6 +243,8 @@ namespace Bit_RPG.Items
                 Defense = 10,
                 Type = ArmorModel.ArmorType.Medium
             };
+            armorsList.Add(Medium2);
+
             ArmorModel Heavy1 = new ArmorModel
             {
                 Id = 25,
@@ -210,6 +254,8 @@ namespace Bit_RPG.Items
                 Defense = 15,
                 Type = ArmorModel.ArmorType.Heavy
             };
+            armorsList.Add(Heavy1);
+
             ArmorModel Heavy2 = new ArmorModel
             {
                 Id = 26,
@@ -219,7 +265,9 @@ namespace Bit_RPG.Items
                 Defense = 20,
                 Type = ArmorModel.ArmorType.Heavy
             };
+            armorsList.Add(Heavy2);
         }
+
         public static void Ingredients(IngredientModel Ingredient)
         {
             IngredientModel Herb1 = new IngredientModel
@@ -231,6 +279,8 @@ namespace Bit_RPG.Items
                 Effect = "Restores 10 HP",
                 Duration = 0
             };
+            ingredientsList.Add(Herb1);
+
             IngredientModel Herb2 = new IngredientModel
             {
                 Id = 32,
@@ -240,14 +290,76 @@ namespace Bit_RPG.Items
                 Effect = "Restores 10 MP",
                 Duration = 0
             };
+            ingredientsList.Add(Herb2);
         }
+
         public static void CraftingItems(CraftingItemModel CraftingItem)
         {
 
         }
+
         public static void Miscs(MiscItemModel Misc)
         {
 
+        }
+
+        // Array containing all items
+        // Row 1: Weapons (IDs 11-115)
+        // Row 2: Armors (IDs 21-26)
+        // Row 3: Ingredients (IDs 31-32)
+        // Row 4: CraftingItems (IDs 41-4X)
+        // Row 5: Misc (IDs 51-5X)
+        public static void InitializeAllItems()
+        {
+            weaponsList.Clear();
+            armorsList.Clear();
+            ingredientsList.Clear();
+            craftingItemsList.Clear();
+            miscItemsList.Clear();
+
+            Weapons();
+            Armors(null);
+            Ingredients(null);
+            CraftingItems(null);
+            Miscs(null);
+        }
+
+        public Array GetAllItems()
+        {
+            InitializeAllItems();
+
+            return new ItemModel[] []
+            {
+                weaponsList.ToArray(),
+                armorsList.ToArray(),
+                ingredientsList.ToArray(),
+                craftingItemsList.ToArray(),
+                miscItemsList.ToArray()
+            };
+        }
+
+        public static ItemModel GetItemById(int id)
+        {
+            if (weaponsList.Count == 0)
+                InitializeAllItems();
+
+            int row = id / 10;
+            
+            switch (row)
+            {
+                case 1: // Weapons
+                    return weaponsList.FirstOrDefault(w => w.Id == id);
+                case 2: // Armors
+                    return armorsList.FirstOrDefault(a => a.Id == id);
+                case 3: // Ingredients
+                    return ingredientsList.FirstOrDefault(i => i.Id == id);
+                case 4: // Crafting Items
+                    return craftingItemsList.FirstOrDefault(c => c.Id == id);
+                case 5: // Misc Items
+                    return miscItemsList.FirstOrDefault(m => m.Id == id);
+                default:
+                    return null;
+            }
         }
     }
 }
