@@ -74,6 +74,36 @@
                         </VerticalStackLayout>
                     </Border>
 
+                    <!-- Quest Board Section -->
+                    <Label Text="📋 Quest Board"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,12"/>
+                    
+                    <Border Stroke="LightGray"
+                            StrokeThickness="1"
+                            Padding="16"
+                            Margin="0,0,0,16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Accept new quests from the guild master or complete your active quests."
+                                   FontSize="13"
+                                   TextColor="Gray"
+                                   LineBreakMode="WordWrap"/>
+                            <Button Text="📜 View Available Quests"
+                                    Clicked="OnViewQuestsClicked"
+                                    HeightRequest="44"
+                                    FontSize="14"
+                                    CornerRadius="8"
+                                    BackgroundColor="{AppThemeBinding Light=Green, Dark=DarkGreen}"
+                                    TextColor="White"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
                     <!-- Guild Members Section -->
                     <Label Text="👥 Guild Members"
                            FontSize="16"

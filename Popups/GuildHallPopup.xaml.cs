@@ -2,6 +2,8 @@ using Bit_RPG.Char;
 using Bit_RPG.Char.NPCs;
 using Bit_RPG.Models;
 using CommunityToolkit.Maui.Views;
+using System.Linq;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Bit_RPG;
 
@@ -24,7 +26,7 @@ public partial class GuildHallPopup : Popup
             return;
         }
 
-        TitleLabel.Text = $"{_player.Jobb.Name} Hall";
+        TitleLabel.Text = $"??? {_player.Jobb.Name} Hall";
 
         if (_player.Jobb.GuildMaster != null)
         {
@@ -37,6 +39,11 @@ public partial class GuildHallPopup : Popup
             GuildMasterInfo.Text = "No information available";
         }
 
+        LoadGuildMembers();
+    }
+
+    private void LoadGuildMembers()
+    {
         GuildMembersContainer.Children.Clear();
 
         if (_player.Jobb.GuildMembers != null && _player.Jobb.GuildMembers.Count > 0)
@@ -45,37 +52,39 @@ public partial class GuildHallPopup : Popup
             {
                 var memberBorder = new Border
                 {
-                    Stroke = Colors.Gray,
+                    Stroke = Color.FromArgb("#E0E0E0"),
                     StrokeThickness = 1,
-                    Padding = 10,
+                    Padding = 12,
                     BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark 
                         ? Color.FromArgb("#2A2A2A") 
-                        : Color.FromArgb("#F5F5F5"),
-                    Margin = new Thickness(0, 0, 0, 5)
+                        : Color.FromArgb("#F9F9F9"),
+                    Margin = new Thickness(0, 0, 0, 8),
+                    StrokeShape = new RoundRectangle { CornerRadius = 8 }
                 };
 
-                var memberLayout = new VerticalStackLayout { Spacing = 3 };
+                var memberLayout = new VerticalStackLayout { Spacing = 6 };
                 
                 memberLayout.Children.Add(new Label 
                 { 
                     Text = member.Name, 
-                    FontSize = 13, 
+                    FontSize = 14, 
                     FontAttributes = FontAttributes.Bold 
                 });
                 
                 memberLayout.Children.Add(new Label 
                 { 
-                    Text = $"{member.Gender}, {member.Age} years old", 
-                    FontSize = 11, 
+                    Text = $"{member.Gender}, {member.Age} years old, {member.Race}", 
+                    FontSize = 12, 
                     TextColor = Colors.Gray 
                 });
 
                 var talkButton = new Button
                 {
                     Text = "Talk",
-                    FontSize = 11,
-                    Padding = new Thickness(10, 5),
-                    Margin = new Thickness(0, 3, 0, 0)
+                    FontSize = 13,
+                    HeightRequest = 40,
+                    CornerRadius = 6,
+                    Margin = new Thickness(0, 6, 0, 0)
                 };
                 
                 var currentMember = member;
@@ -88,71 +97,27 @@ public partial class GuildHallPopup : Popup
         }
         else
         {
-            GuildMembersContainer.Children.Add(new Label 
-            { 
-                Text = "No guild members found.", 
-                FontSize = 12, 
-                TextColor = Colors.Gray 
-            });
-        }
-
-        // Add active quest list for this guild (do quests here)
-        var playerQuests = _player.ActiveQuests.Where(q => q.JobName == _player.Jobb.Name).ToList();
-        var activeLabel = new Label { Text = "Active Quests", FontSize = 18, FontAttributes = FontAttributes.Bold };
-        GuildMembersContainer.Children.Add(activeLabel);
-
-        if (playerQuests.Count == 0)
-        {
-            GuildMembersContainer.Children.Add(new Label { Text = "No active quests for this guild.", FontSize = 12, TextColor = Colors.Gray });
-        }
-        else
-        {
-            foreach (var quest in playerQuests)
+            var emptyBorder = new Border
             {
-                var qBorder = new Border
-                {
-                    Stroke = Colors.Gray,
-                    StrokeThickness = 1,
-                    Padding = 10,
-                    Margin = new Thickness(0, 5, 0, 0),
-                    BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#111111") : Colors.White
-                };
-
-                var qLayout = new VerticalStackLayout { Spacing = 5 };
-                qLayout.Children.Add(new Label { Text = quest.Name, FontSize = 16, FontAttributes = FontAttributes.Bold });
-                qLayout.Children.Add(new Label { Text = quest.Description, FontSize = 12 });
-                qLayout.Children.Add(new Label { Text = $"Reward: {quest.Reward}", FontSize = 12, TextColor = Colors.Green });
-                qLayout.Children.Add(new Label { Text = quest.WeeksRemaining > 0 ? $"Time remaining: {quest.WeeksRemaining} weeks" : "No time remaining", FontSize = 12, TextColor = Colors.Orange });
-
-                var doButton = new Button { Text = "Set out to do Quest", HorizontalOptions = LayoutOptions.Fill };
-                doButton.Clicked += async (s, e) =>
-                {
-                    // Spend AP
-                    if (!_player.TrySpendActionPoints(1))
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Insufficient Action Points",
-                            _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to do a quest.",
-                            "OK");
-                        return;
-                    }
-
-                    // Complete quest
-                    var message = Jobs.Quests.CompleteQuest(quest, _player);
-                    quest.IsCompleted = true;
-
-                    // Remove from active quests
-                    _player.ActiveQuests.Remove(quest);
-
-                    await Application.Current.MainPage.DisplayAlert("Quest Completed", message, "OK");
-
-                    // Refresh popup UI
-                    Close();
-                };
-
-                qLayout.Children.Add(doButton);
-                qBorder.Content = qLayout;
-                GuildMembersContainer.Children.Add(qBorder);
-            }
+                Stroke = Color.FromArgb("#E0E0E0"),
+                StrokeThickness = 1,
+                Padding = 20,
+                Margin = new Thickness(0, 0, 0, 8),
+                BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark 
+                    ? Color.FromArgb("#2A2A2A") 
+                    : Color.FromArgb("#F9F9F9"),
+                StrokeShape = new RoundRectangle { CornerRadius = 8 }
+            };
+            
+            emptyBorder.Content = new Label 
+            { 
+                Text = "The guild hall seems quiet today. No other members are around.", 
+                FontSize = 13, 
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Center
+            };
+            
+            GuildMembersContainer.Children.Add(emptyBorder);
         }
     }
 
@@ -177,6 +142,14 @@ public partial class GuildHallPopup : Popup
             "OK");
     }
 
+    private async void OnViewQuestsClicked(object sender, EventArgs e)
+    {
+        // Close this popup and open the Quests popup
+        Close();
+        var questsPopup = new QuestsPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(questsPopup);
+    }
+
     private string GetGuildMasterGreeting()
     {
         var greetings = _player.Jobb.Name switch
@@ -186,28 +159,32 @@ public partial class GuildHallPopup : Popup
                 $"Welcome, {_player.PlayerName}. Ready for your next adventure?",
                 "The path of an adventurer is never easy, but it's always rewarding.",
                 "I've heard good things about your work. Keep it up!",
-                "Remember, teamwork makes the dream work. Don't be afraid to seek help from your fellow adventurers."
+                "Remember, teamwork makes the dream work. Don't be afraid to seek help from your fellow adventurers.",
+                "There are always new quests on the board. Check them out when you have time."
             },
             "Blacksmiths Guild" => new[]
             {
                 $"Ah, {_player.PlayerName}. How goes the forge work?",
                 "The strongest blade is forged through patience and skill.",
                 "Your craftsmanship is improving. I'm impressed.",
-                "Never forget: quality over quantity. A master smith takes their time."
+                "Never forget: quality over quantity. A master smith takes their time.",
+                "We have orders coming in. Check the quest board for commissioned work."
             },
             "Mages Guild" => new[]
             {
                 $"Greetings, {_player.PlayerName}. Your magical studies progress well?",
                 "Magic is both an art and a science. Master both, and you'll go far.",
                 "I sense great potential in you. Continue your studies diligently.",
-                "The arcane arts require discipline and focus. Do not rush your learning."
+                "The arcane arts require discipline and focus. Do not rush your learning.",
+                "There are magical tasks that need attending to. Visit the quest board."
             },
             "Thieves Guild" => new[]
             {
                 $"{_player.PlayerName}, good to see you're still in one piece.",
                 "Remember: a good thief is never seen, never heard.",
                 "You're becoming quite skilled. Just don't get cocky.",
-                "The shadows are your ally. Use them wisely."
+                "The shadows are your ally. Use them wisely.",
+                "I've got some... opportunities... posted on the board. Interested?"
             },
             _ => new[] { "Hello there." }
         };
@@ -225,7 +202,11 @@ public partial class GuildHallPopup : Popup
             "Want to team up sometime?",
             "I've been working hard lately. How about you?",
             "The guild master has been pushing us pretty hard, hasn't he?",
-            "Nice weather we're having, don't you think?"
+            "Nice weather we're having, don't you think?",
+            "Have you checked the quest board? Some interesting work there.",
+            "I just finished a tough quest. The reward was worth it though!",
+            "Training has been intense, but I can feel myself getting stronger.",
+            "This guild is really helping me improve my skills."
         };
 
         var random = new Random();
