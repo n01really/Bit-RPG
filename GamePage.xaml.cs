@@ -105,6 +105,8 @@ public partial class GamePage : ContentPage
         Event = $"The year is {Year} ADE of the Bright Era. it has been 300 years since the death of the darklord." +
             $" You are {Player.PlayerName}, a {Player.Race} you studied to become a {Player.Class}. " +
             $"You have just come of age.At the age of {Player.Age}, you decided to move to a new Town to start a new life. " +
+            $"What will you do now?  Will you become a Legendary Adventurer? a Master craftman, the best Mage in the land or a thief feard by the nobles" +
+            $"\n\n to start earning money and exp join a guild and do quests" +
             $"\n\nYou have arrived at {_currentTown.Name}, {_currentTown.Description} " +
             $"The town is located in {_currentTown.Country} and is governed by {_currentTown.Mayor}. " +
             $"Nearby cities include: {string.Join(", ", _currentTown.NearbyCities)}. " +

@@ -39,6 +39,17 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		
+		<!-- Android-specific settings for better startup performance and debugging -->
+		<AndroidEnableProfiledAot Condition="'$(TargetFramework)' == 'net9.0-android'">false</AndroidEnableProfiledAot>
+		<AndroidUseAapt2 Condition="'$(TargetFramework)' == 'net9.0-android'">true</AndroidUseAapt2>
+		<AndroidLinkMode Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net9.0-android'">None</AndroidLinkMode>
+		<PublishTrimmed Condition="'$(Configuration)' == 'Debug'">false</PublishTrimmed>
+		
+		<!-- Faster deployment for Android -->
+		<AndroidFastDeploymentType Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net9.0-android'">Assemblies:Dexes</AndroidFastDeploymentType>
+		<EmbedAssembliesIntoApk Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net9.0-android'">false</EmbedAssembliesIntoApk>
+		<AndroidCreatePackagePerAbi Condition="'$(TargetFramework)' == 'net9.0-android'">false</AndroidCreatePackagePerAbi>
 	</PropertyGroup>
 
 	<ItemGroup>

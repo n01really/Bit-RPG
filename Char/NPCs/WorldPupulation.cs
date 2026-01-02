@@ -22,6 +22,8 @@ namespace Bit_RPG.Char.NPCs
         private static int _populationCount = 0;
         private const int MAX_POPULATION = 10000;
         private static readonly Random _random = new Random();
+        private static bool _initialized = false;
+        private static readonly object _initLock = new object();
 
         private static readonly string[] _commonJobs = new[]
         {
@@ -117,6 +119,18 @@ namespace Bit_RPG.Char.NPCs
             "Telescope Ridge", "Tail's End", "Star Cluster", "Heaven's Door",
             "Potion Brook", "Test Site", "Change's Edge", "Remedy Well"
         };
+
+        private static void EnsureInitialized()
+        {
+            if (_initialized) return;
+
+            lock (_initLock)
+            {
+                if (_initialized) return;
+                InitializePopulation();
+                _initialized = true;
+            }
+        }
 
         public static void InitializePopulation()
         {
@@ -452,6 +466,7 @@ namespace Bit_RPG.Char.NPCs
 
         public static WorldNPC[] GetPopulation()
         {
+            EnsureInitialized();
             if (_population == null)
             {
                 return Array.Empty<WorldNPC>();
@@ -461,11 +476,13 @@ namespace Bit_RPG.Char.NPCs
 
         public static int GetPopulationCount()
         {
+            EnsureInitialized();
             return _populationCount;
         }
 
         public static WorldNPC[] GetPopulationByLocation(string location)
         {
+            EnsureInitialized();
             if (_population == null)
             {
                 return Array.Empty<WorldNPC>();
@@ -477,6 +494,7 @@ namespace Bit_RPG.Char.NPCs
 
         public static WorldNPC[] GetPopulationByRace(string race)
         {
+            EnsureInitialized();
             if (_population == null)
             {
                 return Array.Empty<WorldNPC>();
@@ -488,6 +506,7 @@ namespace Bit_RPG.Char.NPCs
 
         public static WorldNPC[] GetPopulationByJob(string job)
         {
+            EnsureInitialized();
             if (_population == null)
             {
                 return Array.Empty<WorldNPC>();
@@ -499,6 +518,7 @@ namespace Bit_RPG.Char.NPCs
 
         public static WorldNPC GetRulerOfLocation(string location)
         {
+            EnsureInitialized();
             if (_population == null)
             {
                 return null;

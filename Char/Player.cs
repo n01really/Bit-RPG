@@ -234,8 +234,26 @@ namespace Bit_RPG.Char
 
         public Player()
         {
-            InventoryManager = new Inventory(this);
-            CurrentLocation = TravelSystem.GetStartingLocation();
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("[Player] Initializing Player...");
+                InventoryManager = new Inventory(this);
+                System.Diagnostics.Debug.WriteLine("[Player] Inventory created");
+                
+                CurrentLocation = TravelSystem.GetStartingLocation();
+                System.Diagnostics.Debug.WriteLine($"[Player] Starting location set to: {CurrentLocation?.Name ?? "null"}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Player] ERROR in constructor: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[Player] Stack trace: {ex.StackTrace}");
+                
+                // Set fallback values to prevent null references
+                InventoryManager = new Inventory(this);
+                CurrentLocation = new PlayerLocation("Unknown", LocationType.Town, "Unknown");
+                
+                throw;
+            }
         }
 
         // Constants

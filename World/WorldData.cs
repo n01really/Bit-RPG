@@ -10,10 +10,19 @@ namespace Bit_RPG.World
         private static Dictionary<string, CitiesModel> _cities;
         private static Dictionary<string, TownsModels> _towns;
         private static Dictionary<string, VillageModel> _villages;
+        private static bool _initialized = false;
+        private static readonly object _initLock = new object();
 
-        static WorldData()
+        private static void EnsureInitialized()
         {
-            InitializeData();
+            if (_initialized) return;
+
+            lock (_initLock)
+            {
+                if (_initialized) return;
+                InitializeData();
+                _initialized = true;
+            }
         }
 
         private static void InitializeData()
@@ -97,44 +106,69 @@ namespace Bit_RPG.World
 
         public static CountryModel GetCountry(string name)
         {
+            EnsureInitialized();
             _countries.TryGetValue(name, out var country);
             return country;
         }
 
         public static CitiesModel GetCity(string name)
         {
+            EnsureInitialized();
             _cities.TryGetValue(name, out var city);
             return city;
         }
 
         public static TownsModels GetTown(string name)
         {
+            EnsureInitialized();
             _towns.TryGetValue(name, out var town);
             return town;
         }
 
         public static VillageModel GetVillage(string name)
         {
+            EnsureInitialized();
             _villages.TryGetValue(name, out var village);
             return village;
         }
 
         public static string GetCapitalOfCountry(string countryName)
         {
+            EnsureInitialized();
             var country = GetCountry(countryName);
             return country?.Capital ?? "";
         }
 
         public static List<VillageModel> GetVillagesWithDungeon(string dungeonName)
         {
+            EnsureInitialized();
             return _villages.Values
                 .Where(v => v.NearbyDungeons != null && v.NearbyDungeons.Contains(dungeonName))
                 .ToList();
         }
 
-        public static IEnumerable<CountryModel> GetAllCountries() => _countries.Values;
-        public static IEnumerable<CitiesModel> GetAllCities() => _cities.Values;
-        public static IEnumerable<TownsModels> GetAllTowns() => _towns.Values;
-        public static IEnumerable<VillageModel> GetAllVillages() => _villages.Values;
+        public static IEnumerable<CountryModel> GetAllCountries()
+        {
+            EnsureInitialized();
+            return _countries.Values;
+        }
+
+        public static IEnumerable<CitiesModel> GetAllCities()
+        {
+            EnsureInitialized();
+            return _cities.Values;
+        }
+
+        public static IEnumerable<TownsModels> GetAllTowns()
+        {
+            EnsureInitialized();
+            return _towns.Values;
+        }
+
+        public static IEnumerable<VillageModel> GetAllVillages()
+        {
+            EnsureInitialized();
+            return _villages.Values;
+        }
     }
 }

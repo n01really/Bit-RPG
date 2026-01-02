@@ -15,6 +15,20 @@ namespace Bit_RPG.Items
         private static List<CraftingItemModel> craftingItemsList = new List<CraftingItemModel>();
         private static List<MiscItemModel> miscItemsList = new List<MiscItemModel>();
         private static List<PotionModel> potionsList = new List<PotionModel>();
+        private static bool _initialized = false;
+        private static readonly object _initLock = new object();
+
+        private static void EnsureInitialized()
+        {
+            if (_initialized) return;
+
+            lock (_initLock)
+            {
+                if (_initialized) return;
+                InitializeAllItems();
+                _initialized = true;
+            }
+        }
 
         //The first number in the id represents the Row of the Category in the Array the second number represents the position in the Row.
         public static void Weapons() 
@@ -587,7 +601,7 @@ namespace Bit_RPG.Items
 
         public Array GetAllItems()
         {
-            InitializeAllItems();
+            EnsureInitialized();
 
             return new ItemModel[] []
             {
@@ -602,8 +616,7 @@ namespace Bit_RPG.Items
 
         public static ItemModel GetItemById(int id)
         {
-            if (weaponsList.Count == 0)
-                InitializeAllItems();
+            EnsureInitialized();
 
             int row = id / 10;
             

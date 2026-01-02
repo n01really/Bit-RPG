@@ -35,10 +35,19 @@ namespace Bit_RPG.Crafting
     public static class CraftingRecipes
     {
         private static List<CraftingRecipe> _recipes = new List<CraftingRecipe>();
+        private static bool _initialized = false;
+        private static readonly object _initLock = new object();
 
-        static CraftingRecipes()
+        private static void EnsureInitialized()
         {
-            InitializeRecipes();
+            if (_initialized) return;
+
+            lock (_initLock)
+            {
+                if (_initialized) return;
+                InitializeRecipes();
+                _initialized = true;
+            }
         }
 
         private static void InitializeRecipes()
@@ -383,16 +392,19 @@ namespace Bit_RPG.Crafting
 
         public static List<CraftingRecipe> GetAllRecipes()
         {
+            EnsureInitialized();
             return _recipes;
         }
 
         public static List<CraftingRecipe> GetRecipesByType(RecipeType type)
         {
+            EnsureInitialized();
             return _recipes.Where(r => r.Type == type).ToList();
         }
 
         public static List<CraftingRecipe> GetRecipesBySkill(string skill, int playerSkillLevel)
         {
+            EnsureInitialized();
             return _recipes
                 .Where(r => r.RequiredSkill == skill && r.RequiredSkillLevel <= playerSkillLevel)
                 .OrderBy(r => r.RequiredSkillLevel)
@@ -401,11 +413,13 @@ namespace Bit_RPG.Crafting
 
         public static CraftingRecipe GetRecipeById(int id)
         {
+            EnsureInitialized();
             return _recipes.FirstOrDefault(r => r.Id == id);
         }
 
         public static List<CraftingRecipe> GetAvailableRecipes(string skill, int playerSkillLevel)
         {
+            EnsureInitialized();
             // Returns recipes the player can craft (has required skill level)
             return _recipes
                 .Where(r => r.RequiredSkill == skill && r.RequiredSkillLevel <= playerSkillLevel)
