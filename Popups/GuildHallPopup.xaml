@@ -104,6 +104,14 @@
                         </VerticalStackLayout>
                     </Border>
 
+                    <!-- Active Quests Section -->
+                    <Label Text="✅ Active Quests"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,12"/>
+                    
+                    <VerticalStackLayout x:Name="ActiveQuestsContainer" Spacing="8" Margin="0,0,0,16"/>
+
                     <!-- Guild Members Section -->
                     <Label Text="👥 Guild Members"
                            FontSize="16"

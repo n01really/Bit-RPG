@@ -1,6 +1,7 @@
 using Bit_RPG.Char;
 using Bit_RPG.Char.NPCs;
 using Bit_RPG.Models;
+using Bit_RPG.Jobs;
 using CommunityToolkit.Maui.Views;
 using System.Linq;
 using Microsoft.Maui.Controls.Shapes;
@@ -39,7 +40,105 @@ public partial class GuildHallPopup : Popup
             GuildMasterInfo.Text = "No information available";
         }
 
+        LoadActiveQuests();
         LoadGuildMembers();
+    }
+
+    private void LoadActiveQuests()
+    {
+        ActiveQuestsContainer.Children.Clear();
+
+        if (_player.ActiveQuests != null && _player.ActiveQuests.Count > 0)
+        {
+            foreach (var quest in _player.ActiveQuests)
+            {
+                var questBorder = new Border
+                {
+                    Stroke = Color.FromArgb("#4CAF50"),
+                    StrokeThickness = 2,
+                    Padding = 16,
+                    BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark 
+                        ? Color.FromArgb("#1A3A1A") 
+                        : Color.FromArgb("#F0FFF0"),
+                    Margin = new Thickness(0, 0, 0, 12),
+                    StrokeShape = new RoundRectangle { CornerRadius = 8 }
+                };
+
+                var questLayout = new VerticalStackLayout { Spacing = 8 };
+                
+                questLayout.Children.Add(new Label 
+                { 
+                    Text = $"?? {quest.Name}", 
+                    FontSize = 15, 
+                    FontAttributes = FontAttributes.Bold 
+                });
+                
+                questLayout.Children.Add(new Label 
+                { 
+                    Text = quest.Description, 
+                    FontSize = 13, 
+                    LineBreakMode = LineBreakMode.WordWrap 
+                });
+
+                questLayout.Children.Add(new Label 
+                { 
+                    Text = $"?? Reward: {quest.Reward}", 
+                    FontSize = 13, 
+                    FontAttributes = FontAttributes.Bold,
+                    TextColor = Color.FromArgb("#4CAF50")
+                });
+
+                questLayout.Children.Add(new Label 
+                { 
+                    Text = $"? Time Remaining: {quest.WeeksRemaining} weeks", 
+                    FontSize = 12, 
+                    FontAttributes = FontAttributes.Bold,
+                    TextColor = Colors.Orange
+                });
+
+                var completeButton = new Button
+                {
+                    Text = "? Complete Quest",
+                    FontSize = 14,
+                    HeightRequest = 44,
+                    CornerRadius = 8,
+                    BackgroundColor = Color.FromArgb("#1E90FF"),
+                    TextColor = Colors.White,
+                    Margin = new Thickness(0, 8, 0, 0)
+                };
+                
+                var currentQuest = quest;
+                completeButton.Clicked += async (s, e) => await OnCompleteQuestClicked(currentQuest);
+
+                questLayout.Children.Add(completeButton);
+                questBorder.Content = questLayout;
+                ActiveQuestsContainer.Children.Add(questBorder);
+            }
+        }
+        else
+        {
+            var emptyBorder = new Border
+            {
+                Stroke = Color.FromArgb("#E0E0E0"),
+                StrokeThickness = 1,
+                Padding = 20,
+                Margin = new Thickness(0, 0, 0, 12),
+                BackgroundColor = Application.Current.RequestedTheme == AppTheme.Dark 
+                    ? Color.FromArgb("#2A2A2A") 
+                    : Color.FromArgb("#F9F9F9"),
+                StrokeShape = new RoundRectangle { CornerRadius = 8 }
+            };
+            
+            emptyBorder.Content = new Label 
+            { 
+                Text = "No active quests. Accept one from the quest board!", 
+                FontSize = 13, 
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Center
+            };
+            
+            ActiveQuestsContainer.Children.Add(emptyBorder);
+        }
     }
 
     private void LoadGuildMembers()
@@ -118,6 +217,48 @@ public partial class GuildHallPopup : Popup
             };
             
             GuildMembersContainer.Children.Add(emptyBorder);
+        }
+    }
+
+    private async Task OnCompleteQuestClicked(QuestModel quest)
+    {
+        // Check if player has enough AP
+        if (!_player.TrySpendActionPoints(3))
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Insufficient Action Points", 
+                _player.ActionPoints == 0 
+                    ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." 
+                    : "You need at least 3 AP to complete a quest.", 
+                "OK");
+            return;
+        }
+
+        bool confirm = await Application.Current.MainPage.DisplayAlert(
+            "Complete Quest", 
+            $"Are you sure you want to complete: {quest.Name}?\n\nYou will receive: {quest.Reward}\n\nCost: 3 AP", 
+            "Yes", 
+            "No");
+
+        if (confirm)
+        {
+            // Mark quest as completed and process rewards
+            quest.IsCompleted = true;
+            var completionMessage = Quests.CompleteQuest(quest, _player);
+
+            // Remove quest from player's active quests
+            _player.ActiveQuests.Remove(quest);
+
+            // Reload the active quests display
+            LoadActiveQuests();
+
+            await Application.Current.MainPage.DisplayAlert("Quest Completed!", 
+                completionMessage, "OK");
+        }
+        else
+        {
+            // Refund the AP if they cancel
+            _player.AddActionPoints(3);
         }
     }
 

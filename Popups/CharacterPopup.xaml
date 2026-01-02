@@ -5,27 +5,26 @@
                x:Class="Bit_RPG.CharacterPopup"
                Size="600,700">
     
-    <!-- Responsive popup sizing -->
-    <toolkit:Popup.Resources>
-        <OnPlatform x:Key="PopupWidth" x:TypeArguments="x:Double">
-            <On Platform="Android" Value="0.95" />
-            <On Platform="iOS" Value="0.95" />
-            <On Platform="WinUI" Value="450" />
-        </OnPlatform>
-        <OnPlatform x:Key="PopupHeight" x:TypeArguments="x:Double">
-            <On Platform="Android" Value="0.85" />
-            <On Platform="iOS" Value="0.85" />
-            <On Platform="WinUI" Value="700" />
-        </OnPlatform>
-    </toolkit:Popup.Resources>
-    
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="0"
-            WidthRequest="{StaticResource PopupWidth}"
-            HeightRequest="{StaticResource PopupHeight}"
             Margin="10">
+        <Border.WidthRequest>
+            <OnPlatform x:TypeArguments="x:Double">
+                <On Platform="Android" Value="360" />
+                <On Platform="iOS" Value="360" />
+                <On Platform="WinUI" Value="450" />
+            </OnPlatform>
+        </Border.WidthRequest>
+        <Border.HeightRequest>
+            <OnPlatform x:TypeArguments="x:Double">
+                <On Platform="Android" Value="640" />
+                <On Platform="iOS" Value="640" />
+                <On Platform="WinUI" Value="700" />
+            </OnPlatform>
+        </Border.HeightRequest>
+        
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
             
             <!-- Header -->

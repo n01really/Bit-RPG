@@ -196,7 +196,7 @@
                        HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
             
-            <!-- Jobs/Quests Button -->
+            <!-- Jobs Button -->
             <VerticalStackLayout Grid.Column="4" 
                                 Spacing="4" 
                                 HorizontalOptions="Center" 

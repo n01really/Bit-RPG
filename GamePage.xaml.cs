@@ -359,12 +359,6 @@ public partial class GamePage : ContentPage
         await this.ShowPopupAsync(popup);
     }
 
-    private async void OnQuestsClicked(object sender, EventArgs e)
-    {
-        var popup = new QuestsPopup(Player);
-        await this.ShowPopupAsync(popup);
-    }
-
     private async void OnActivitiesClicked(object sender, EventArgs e)
     {
         var popup = new ActivitiesPopup(Player);
