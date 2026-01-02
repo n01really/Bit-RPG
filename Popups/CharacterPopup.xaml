@@ -2,16 +2,20 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.CharacterPopup"
-               Size="400,600">
+               x:Class="Bit_RPG.CharacterPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="15"
+            MaximumWidthRequest="450"
+            MaximumHeightRequest="700"
+            WidthRequest="380"
+            HeightRequest="600"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
             <Label Grid.Row="0"
                    Text="Character"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
@@ -20,96 +24,96 @@
                      Color="Gray"/>
             
             <ScrollView Grid.Row="2">
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="10" ColumnSpacing="15">
-                    <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold"/>
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PlayerName}"/>
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="6" ColumnSpacing="10">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PlayerName}" FontSize="12"/>
                     
-                    <Label Grid.Row="1" Grid.Column="0" Text="Age:" FontAttributes="Bold"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Age}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Age:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Age}" FontSize="12"/>
                     
-                    <Label Grid.Row="2" Grid.Column="0" Text="Race:" FontAttributes="Bold"/>
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Race}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Race:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Race}" FontSize="12"/>
                     
-                    <Label Grid.Row="3" Grid.Column="0" Text="Class:" FontAttributes="Bold"/>
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Class}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="Class:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Class}" FontSize="12"/>
                     
-                    <Label Grid.Row="4" Grid.Column="0" Text="Job:" FontAttributes="Bold"/>
-                    <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="5">
-                        <Label Text="{Binding Jobb.Name}"/>
-                        <Label Text="{Binding Jobb.Rank, StringFormat='(Rank {0})'}" FontAttributes="Bold"/>
+                    <Label Grid.Row="4" Grid.Column="0" Text="Job:" FontAttributes="Bold" FontSize="12"/>
+                    <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="4">
+                        <Label Text="{Binding Jobb.Name}" FontSize="12"/>
+                        <Label Text="{Binding Jobb.Rank, StringFormat='(Rank {0})'}" FontAttributes="Bold" FontSize="12"/>
                     </HorizontalStackLayout>
                     
-                    <Label Grid.Row="5" Grid.Column="0" Text="Money:" FontAttributes="Bold"/>
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Money}"/>
+                    <Label Grid.Row="5" Grid.Column="0" Text="Money:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Money}" FontSize="12"/>
                     
-                    <Label Grid.Row="6" Grid.Column="0" Text="Health:" FontAttributes="Bold"/>
-                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding MaxHealth}"/>
+                    <Label Grid.Row="6" Grid.Column="0" Text="Health:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding MaxHealth}" FontSize="12"/>
                     
-                    <Label Grid.Row="7" Grid.Column="0" Text="Stamina:" FontAttributes="Bold"/>
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Stamina}"/>
+                    <Label Grid.Row="7" Grid.Column="0" Text="Stamina:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Stamina}" FontSize="12"/>
                     
-                    <Label Grid.Row="8" Grid.Column="0" Text="Mana:" FontAttributes="Bold"/>
-                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding MaxMana}"/>
+                    <Label Grid.Row="8" Grid.Column="0" Text="Mana:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding MaxMana}" FontSize="12"/>
 
-                    <Label Grid.Row="9" Grid.Column="0" Text="Strength:" FontAttributes="Bold"/>
-                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding Strength}"/>
+                    <Label Grid.Row="9" Grid.Column="0" Text="Strength:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding Strength}" FontSize="12"/>
 
-                    <Label Grid.Row="10" Grid.Column="0" Text="Defense:" FontAttributes="Bold"/>
-                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Defense}"/>
+                    <Label Grid.Row="10" Grid.Column="0" Text="Defense:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Defense}" FontSize="12"/>
 
-                    <Label Grid.Row="11" Grid.Column="0" Text="Stealth:" FontAttributes="Bold"/>
-                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Skills.Stealth}"/>
+                    <Label Grid.Row="11" Grid.Column="0" Text="Stealth:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Skills.Stealth}" FontSize="12"/>
 
-                    <Label Grid.Row="12" Grid.Column="0" Text="Marksmanship:" FontAttributes="Bold"/>
-                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding Skills.Marksmanship}"/>
+                    <Label Grid.Row="12" Grid.Column="0" Text="Marksmanship:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding Skills.Marksmanship}" FontSize="12"/>
 
-                    <Label Grid.Row="13" Grid.Column="0" Text="Slight of Hand:" FontAttributes="Bold"/>
-                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding Skills.SlightofHand}"/>
+                    <Label Grid.Row="13" Grid.Column="0" Text="Slight of Hand:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding Skills.SlightofHand}" FontSize="12"/>
 
-                    <Label Grid.Row="14" Grid.Column="0" Text="Lockpicking:" FontAttributes="Bold"/>
-                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding Skills.Lockpicking}"/>
+                    <Label Grid.Row="14" Grid.Column="0" Text="Lockpicking:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding Skills.Lockpicking}" FontSize="12"/>
 
-                    <Label Grid.Row="15" Grid.Column="0" Text="Conjuration:" FontAttributes="Bold"/>
-                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding Skills.Conjuration}"/>
+                    <Label Grid.Row="15" Grid.Column="0" Text="Conjuration:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding Skills.Conjuration}" FontSize="12"/>
 
-                    <Label Grid.Row="16" Grid.Column="0" Text="Destruction:" FontAttributes="Bold"/>
-                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Skills.Destruction}"/>
+                    <Label Grid.Row="16" Grid.Column="0" Text="Destruction:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Skills.Destruction}" FontSize="12"/>
 
-                    <Label Grid.Row="17" Grid.Column="0" Text="Illusion:" FontAttributes="Bold"/>
-                    <Label Grid.Row="17" Grid.Column="1" Text="{Binding Skills.Illusion}"/>
+                    <Label Grid.Row="17" Grid.Column="0" Text="Illusion:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="17" Grid.Column="1" Text="{Binding Skills.Illusion}" FontSize="12"/>
 
-                    <Label Grid.Row="18" Grid.Column="0" Text="Restoration:" FontAttributes="Bold"/>
-                    <Label Grid.Row="18" Grid.Column="1" Text="{Binding Skills.Restoration}"/>
+                    <Label Grid.Row="18" Grid.Column="0" Text="Restoration:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="18" Grid.Column="1" Text="{Binding Skills.Restoration}" FontSize="12"/>
 
-                    <Label Grid.Row="19" Grid.Column="0" Text="First Aid:" FontAttributes="Bold"/>
-                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding Skills.FirstAid}"/>
+                    <Label Grid.Row="19" Grid.Column="0" Text="First Aid:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding Skills.FirstAid}" FontSize="12"/>
 
-                    <Label Grid.Row="20" Grid.Column="0" Text="Swordsmanship:" FontAttributes="Bold"/>
-                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding Skills.Swordsmanship}"/>
+                    <Label Grid.Row="20" Grid.Column="0" Text="Swordsmanship:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding Skills.Swordsmanship}" FontSize="12"/>
 
-                    <Label Grid.Row="21" Grid.Column="0" Text="Long Weapons:" FontAttributes="Bold"/>
-                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding Skills.LongWeapons}"/>
+                    <Label Grid.Row="21" Grid.Column="0" Text="Long Weapons:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding Skills.LongWeapons}" FontSize="12"/>
 
-                    <Label Grid.Row="22" Grid.Column="0" Text="Heavy Weapons:" FontAttributes="Bold"/>
-                    <Label Grid.Row="22" Grid.Column="1" Text="{Binding Skills.HeavyWeapons}"/>
+                    <Label Grid.Row="22" Grid.Column="0" Text="Heavy Weapons:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="22" Grid.Column="1" Text="{Binding Skills.HeavyWeapons}" FontSize="12"/>
 
-                    <Label Grid.Row="23" Grid.Column="0" Text="Heavy Armor:" FontAttributes="Bold"/>
-                    <Label Grid.Row="23" Grid.Column="1" Text="{Binding Skills.HeavyArmor}"/>
+                    <Label Grid.Row="23" Grid.Column="0" Text="Heavy Armor:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="23" Grid.Column="1" Text="{Binding Skills.HeavyArmor}" FontSize="12"/>
 
-                    <Label Grid.Row="24" Grid.Column="0" Text="Medium Armor:" FontAttributes="Bold"/>
-                    <Label Grid.Row="24" Grid.Column="1" Text="{Binding Skills.MediumArmor}"/>
+                    <Label Grid.Row="24" Grid.Column="0" Text="Medium Armor:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="24" Grid.Column="1" Text="{Binding Skills.MediumArmor}" FontSize="12"/>
 
-                    <Label Grid.Row="25" Grid.Column="0" Text="Light Armor:" FontAttributes="Bold"/>
-                    <Label Grid.Row="25" Grid.Column="1" Text="{Binding Skills.LightArmor}"/>
+                    <Label Grid.Row="25" Grid.Column="0" Text="Light Armor:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="25" Grid.Column="1" Text="{Binding Skills.LightArmor}" FontSize="12"/>
 
-                    <Label Grid.Row="26" Grid.Column="0" Text="Smithing:" FontAttributes="Bold"/>
-                    <Label Grid.Row="26" Grid.Column="1" Text="{Binding Skills.Smithing}"/>
+                    <Label Grid.Row="26" Grid.Column="0" Text="Smithing:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="26" Grid.Column="1" Text="{Binding Skills.Smithing}" FontSize="12"/>
 
-                    <Label Grid.Row="27" Grid.Column="0" Text="Alchemy:" FontAttributes="Bold"/>
-                    <Label Grid.Row="27" Grid.Column="1" Text="{Binding Skills.Alchemy}"/>
+                    <Label Grid.Row="27" Grid.Column="0" Text="Alchemy:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="27" Grid.Column="1" Text="{Binding Skills.Alchemy}" FontSize="12"/>
 
-                    <Label Grid.Row="28" Grid.Column="0" Text="Enchanting:" FontAttributes="Bold"/>
-                    <Label Grid.Row="28" Grid.Column="1" Text="{Binding Skills.Enchanting}"/>
+                    <Label Grid.Row="28" Grid.Column="0" Text="Enchanting:" FontAttributes="Bold" FontSize="12"/>
+                    <Label Grid.Row="28" Grid.Column="1" Text="{Binding Skills.Enchanting}" FontSize="12"/>
                 </Grid>
             </ScrollView>
             
@@ -117,7 +121,8 @@
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>

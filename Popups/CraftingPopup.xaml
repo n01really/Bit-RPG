@@ -2,16 +2,20 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.Popups.CraftingPopup"
-               Size="650,700">
+               x:Class="Bit_RPG.Popups.CraftingPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="12"
+            MaximumWidthRequest="650"
+            MaximumHeightRequest="700"
+            WidthRequest="380"
+            HeightRequest="600"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="10">
             <Label Grid.Row="0"
                    x:Name="TitleLabel"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
@@ -19,81 +23,87 @@
                      HeightRequest="1"
                      Color="Gray"/>
 
-            <VerticalStackLayout Grid.Row="2" Spacing="5">
+            <VerticalStackLayout Grid.Row="2" Spacing="4">
                 <Label x:Name="SkillLevelLabel"
-                       FontSize="14"
+                       FontSize="13"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"/>
                 <Label Text="Select a recipe to craft"
-                       FontSize="12"
+                       FontSize="11"
                        TextColor="Gray"
                        HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
             <!-- Recipe Type Tabs -->
-            <HorizontalStackLayout Grid.Row="3" 
-                                   Spacing="10" 
-                                   HorizontalOptions="Center"
-                                   x:Name="TabContainer">
-                <Border x:Name="AllTab"
-                        Stroke="Gray"
-                        StrokeThickness="2"
-                        Padding="10,5"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnAllTabClicked"/>
-                    </Border.GestureRecognizers>
-                    <Label Text="All Recipes"
-                           TextColor="White"
-                           FontAttributes="Bold"/>
-                </Border>
-                <Border x:Name="PotionTab"
-                        Stroke="Gray"
-                        StrokeThickness="2"
-                        Padding="10,5"
-                        BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
-                        IsVisible="False">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnPotionTabClicked"/>
-                    </Border.GestureRecognizers>
-                    <Label Text="Potions"
-                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                </Border>
-                <Border x:Name="WeaponTab"
-                        Stroke="Gray"
-                        StrokeThickness="2"
-                        Padding="10,5"
-                        BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
-                        IsVisible="False">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnWeaponTabClicked"/>
-                    </Border.GestureRecognizers>
-                    <Label Text="Weapons"
-                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                </Border>
-                <Border x:Name="ArmorTab"
-                        Stroke="Gray"
-                        StrokeThickness="2"
-                        Padding="10,5"
-                        BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
-                        IsVisible="False">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnArmorTabClicked"/>
-                    </Border.GestureRecognizers>
-                    <Label Text="Armor"
-                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                </Border>
-            </HorizontalStackLayout>
+            <ScrollView Grid.Row="3" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="6" 
+                                       HorizontalOptions="Center"
+                                       x:Name="TabContainer">
+                    <Border x:Name="AllTab"
+                            Stroke="Gray"
+                            StrokeThickness="2"
+                            Padding="8,4"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAllTabClicked"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="All Recipes"
+                               TextColor="White"
+                               FontSize="11"
+                               FontAttributes="Bold"/>
+                    </Border>
+                    <Border x:Name="PotionTab"
+                            Stroke="Gray"
+                            StrokeThickness="2"
+                            Padding="8,4"
+                            BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
+                            IsVisible="False">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPotionTabClicked"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="Potions"
+                               FontSize="11"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    </Border>
+                    <Border x:Name="WeaponTab"
+                            Stroke="Gray"
+                            StrokeThickness="2"
+                            Padding="8,4"
+                            BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
+                            IsVisible="False">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnWeaponTabClicked"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="Weapons"
+                               FontSize="11"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    </Border>
+                    <Border x:Name="ArmorTab"
+                            Stroke="Gray"
+                            StrokeThickness="2"
+                            Padding="8,4"
+                            BackgroundColor="{AppThemeBinding Light=LightGray, Dark=#2A2A2A}"
+                            IsVisible="False">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnArmorTabClicked"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="Armor"
+                               FontSize="11"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    </Border>
+                </HorizontalStackLayout>
+            </ScrollView>
 
             <ScrollView Grid.Row="4">
-                <VerticalStackLayout x:Name="RecipesContainer" Spacing="10"/>
+                <VerticalStackLayout x:Name="RecipesContainer" Spacing="8"/>
             </ScrollView>
             
             <Button Grid.Row="5"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>

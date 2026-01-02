@@ -2,114 +2,128 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.ActivitiesPopup"
-               Size="400,600">
+               x:Class="Bit_RPG.ActivitiesPopup">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="20">
-        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="15">
+            Padding="15"
+            MaximumWidthRequest="450"
+            MaximumHeightRequest="650"
+            WidthRequest="380"
+            HeightRequest="550"
+            Margin="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="12">
             <Label Grid.Row="0"
                    Text="Activities"
-                   FontSize="24"
+                   FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
             <Label Grid.Row="1"
                    x:Name="LocationLabel"
                    Text=""
-                   FontSize="14"
+                   FontSize="12"
                    TextColor="Gray"
                    HorizontalOptions="Center"
-                   Margin="0,-10,0,0"/>
+                   Margin="0,-8,0,0"/>
 
             <BoxView Grid.Row="2"
                      HeightRequest="1"
                      Color="Gray"/>
 
             <ScrollView Grid.Row="3">
-                <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout Spacing="8">
                     <!-- Market Section -->
-                    <VerticalStackLayout x:Name="MarketSection" Spacing="10">
+                    <VerticalStackLayout x:Name="MarketSection" Spacing="6">
                         <Label Text="Market"
-                               FontSize="18"
+                               FontSize="16"
                                FontAttributes="Bold"/>
                         <Label Text="Browse and trade goods with merchants from all over the land."
-                               FontSize="14"
-                               TextColor="Gray"/>
+                               FontSize="11"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap"/>
                         <Button x:Name="MarketButton"
                                 Text="Visit Market"
                                 Clicked="OnMarketClicked"
+                                Padding="15,6"
                                 HorizontalOptions="End"
-                                Margin="0,5,0,0"/>
+                                Margin="0,4,0,0"/>
                         
-                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,8"/>
                     </VerticalStackLayout>
                     
                     <!-- Guild Hall Section -->
-                    <VerticalStackLayout x:Name="GuildHallSection" Spacing="10">
+                    <VerticalStackLayout x:Name="GuildHallSection" Spacing="6">
                         <Label Text="Guild Hall"
-                               FontSize="18"
+                               FontSize="16"
                                FontAttributes="Bold"/>
                         <Label Text="Meet with guildmates and the guild master, or train your skills."
-                               FontSize="14"
-                               TextColor="Gray"/>
+                               FontSize="11"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap"/>
                         <Button x:Name="GuildHallButton"
                                 Text="Visit Guild Hall"
                                 Clicked="OnGuildHallClicked"
+                                Padding="15,6"
                                 HorizontalOptions="End"
-                                Margin="0,5,0,0"/>
+                                Margin="0,4,0,0"/>
                         
-                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,8"/>
                     </VerticalStackLayout>
                     
                     <!-- Crafters Section -->
-                    <VerticalStackLayout x:Name="CraftersSection" Spacing="10">
+                    <VerticalStackLayout x:Name="CraftersSection" Spacing="6">
                         <Label Text="Crafters Guild"
-                               FontSize="18"
+                               FontSize="16"
                                FontAttributes="Bold"/>
                         <Label Text="Commission armor and weapons, craft your own, or train crafting skills."
-                               FontSize="14"
-                               TextColor="Gray"/>
+                               FontSize="11"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap"/>
                         <Button x:Name="CraftersButton"
                                 Text="Visit Crafters"
                                 Clicked="OnCraftersClicked"
+                                Padding="15,6"
                                 HorizontalOptions="End"
-                                Margin="0,5,0,0"/>
+                                Margin="0,4,0,0"/>
                         
-                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,8"/>
                     </VerticalStackLayout>
                     
                     <!-- Apothecary Section -->
-                    <VerticalStackLayout x:Name="ApothecarySection" Spacing="10">
+                    <VerticalStackLayout x:Name="ApothecarySection" Spacing="6">
                         <Label Text="Apothecary"
-                               FontSize="18"
+                               FontSize="16"
                                FontAttributes="Bold"/>
                         <Label Text="Brew potions and elixirs using alchemy and gathered ingredients."
-                               FontSize="14"
-                               TextColor="Gray"/>
+                               FontSize="11"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap"/>
                         <Button x:Name="ApothecaryButton"
                                 Text="Visit Apothecary"
                                 Clicked="OnApothecaryClicked"
+                                Padding="15,6"
                                 HorizontalOptions="End"
-                                Margin="0,5,0,0"/>
+                                Margin="0,4,0,0"/>
                         
-                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10"/>
+                        <BoxView HeightRequest="1" Color="LightGray" Margin="0,8"/>
                     </VerticalStackLayout>
                     
                     <!-- Travel Section -->
-                    <VerticalStackLayout x:Name="TravelSection" Spacing="10">
+                    <VerticalStackLayout x:Name="TravelSection" Spacing="6">
                         <Label Text="Travel"
-                               FontSize="18"
+                               FontSize="16"
                                FontAttributes="Bold"/>
                         <Label Text="Journey to distant lands and explore new territories."
-                               FontSize="14"
-                               TextColor="Gray"/>
+                               FontSize="11"
+                               TextColor="Gray"
+                               LineBreakMode="WordWrap"/>
                         <Button x:Name="TravelButton"
                                 Text="Travel"
                                 Clicked="OnTravelClicked"
+                                Padding="15,6"
                                 HorizontalOptions="End"
-                                Margin="0,5,0,0"/>
+                                Margin="0,4,0,0"/>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
@@ -118,7 +132,8 @@
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
-                    Margin="0,10,0,0"/>
+                    Padding="20,8"
+                    Margin="0,8,0,0"/>
         </Grid>
     </Border>
 </toolkit:Popup>
