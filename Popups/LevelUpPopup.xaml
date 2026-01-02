@@ -2,257 +2,294 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.LevelUpPopup">
+               x:Class="Bit_RPG.LevelUpPopup"
+               Size="600,700">
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="15"
-            MaximumWidthRequest="500"
-            MaximumHeightRequest="650"
-            WidthRequest="380"
-            HeightRequest="520"
+            Padding="0"
             Margin="10">
-        <ScrollView>
-            <VerticalStackLayout Spacing="12">
-                <Label Text="Level Up!"
-                       FontSize="20"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
-                
-                <BoxView HeightRequest="1"
-                         Color="Gray"/>
-                
-                <!-- Attribute Points Display -->
-                <Label Text="{Binding SkillPoints, StringFormat='Attribute Points: {0}'}"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"/>
-                
-                <Label Text="Allocate your attribute points to increase your stats"
-                       FontSize="11"
-                       TextColor="Gray"
-                       HorizontalOptions="Center"/>
-                
-                <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                      RowSpacing="8" 
-                      ColumnSpacing="6">
+        <Border.WidthRequest>
+            <OnPlatform x:TypeArguments="x:Double">
+                <On Platform="Android" Value="360" />
+                <On Platform="iOS" Value="360" />
+                <On Platform="WinUI" Value="420" />
+            </OnPlatform>
+        </Border.WidthRequest>
+        <Border.HeightRequest>
+            <OnPlatform x:TypeArguments="x:Double">
+                <On Platform="Android" Value="620" />
+                <On Platform="iOS" Value="620" />
+                <On Platform="WinUI" Value="650" />
+            </OnPlatform>
+        </Border.HeightRequest>
+        
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+            
+            <!-- Celebration Header -->
+            <Grid Grid.Row="0" 
+                  Padding="20,20"
+                  BackgroundColor="{StaticResource Primary}">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="🎉 LEVEL UP! 🎉"
+                           TextColor="White"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding SkillPoints, StringFormat='🌟 {0} Points Available 🌟'}"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+            
+            <!-- Content -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="0" Padding="20,16">
                     
-                    <Label Grid.Row="0" Grid.Column="0" Text="Level:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Level}" FontSize="13"/>
+                    <Label Text="Allocate your points wisely"
+                           FontSize="13"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,16"/>
                     
-                    <Label Grid.Row="1" Grid.Column="0" Text="Max Health:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding MaxHealth}" FontSize="13"/>
-                    <Border Grid.Row="1" Grid.Column="2" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="DarkRed">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="MaxHealth"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="-" 
-                               TextColor="White"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="3" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="MaxHealth"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="+" 
-                               TextColor="White"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    
-                    <Label Grid.Row="2" Grid.Column="0" Text="Max Mana:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding MaxMana}" FontSize="13"/>
-                    <Border Grid.Row="2" Grid.Column="2" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="DarkRed">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="MaxMana"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="-" 
-                               TextColor="White"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    <Border Grid.Row="2" Grid.Column="3" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="MaxMana"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="+" 
-                               TextColor="White"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    
-                    <Label Grid.Row="3" Grid.Column="0" Text="Strength:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Strength}" FontSize="13"/>
-                    <Border Grid.Row="3" Grid.Column="2" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="DarkRed">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Strength"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="-" 
-                               TextColor="White"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    <Border Grid.Row="3" Grid.Column="3" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Strength"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="+" 
-                               TextColor="White"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    
-                    <Label Grid.Row="4" Grid.Column="0" Text="Agility:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Agility}" FontSize="13"/>
-                    <Border Grid.Row="4" Grid.Column="2" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="DarkRed">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Agility"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="-" 
-                               TextColor="White"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    <Border Grid.Row="4" Grid.Column="3" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Agility"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="+" 
-                               TextColor="White"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    
-                    <Label Grid.Row="5" Grid.Column="0" Text="Intelligence:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Intelligence}" FontSize="13"/>
-                    <Border Grid.Row="5" Grid.Column="2" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="DarkRed">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Intelligence"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="-" 
-                               TextColor="White"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
-                    <Border Grid.Row="5" Grid.Column="3" 
-                            WidthRequest="28"
-                            HeightRequest="28"
-                            StrokeThickness="0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="14"/>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Intelligence"/>
-                        </Border.GestureRecognizers>
-                        <Label Text="+" 
-                               TextColor="White"
-                               FontSize="16"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Border>
+                    <!-- Stats Grid with larger touch targets -->
+                    <VerticalStackLayout Spacing="12">
+                        
+                        <!-- Level Display -->
+                        <Border Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16,12"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Label Text="Current Level:" FontSize="14" TextColor="Gray"/>
+                                <Label Text="{Binding Level}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                            </HorizontalStackLayout>
+                        </Border>
+                        
+                        <!-- Max Health -->
+                        <Border Stroke="LightGray" StrokeThickness="1" Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Max Health" FontSize="14" FontAttributes="Bold"/>
+                                    <Label Text="{Binding MaxHealth, StringFormat='❤️ {0}'}" FontSize="16" TextColor="Red"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" 
+                                        WidthRequest="44"
+                                        HeightRequest="44"
+                                        StrokeThickness="0"
+                                        BackgroundColor="DarkRed">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="MaxHealth"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" 
+                                           TextColor="White"
+                                           FontSize="24"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" 
+                                        WidthRequest="44"
+                                        HeightRequest="44"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{StaticResource Primary}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="MaxHealth"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" 
+                                           TextColor="White"
+                                           FontSize="24"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Max Mana -->
+                        <Border Stroke="LightGray" StrokeThickness="1" Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Max Mana" FontSize="14" FontAttributes="Bold"/>
+                                    <Label Text="{Binding MaxMana, StringFormat='✨ {0}'}" FontSize="16" TextColor="Blue"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="DarkRed">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="MaxMana"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="{StaticResource Primary}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="MaxMana"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Strength -->
+                        <Border Stroke="LightGray" StrokeThickness="1" Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Strength" FontSize="14" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Strength, StringFormat='💪 {0}'}" FontSize="16"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="DarkRed">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Strength"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="{StaticResource Primary}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Strength"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Agility -->
+                        <Border Stroke="LightGray" StrokeThickness="1" Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Agility" FontSize="14" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Agility, StringFormat='🏃 {0}'}" FontSize="16"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="DarkRed">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Agility"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="{StaticResource Primary}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Agility"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Intelligence -->
+                        <Border Stroke="LightGray" StrokeThickness="1" Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Intelligence" FontSize="14" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Intelligence, StringFormat='🧠 {0}'}" FontSize="16"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="DarkRed">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDecreaseAttribute" CommandParameter="Intelligence"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="−" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" StrokeThickness="0" BackgroundColor="{StaticResource Primary}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="22"/>
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncreaseAttribute" CommandParameter="Intelligence"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="+" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
 
-                    <BoxView Grid.Row="6" Grid.ColumnSpan="4" HeightRequest="1" Color="LightGray" Margin="0,8"/>
-                    
-                    <Label Grid.Row="7" Grid.Column="0" Text="Attack:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Attack}" FontSize="13"/>
-                    
-                    <Label Grid.Row="8" Grid.Column="0" Text="Defense:" FontAttributes="Bold" FontSize="13"/>
-                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding Defense}" FontSize="13"/>
-                </Grid>
+                        <!-- Derived Stats (Read-only) -->
+                        <Border Stroke="{StaticResource Primary}" 
+                                StrokeThickness="1" 
+                                Padding="16" 
+                                Margin="0,8,0,0"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="8" ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="Attack" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Attack, StringFormat='⚔️ {0}'}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                    <Label Text="Defense" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Defense, StringFormat='🛡️ {0}'}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
 
-                <Label Text="Skills can only be increased through quests and training"
-                       FontSize="10"
-                       TextColor="Gray"
-                       HorizontalOptions="Center"
-                       Margin="0,8,0,0"/>
-                
-                <Button Text="Finish"
+                        <Label Text="⚠️ Skills can only be increased through quests and training"
+                               FontSize="11"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"
+                               Margin="0,12,0,0"
+                               LineBreakMode="WordWrap"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer Button -->
+            <Border Grid.Row="2"
+                    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                    Padding="16">
+                <Button Text="Finish ✓"
                         Clicked="OnFinishClicked"
-                        HorizontalOptions="Center"
-                        Padding="20,8"
-                        Margin="0,8,0,0"/>
-            </VerticalStackLayout>
-        </ScrollView>
+                        HorizontalOptions="Fill"
+                        HeightRequest="48"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="8"/>
+            </Border>
+        </Grid>
     </Border>
 </toolkit:Popup>

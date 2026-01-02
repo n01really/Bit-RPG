@@ -3,97 +3,165 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bit_RPG.CharacterCreationPage"
              Title="Create Your Character">
+    
+    <!-- Add safe area handling -->
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,20,0,0" />
+            <On Platform="Android" Value="0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    
     <ScrollView>
-        <VerticalStackLayout
-            Padding="20"
-            Spacing="15">
+        <VerticalStackLayout Padding="20" Spacing="0">
             
-            <Label 
-                Text="Create Your Character"
-                FontSize="20"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"
-                Margin="0,10,0,15"/>
+            <!-- Header -->
+            <VerticalStackLayout Spacing="8" Margin="0,16,0,24" HorizontalOptions="Center">
+                <Label Text="⚔️"
+                       FontSize="32"
+                       HorizontalOptions="Center"/>
+                <Label Text="Create Your Character"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Label Text="Begin your adventure"
+                       FontSize="14"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
 
             <!-- Name Input -->
-            <Label Text="Character Name:" FontSize="14" FontAttributes="Bold"/>
-            <Entry x:Name="NameEntry" 
-                   Placeholder="Enter your name"
-                   FontSize="14"
-                   MaxLength="20"/>
+            <VerticalStackLayout Spacing="8" Margin="0,0,0,20">
+                <Label Text="👤 Character Name" FontSize="15" FontAttributes="Bold"/>
+                <Entry x:Name="NameEntry" 
+                       Placeholder="Enter your name"
+                       FontSize="16"
+                       MaxLength="20"
+                       HeightRequest="48"/>
+            </VerticalStackLayout>
 
             <!-- Gender Selection -->
-            <Label Text="Gender:" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0"/>
-            <HorizontalStackLayout Spacing="15">
-                <RadioButton x:Name="MaleRadio" 
-                             Content="Male" 
-                             FontSize="13"
-                             IsChecked="True"
-                             GroupName="Gender"/>
-                <RadioButton x:Name="FemaleRadio" 
-                             Content="Female"
-                             FontSize="13"
-                             GroupName="Gender"/>
-            </HorizontalStackLayout>
+            <VerticalStackLayout Spacing="8" Margin="0,0,0,20">
+                <Label Text="⚧ Gender" FontSize="15" FontAttributes="Bold"/>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border Grid.Column="0"
+                            Stroke="LightGray"
+                            StrokeThickness="1"
+                            Padding="12"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <RadioButton x:Name="MaleRadio" 
+                                     Content="♂️ Male" 
+                                     FontSize="15"
+                                     IsChecked="True"
+                                     GroupName="Gender"
+                                     HorizontalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Column="1"
+                            Stroke="LightGray"
+                            StrokeThickness="1"
+                            Padding="12"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <RadioButton x:Name="FemaleRadio" 
+                                     Content="♀️ Female"
+                                     FontSize="15"
+                                     GroupName="Gender"
+                                     HorizontalOptions="Center"/>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
 
             <!-- Race Selection -->
-            <Label Text="Race:" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0"/>
-            <Picker x:Name="RacePicker" 
-                    Title="Select a race"
-                    FontSize="14">
-                <Picker.Items>
-                    <x:String>Human</x:String>
-                    <x:String>Elf</x:String>
-                    <x:String>Dwarf</x:String>
-                </Picker.Items>
-            </Picker>
-
-            <!-- Race Description -->
-            <Border 
-                Stroke="Gray"
-                StrokeThickness="1"
-                Padding="10"
-                Margin="0,8,0,0">
-                <Label x:Name="RaceDescription"
-                       FontSize="12"
-                       LineBreakMode="WordWrap"
-                       TextColor="Gray"/>
-            </Border>
+            <VerticalStackLayout Spacing="8" Margin="0,0,0,20">
+                <Label Text="🧝 Race" FontSize="15" FontAttributes="Bold"/>
+                <Border Stroke="LightGray"
+                        StrokeThickness="1"
+                        Padding="0"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <Picker x:Name="RacePicker" 
+                            Title="Select a race"
+                            FontSize="16"
+                            HeightRequest="48">
+                        <Picker.Items>
+                            <x:String>Human</x:String>
+                            <x:String>Elf</x:String>
+                            <x:String>Dwarf</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
+                
+                <!-- Race Description -->
+                <Border Stroke="{StaticResource Primary}"
+                        StrokeThickness="1"
+                        Padding="16"
+                        BackgroundColor="{AppThemeBinding Light=#F0F8FF, Dark=#1A2A3A}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <Label x:Name="RaceDescription"
+                           FontSize="14"
+                           LineBreakMode="WordWrap"
+                           TextColor="Gray"/>
+                </Border>
+            </VerticalStackLayout>
 
             <!-- Class Selection -->
-            <Label Text="Class:" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0"/>
-            <Picker x:Name="ClassPicker" 
-                    Title="Select a class"
-                    FontSize="14">
-                <Picker.Items>
-                    <x:String>Warrior</x:String>
-                    <x:String>Mage</x:String>
-                    <x:String>Rogue</x:String>
-                </Picker.Items>
-            </Picker>
+            <VerticalStackLayout Spacing="8" Margin="0,0,0,20">
+                <Label Text="🎯 Class" FontSize="15" FontAttributes="Bold"/>
+                <Border Stroke="LightGray"
+                        StrokeThickness="1"
+                        Padding="0"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <Picker x:Name="ClassPicker" 
+                            Title="Select a class"
+                            FontSize="16"
+                            HeightRequest="48">
+                        <Picker.Items>
+                            <x:String>Warrior</x:String>
+                            <x:String>Mage</x:String>
+                            <x:String>Rogue</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
 
-            <!-- Class Description -->
-            <Border 
-                Stroke="Gray"
-                StrokeThickness="1"
-                Padding="10"
-                Margin="0,8,0,0">
-                <Label x:Name="ClassDescription"
-                       FontSize="12"
-                       LineBreakMode="WordWrap"
-                       TextColor="Gray"/>
-            </Border>
+                <!-- Class Description -->
+                <Border Stroke="{StaticResource Primary}"
+                        StrokeThickness="1"
+                        Padding="16"
+                        BackgroundColor="{AppThemeBinding Light=#F0F8FF, Dark=#1A2A3A}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <Label x:Name="ClassDescription"
+                           FontSize="14"
+                           LineBreakMode="WordWrap"
+                           TextColor="Gray"/>
+                </Border>
+            </VerticalStackLayout>
 
             <!-- Start Button -->
-            <Button 
-                x:Name="StartBtn"
-                Text="Start Adventure"
-                Clicked="OnStartAdventureClicked"
-                Margin="0,15,0,10"
-                Padding="0,12"
-                FontSize="16"
-                HorizontalOptions="Fill"
-                BackgroundColor="{StaticResource Primary}"/>
+            <Button x:Name="StartBtn"
+                    Text="⚔️ Start Adventure"
+                    Clicked="OnStartAdventureClicked"
+                    Margin="0,24,0,20"
+                    HeightRequest="56"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Fill"
+                    CornerRadius="12"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"/>
 
         </VerticalStackLayout>
     </ScrollView>

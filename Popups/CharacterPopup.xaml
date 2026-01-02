@@ -2,127 +2,268 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="Bit_RPG.CharacterPopup">
+               x:Class="Bit_RPG.CharacterPopup"
+               Size="600,700">
+    
+    <!-- Responsive popup sizing -->
+    <toolkit:Popup.Resources>
+        <OnPlatform x:Key="PopupWidth" x:TypeArguments="x:Double">
+            <On Platform="Android" Value="0.95" />
+            <On Platform="iOS" Value="0.95" />
+            <On Platform="WinUI" Value="450" />
+        </OnPlatform>
+        <OnPlatform x:Key="PopupHeight" x:TypeArguments="x:Double">
+            <On Platform="Android" Value="0.85" />
+            <On Platform="iOS" Value="0.85" />
+            <On Platform="WinUI" Value="700" />
+        </OnPlatform>
+    </toolkit:Popup.Resources>
+    
     <Border Stroke="Gray"
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
-            Padding="15"
-            MaximumWidthRequest="450"
-            MaximumHeightRequest="700"
-            WidthRequest="380"
-            HeightRequest="600"
+            Padding="0"
+            WidthRequest="{StaticResource PopupWidth}"
+            HeightRequest="{StaticResource PopupHeight}"
             Margin="10">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
-            <Label Grid.Row="0"
-                   Text="Character"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
             
-            <BoxView Grid.Row="1"
-                     HeightRequest="1"
-                     Color="Gray"/>
+            <!-- Header -->
+            <Grid Grid.Row="0" 
+                  Padding="20,16"
+                  BackgroundColor="{StaticResource Primary}">
+                <Label Text="Character"
+                       TextColor="White"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Grid>
             
-            <ScrollView Grid.Row="2">
-                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="6" ColumnSpacing="10">
-                    <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PlayerName}" FontSize="12"/>
-                    
-                    <Label Grid.Row="1" Grid.Column="0" Text="Age:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Age}" FontSize="12"/>
-                    
-                    <Label Grid.Row="2" Grid.Column="0" Text="Race:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Race}" FontSize="12"/>
-                    
-                    <Label Grid.Row="3" Grid.Column="0" Text="Class:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Class}" FontSize="12"/>
-                    
-                    <Label Grid.Row="4" Grid.Column="0" Text="Job:" FontAttributes="Bold" FontSize="12"/>
-                    <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="4">
-                        <Label Text="{Binding Jobb.Name}" FontSize="12"/>
-                        <Label Text="{Binding Jobb.Rank, StringFormat='(Rank {0})'}" FontAttributes="Bold" FontSize="12"/>
-                    </HorizontalStackLayout>
-                    
-                    <Label Grid.Row="5" Grid.Column="0" Text="Money:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Money}" FontSize="12"/>
-                    
-                    <Label Grid.Row="6" Grid.Column="0" Text="Health:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding MaxHealth}" FontSize="12"/>
-                    
-                    <Label Grid.Row="7" Grid.Column="0" Text="Stamina:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Stamina}" FontSize="12"/>
-                    
-                    <Label Grid.Row="8" Grid.Column="0" Text="Mana:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding MaxMana}" FontSize="12"/>
-
-                    <Label Grid.Row="9" Grid.Column="0" Text="Strength:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding Strength}" FontSize="12"/>
-
-                    <Label Grid.Row="10" Grid.Column="0" Text="Defense:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Defense}" FontSize="12"/>
-
-                    <Label Grid.Row="11" Grid.Column="0" Text="Stealth:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Skills.Stealth}" FontSize="12"/>
-
-                    <Label Grid.Row="12" Grid.Column="0" Text="Marksmanship:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding Skills.Marksmanship}" FontSize="12"/>
-
-                    <Label Grid.Row="13" Grid.Column="0" Text="Slight of Hand:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding Skills.SlightofHand}" FontSize="12"/>
-
-                    <Label Grid.Row="14" Grid.Column="0" Text="Lockpicking:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding Skills.Lockpicking}" FontSize="12"/>
-
-                    <Label Grid.Row="15" Grid.Column="0" Text="Conjuration:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding Skills.Conjuration}" FontSize="12"/>
-
-                    <Label Grid.Row="16" Grid.Column="0" Text="Destruction:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Skills.Destruction}" FontSize="12"/>
-
-                    <Label Grid.Row="17" Grid.Column="0" Text="Illusion:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="17" Grid.Column="1" Text="{Binding Skills.Illusion}" FontSize="12"/>
-
-                    <Label Grid.Row="18" Grid.Column="0" Text="Restoration:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="18" Grid.Column="1" Text="{Binding Skills.Restoration}" FontSize="12"/>
-
-                    <Label Grid.Row="19" Grid.Column="0" Text="First Aid:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding Skills.FirstAid}" FontSize="12"/>
-
-                    <Label Grid.Row="20" Grid.Column="0" Text="Swordsmanship:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding Skills.Swordsmanship}" FontSize="12"/>
-
-                    <Label Grid.Row="21" Grid.Column="0" Text="Long Weapons:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding Skills.LongWeapons}" FontSize="12"/>
-
-                    <Label Grid.Row="22" Grid.Column="0" Text="Heavy Weapons:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="22" Grid.Column="1" Text="{Binding Skills.HeavyWeapons}" FontSize="12"/>
-
-                    <Label Grid.Row="23" Grid.Column="0" Text="Heavy Armor:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="23" Grid.Column="1" Text="{Binding Skills.HeavyArmor}" FontSize="12"/>
-
-                    <Label Grid.Row="24" Grid.Column="0" Text="Medium Armor:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="24" Grid.Column="1" Text="{Binding Skills.MediumArmor}" FontSize="12"/>
-
-                    <Label Grid.Row="25" Grid.Column="0" Text="Light Armor:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="25" Grid.Column="1" Text="{Binding Skills.LightArmor}" FontSize="12"/>
-
-                    <Label Grid.Row="26" Grid.Column="0" Text="Smithing:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="26" Grid.Column="1" Text="{Binding Skills.Smithing}" FontSize="12"/>
-
-                    <Label Grid.Row="27" Grid.Column="0" Text="Alchemy:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="27" Grid.Column="1" Text="{Binding Skills.Alchemy}" FontSize="12"/>
-
-                    <Label Grid.Row="28" Grid.Column="0" Text="Enchanting:" FontAttributes="Bold" FontSize="12"/>
-                    <Label Grid.Row="28" Grid.Column="1" Text="{Binding Skills.Enchanting}" FontSize="12"/>
-                </Grid>
-            </ScrollView>
+            <!-- Tabbed Content -->
+            <Grid Grid.Row="1">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="0" Padding="0">
+                        
+                        <!-- Basic Info Section -->
+                        <Border Margin="16,16,16,8"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*" 
+                                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+                                  RowSpacing="12" 
+                                  ColumnSpacing="16">
+                                
+                                <Label Grid.Row="0" Grid.Column="0" Text="Name" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding PlayerName}" FontSize="14"/>
+                                
+                                <Label Grid.Row="1" Grid.Column="0" Text="Age" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Age}" FontSize="14"/>
+                                
+                                <Label Grid.Row="2" Grid.Column="0" Text="Race" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Race}" FontSize="14"/>
+                                
+                                <Label Grid.Row="3" Grid.Column="0" Text="Class" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Class}" FontSize="14"/>
+                                
+                                <Label Grid.Row="4" Grid.Column="0" Text="Job" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="6">
+                                    <Label Text="{Binding Jobb.Name}" FontSize="14"/>
+                                    <Label Text="{Binding Jobb.Rank, StringFormat='(Rank {0})'}" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}"/>
+                                </HorizontalStackLayout>
+                                
+                                <Label Grid.Row="5" Grid.Column="0" Text="Gold" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="5" Grid.Column="1" Text="{Binding Money, StringFormat='💰 {0}'}" FontSize="14" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                                
+                                <Label Grid.Row="6" Grid.Column="0" Text="Health" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="6" Grid.Column="1" Text="{Binding MaxHealth, StringFormat='❤️ {0}'}" FontSize="14"/>
+                                
+                                <Label Grid.Row="7" Grid.Column="0" Text="Mana" FontAttributes="Bold" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Row="7" Grid.Column="1" Text="{Binding MaxMana, StringFormat='✨ {0}'}" FontSize="14"/>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Combat Stats Section -->
+                        <Label Text="⚔️ Combat Stats" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               Margin="16,8,16,8"
+                               TextColor="{StaticResource Primary}"/>
+                        <Border Margin="16,0,16,8"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="12" ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="Strength" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Strength}" FontSize="16" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                    <Label Text="Defense" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Defense}" FontSize="16" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="4">
+                                    <Label Text="Agility" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Agility}" FontSize="16" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+                                    <Label Text="Intelligence" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Intelligence}" FontSize="16" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Combat Skills Section -->
+                        <Label Text="⚔️ Combat Skills" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               Margin="16,8,16,8"
+                               TextColor="{StaticResource Primary}"/>
+                        <Border Margin="16,0,16,8"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="12" ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="Swordsmanship" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Swordsmanship}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                    <Label Text="Marksmanship" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Marksmanship}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="4">
+                                    <Label Text="Long Weapons" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.LongWeapons}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+                                    <Label Text="Heavy Weapons" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.HeavyWeapons}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="4">
+                                    <Label Text="Heavy Armor" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.HeavyArmor}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="4">
+                                    <Label Text="Medium Armor" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.MediumArmor}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="3" Grid.Column="0" Spacing="4">
+                                    <Label Text="Light Armor" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.LightArmor}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Magic Skills Section -->
+                        <Label Text="✨ Magic Skills" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               Margin="16,8,16,8"
+                               TextColor="{StaticResource Primary}"/>
+                        <Border Margin="16,0,16,8"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="12" ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="Conjuration" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Conjuration}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                    <Label Text="Destruction" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Destruction}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="4">
+                                    <Label Text="Illusion" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Illusion}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+                                    <Label Text="Restoration" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Restoration}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Utility Skills Section -->
+                        <Label Text="🛠️ Utility Skills" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               Margin="16,8,16,8"
+                               TextColor="{StaticResource Primary}"/>
+                        <Border Margin="16,0,16,16"
+                                Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#2A2A2A}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="12" ColumnSpacing="16">
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="Stealth" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Stealth}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="4">
+                                    <Label Text="Lockpicking" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Lockpicking}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="4">
+                                    <Label Text="Slight of Hand" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.SlightofHand}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+                                    <Label Text="First Aid" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.FirstAid}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="2" Grid.Column="0" Spacing="4">
+                                    <Label Text="Smithing" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Smithing}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="4">
+                                    <Label Text="Alchemy" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Alchemy}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Row="3" Grid.Column="0" Spacing="4">
+                                    <Label Text="Enchanting" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Skills.Enchanting}" FontSize="14" FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                        
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
             
-            <Button Grid.Row="3"
-                    Text="Close"
-                    Clicked="OnCloseClicked"
-                    HorizontalOptions="Center"
-                    Padding="20,8"
-                    Margin="0,8,0,0"/>
+            <!-- Footer Button -->
+            <Border Grid.Row="2"
+                    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                    Padding="16">
+                <Button Text="Close"
+                        Clicked="OnCloseClicked"
+                        HorizontalOptions="Fill"
+                        HeightRequest="48"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="8"/>
+            </Border>
         </Grid>
     </Border>
 </toolkit:Popup>
