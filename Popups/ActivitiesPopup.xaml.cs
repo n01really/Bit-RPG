@@ -133,7 +133,7 @@ public partial class ActivitiesPopup : Popup
         }
 
         Close();
-        var craftersPopup = new SmithyPopup(_player);
+        var craftersPopup = new CraftersPopup(_player);
         await Application.Current.MainPage.ShowPopupAsync(craftersPopup);
     }
 

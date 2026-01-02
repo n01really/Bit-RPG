@@ -7,6 +7,7 @@ using System.Linq;
 using Bit_RPG.Models;
 using Bit_RPG.Char.NPCs;
 using Bit_RPG.Services;
+using System.Text;
 
 public partial class GamePage : ContentPage
 {
@@ -43,14 +44,32 @@ public partial class GamePage : ContentPage
         }
     }
 
+    private const int MAX_EVENT_LOG_LENGTH = 50000; // ~50KB of text to prevent memory issues
+
     private string _eventLog;
     public string EventLog
     {
         get => _eventLog;
         set
         {
-            _eventLog = value;
-            OnPropertyChanged();
+            if (_eventLog != value)
+            {
+                _eventLog = value;
+                
+                // Trim if too long (keep last 75% of content)
+                if (_eventLog?.Length > MAX_EVENT_LOG_LENGTH)
+                {
+                    int keepLength = (int)(MAX_EVENT_LOG_LENGTH * 0.75);
+                    _eventLog = "... [Earlier events trimmed for performance]\n\n" + 
+                               _eventLog.Substring(_eventLog.Length - keepLength);
+                }
+                
+                // Ensure UI update happens on main thread
+                MainThread.BeginInvokeOnMainThread(() => 
+                {
+                    OnPropertyChanged();
+                });
+            }
         }
     }
 
@@ -61,6 +80,19 @@ public partial class GamePage : ContentPage
         set
         {
             _player = value;
+            OnPropertyChanged();
+            UpdateXpProgress();
+        }
+    }
+
+    // XP Progress for progress bar (0.0 to 1.0)
+    private double _xpProgress;
+    public double XpProgress
+    {
+        get => _xpProgress;
+        set
+        {
+            _xpProgress = value;
             OnPropertyChanged();
         }
     }
@@ -77,6 +109,16 @@ public partial class GamePage : ContentPage
         
         // Subscribe to level up event
         Player.LeveledUp += OnPlayerLeveledUp;
+        
+        // Subscribe to property changes to update XP progress
+        Player.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(Player.Experience) || 
+                e.PropertyName == nameof(Player.Level))
+            {
+                UpdateXpProgress();
+            }
+        };
         
         Week = 1;
         Year = 301;
@@ -123,8 +165,17 @@ public partial class GamePage : ContentPage
         
         Player = gameSave.Player;
         
-        
         Player.LeveledUp += OnPlayerLeveledUp;
+        
+        // Subscribe to property changes to update XP progress
+        Player.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(Player.Experience) || 
+                e.PropertyName == nameof(Player.Level))
+            {
+                UpdateXpProgress();
+            }
+        };
         
         Week = gameSave.CurrentWeek;
         Year = gameSave.CurrentYear;
@@ -170,6 +221,21 @@ public partial class GamePage : ContentPage
         };
 
         Event = $"\n\nGame Loaded - Week {Week}, Year {Year} ADE";
+        
+        UpdateXpProgress();
+    }
+
+    // Calculate XP progress as a percentage (0.0 to 1.0) for progress bar
+    private void UpdateXpProgress()
+    {
+        if (Player != null && Player.ExperienceForNextLevel > 0)
+        {
+            XpProgress = (double)Player.Experience / Player.ExperienceForNextLevel;
+        }
+        else
+        {
+            XpProgress = 0;
+        }
     }
 
     // Handle when player levels up
@@ -178,8 +244,19 @@ public partial class GamePage : ContentPage
         var popup = new LevelUpPopup(Player);
         await this.ShowPopupAsync(popup);
         
-        Event = $"\n\n?? LEVEL UP! You are now level {Player.Level}! You gained 15 skill points!";
-        EventLog += Event;
+        Event = $"\n\n? LEVEL UP! You are now level {Player.Level}! You gained 5 skill points!";
+        
+        // Null-safe EventLog update
+        if (EventLog != null)
+        {
+            EventLog += Event;
+        }
+        else
+        {
+            EventLog = Event;
+        }
+        
+        UpdateXpProgress();
     }
     
     private async void OnForwardGameClicked(object sender, EventArgs e)
@@ -189,14 +266,21 @@ public partial class GamePage : ContentPage
         // Add 2 Action Points every week (max 12)
         Player.AddActionPoints(2);
 
+        // Use StringBuilder to batch all event updates
+        var eventBuilder = new StringBuilder(EventLog ?? string.Empty);
+
         // Check if a year has passed (52 weeks)
         if (Week > 52)
         {
             Week = 1;
             Year++;
-            Player.Age++;
-            Event = $"\n\n=== Year {Year} ADE has begun! ===";
-            EventLog += Event;
+            
+            // Increment player age properly
+            Player.Age = Player.Age + 1;
+            OnPropertyChanged(nameof(Player)); // Notify UI of player update
+            
+            Event = $"\n\n=== Year {Year} ADE has begun! You are now {Player.Age} years old ===";
+            eventBuilder.AppendLine(Event);
         }
         
         // Process world events and job events (these happen every 4 weeks)
@@ -219,7 +303,7 @@ public partial class GamePage : ContentPage
                 {
                     var completionMessage = Quests.CompleteQuest(quest, Player);
                     Event = completionMessage;
-                    EventLog += Event;
+                    eventBuilder.AppendLine(Event);
 
                     Player.ActiveQuests.Remove(quest);
                 }
@@ -230,7 +314,7 @@ public partial class GamePage : ContentPage
                     Player.ActiveQuests.Remove(quest);
 
                     Event = $"\nQuest Failed: {quest.Name} has expired.";
-                    EventLog += Event;
+                    eventBuilder.AppendLine(Event);
                 }
             }
         }
@@ -253,7 +337,7 @@ public partial class GamePage : ContentPage
             if (eventTexts.Any())
             {
                 Event = $"\n\n{string.Join("\n\n", eventTexts)}";
-                EventLog += Event;
+                eventBuilder.AppendLine(Event);
             }
         }
         
@@ -261,14 +345,14 @@ public partial class GamePage : ContentPage
         if (weeklyEvent != null)
         {
             Event = $"\n\n{weeklyEvent.Description}";
-            EventLog += Event;
+            eventBuilder.AppendLine(Event);
         }
         
         // If no events at all occurred (not even weekly), show the "nothing happened" message
         if ((events == null || !events.HasAnyEvent) && weeklyEvent == null && (!Player.ActiveQuests?.Any() ?? true))
         {
             Event = $"\nWeek {Week}, Year {Year} ADE: Nothing eventful happened this week.";
-            EventLog += Event;
+            eventBuilder.AppendLine(Event);
         }
         
         if (_currentEvents.HasActiveEvent())
@@ -278,10 +362,17 @@ public partial class GamePage : ContentPage
                 ? $" ({_currentEvents.EventDurationRemaining} weeks remaining)" 
                 : "";
             string activeEventStatus = $"\n[Active: {eventSummary}{weeksRemaining}]";
-            EventLog += activeEventStatus;
+            eventBuilder.AppendLine(activeEventStatus);
         }
         
-        ScrollToBottom();
+        // Update EventLog once with all batched changes
+        EventLog = eventBuilder.ToString();
+        
+        // Update XP progress bar
+        UpdateXpProgress();
+        
+        // Scroll to bottom after UI updates
+        await ScrollToBottomAsync();
         
         SemanticScreenReader.Announce($"Week {Week}, Year {Year} ADE");
 
@@ -335,10 +426,26 @@ public partial class GamePage : ContentPage
         }
     }
 
-    private async void ScrollToBottom()
+    private async Task ScrollToBottomAsync()
     {
-        await Task.Delay(100);
-        await EventScrollView.ScrollToAsync(0, double.MaxValue, true);
+        // Wait for layout to complete
+        await Task.Delay(150);
+        
+        // Ensure on main thread and handle potential null reference
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            try
+            {
+                if (EventScrollView != null)
+                {
+                    await EventScrollView.ScrollToAsync(0, double.MaxValue, animated: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ScrollToBottom error: {ex.Message}");
+            }
+        });
     }
 
     private async void OnCharacterClicked(object sender, EventArgs e)

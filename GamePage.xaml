@@ -21,7 +21,7 @@
                 StrokeThickness="1"
                 Padding="12"
                 Margin="10,10,10,0">
-            <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
                 <!-- Row 1: Name, Level, Gold -->
                 <HorizontalStackLayout Grid.Row="0" Spacing="15" HorizontalOptions="Start">
                     <Label FontSize="14" FontAttributes="Bold">
@@ -40,12 +40,30 @@
                            TextColor="{StaticResource Primary}"/>
                 </HorizontalStackLayout>
                 
-                <!-- Row 2: Race, Class, AP, Week/Year -->
-                <HorizontalStackLayout Grid.Row="1" Spacing="12">
+                <!-- Row 2: XP Progress Bar -->
+                <VerticalStackLayout Grid.Row="1" Spacing="4">
+                    <Label FontSize="11" TextColor="Gray">
+                        <Label.Text>
+                            <MultiBinding StringFormat="XP: {0}/{1}">
+                                <Binding Path="Player.Experience"/>
+                                <Binding Path="Player.ExperienceForNextLevel"/>
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <ProgressBar Progress="{Binding XpProgress}" 
+                                 HeightRequest="6"
+                                 ProgressColor="{StaticResource Primary}"/>
+                </VerticalStackLayout>
+                
+                <!-- Row 3: Race, Class, Age, AP, Week/Year -->
+                <HorizontalStackLayout Grid.Row="2" Spacing="12">
                     <Label Text="{Binding Player.Race}"
                            FontSize="12"
                            TextColor="Gray"/>
                     <Label Text="{Binding Player.Class}"
+                           FontSize="12"
+                           TextColor="Gray"/>
+                    <Label Text="{Binding Player.Age, StringFormat='Age {0}'}"
                            FontSize="12"
                            TextColor="Gray"/>
                     <Label FontSize="12"
