@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Bit_RPG.Popups.TravelPopup"
+             Color="Transparent">
+    
+    <Border BackgroundColor="#1a1a2e"
+            Stroke="#e94560"
+            StrokeThickness="2"
+            StrokeShape="RoundRectangle 10"
+            Padding="20"
+            WidthRequest="700"
+            HeightRequest="600">
+        
+        <Grid RowDefinitions="Auto,Auto,*,Auto">
+            <Label Grid.Row="0"
+                   Text="Travel"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#e94560"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20"/>
+
+            <Border Grid.Row="1"
+                    BackgroundColor="#16213e"
+                    Stroke="#0f3460"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 5"
+                    Padding="15"
+                    Margin="0,0,0,20">
+                <StackLayout>
+                    <Label Text="Current Location:"
+                           FontSize="14"
+                           TextColor="#a0a0a0"
+                           Margin="0,0,0,5"/>
+                    <Label x:Name="CurrentLocationLabel"
+                           Text="Arn, Town in Eldoria"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#e94560"/>
+                    <Label x:Name="APLabel"
+                           Text="Action Points: 5/12"
+                           FontSize="14"
+                           TextColor="#0f3460"
+                           Margin="0,5,0,0"/>
+                </StackLayout>
+            </Border>
+
+            <ScrollView Grid.Row="2">
+                <CollectionView x:Name="DestinationsCollection"
+                               SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#16213e"
+                                    Stroke="#0f3460"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 5"
+                                    Padding="15"
+                                    Margin="0,0,0,10">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnDestinationTapped"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackLayout Grid.Column="0">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#e94560"/>
+                                        <Label Text="{Binding Description}"
+                                               FontSize="14"
+                                               TextColor="#a0a0a0"
+                                               Margin="0,5,0,0"/>
+                                        <Label FontSize="12"
+                                               TextColor="#0f3460"
+                                               Margin="0,5,0,0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Type: "/>
+                                                    <Span Text="{Binding Type}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="#0f3460"
+                                            Stroke="#e94560"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 20"
+                                            Padding="15,10"
+                                            VerticalOptions="Center">
+                                        <Label TextColor="White"
+                                               FontSize="16"
+                                               FontAttributes="Bold">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding APCost}"/>
+                                                    <Span Text=" AP"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+            <Grid Grid.Row="3" 
+                  ColumnDefinitions="*,*"
+                  Margin="0,20,0,0">
+                <Button Grid.Column="0"
+                        Text="Close"
+                        BackgroundColor="#e94560"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="5"
+                        Clicked="OnCloseClicked"
+                        Margin="0,0,5,0"/>
+                
+                <Button Grid.Column="1"
+                        Text="Refresh"
+                        BackgroundColor="#0f3460"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="5"
+                        Clicked="OnRefreshClicked"
+                        Margin="5,0,0,0"/>
+            </Grid>
+        </Grid>
+    </Border>
+</toolkit:Popup>

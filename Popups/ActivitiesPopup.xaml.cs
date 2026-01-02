@@ -1,4 +1,6 @@
 using Bit_RPG.Char;
+using Bit_RPG.Models;
+using Bit_RPG.Popups;
 using CommunityToolkit.Maui.Views;
 
 namespace Bit_RPG;
@@ -11,6 +13,71 @@ public partial class ActivitiesPopup : Popup
     {
         InitializeComponent();
         _player = player;
+        
+        // Set location label
+        if (player.CurrentLocation != null)
+        {
+            string locationType = player.CurrentLocation.Type.ToString();
+            LocationLabel.Text = $"Current Location: {player.CurrentLocation.Name} ({locationType})";
+        }
+        else
+        {
+            LocationLabel.Text = "Current Location: Unknown";
+        }
+        
+        ConfigureActivitiesForLocation();
+    }
+
+    private void ConfigureActivitiesForLocation()
+    {
+        if (_player.CurrentLocation == null)
+        {
+            return;
+        }
+
+        // All locations have Market and Travel
+        MarketSection.IsVisible = true;
+        TravelSection.IsVisible = true;
+
+        switch (_player.CurrentLocation.Type)
+        {
+            case LocationType.Village:
+                // Villages only have Market and Travel
+                GuildHallSection.IsVisible = false;
+                CraftersSection.IsVisible = false;
+                ApothecarySection.IsVisible = false;
+                break;
+
+            case LocationType.Town:
+                // Towns have Market, Crafters, and Travel
+                GuildHallSection.IsVisible = false;
+                CraftersSection.IsVisible = true;
+                ApothecarySection.IsVisible = false;
+                break;
+
+            case LocationType.City:
+                // Cities have everything
+                GuildHallSection.IsVisible = true;
+                CraftersSection.IsVisible = true;
+                ApothecarySection.IsVisible = true;
+                break;
+
+            case LocationType.Dungeon:
+                // Dungeons only have Travel (to leave)
+                MarketSection.IsVisible = false;
+                GuildHallSection.IsVisible = false;
+                CraftersSection.IsVisible = false;
+                ApothecarySection.IsVisible = false;
+                TravelSection.IsVisible = true;
+                break;
+
+            default:
+                // Default: show everything
+                GuildHallSection.IsVisible = true;
+                CraftersSection.IsVisible = true;
+                ApothecarySection.IsVisible = true;
+                break;
+        }
     }
 
     private async void OnMarketClicked(object sender, EventArgs e)
@@ -72,19 +139,9 @@ public partial class ActivitiesPopup : Popup
 
     private async void OnTravelClicked(object sender, EventArgs e)
     {
-        if (!_player.TrySpendActionPoints(1))
-        {
-            await Application.Current.MainPage.DisplayAlert(
-                "Insufficient Action Points", 
-                _player.ActionPoints == 0 ? "You have no Action Points remaining! Wait until next week to gain 2 more AP." : "You need at least 1 AP to travel.",
-                "OK");
-            return;
-        }
-
-        await Application.Current.MainPage.DisplayAlert(
-            "Travel", 
-            "The travel feature is coming soon!", 
-            "OK");
+        Close();
+        var travelPopup = new TravelPopup(_player);
+        await Application.Current.MainPage.ShowPopupAsync(travelPopup);
     }
 
     private async void OnApothecaryClicked(object sender, EventArgs e)

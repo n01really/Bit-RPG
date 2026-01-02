@@ -8,18 +8,26 @@
             StrokeThickness="2"
             Background="{AppThemeBinding Light=White, Dark=#1E1E1E}"
             Padding="20">
-        <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="15">
             <Label Grid.Row="0"
                    Text="Activities"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
             
-            <BoxView Grid.Row="1"
+            <Label Grid.Row="1"
+                   x:Name="LocationLabel"
+                   Text=""
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   Margin="0,-10,0,0"/>
+
+            <BoxView Grid.Row="2"
                      HeightRequest="1"
                      Color="Gray"/>
 
-            <ScrollView Grid.Row="2">
+            <ScrollView Grid.Row="3">
                 <VerticalStackLayout Spacing="10">
                     <!-- Market Section -->
                     <VerticalStackLayout x:Name="MarketSection" Spacing="10">
@@ -106,7 +114,7 @@
                 </VerticalStackLayout>
             </ScrollView>
             
-            <Button Grid.Row="3"
+            <Button Grid.Row="4"
                     Text="Close"
                     Clicked="OnCloseClicked"
                     HorizontalOptions="Center"
