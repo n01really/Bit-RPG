@@ -44,7 +44,7 @@ public partial class GamePage : ContentPage
         }
     }
 
-    private const int MAX_EVENT_LOG_LENGTH = 50000; // ~50KB of text to prevent memory issues
+    private const int MAX_EVENT_LINES = 100; // Begränsa till 100 rader för att spara minne
 
     private string _eventLog;
     public string EventLog
@@ -56,12 +56,16 @@ public partial class GamePage : ContentPage
             {
                 _eventLog = value;
                 
-                // Trim if too long (keep last 75% of content)
-                if (_eventLog?.Length > MAX_EVENT_LOG_LENGTH)
+                // Trim by line count to keep memory usage low
+                if (!string.IsNullOrEmpty(_eventLog))
                 {
-                    int keepLength = (int)(MAX_EVENT_LOG_LENGTH * 0.75);
-                    _eventLog = "... [Earlier events trimmed for performance]\n\n" + 
-                               _eventLog.Substring(_eventLog.Length - keepLength);
+                    var lines = _eventLog.Split('\n');
+                    if (lines.Length > MAX_EVENT_LINES)
+                    {
+                        // Keep only the last MAX_EVENT_LINES
+                        var linesToKeep = lines.Skip(lines.Length - MAX_EVENT_LINES).ToArray();
+                        _eventLog = "... [Earlier events removed]\n\n" + string.Join("\n", linesToKeep);
+                    }
                 }
                 
                 // Ensure UI update happens on main thread
@@ -72,6 +76,9 @@ public partial class GamePage : ContentPage
             }
         }
     }
+
+    // Store only the latest event for saving
+    private string _latestEvent;
 
     private Char.Player _player;
     public Char.Player Player
@@ -101,6 +108,15 @@ public partial class GamePage : ContentPage
     private TownsModels _currentTown;
     private List<NpcData> _generatedNpcs = new List<NpcData>();
 
+    /// <summary>
+    /// Constructor for starting a new game with a new player character.
+    /// What it does: Initializes the game world, generates NPCs, creates the starting town, and displays the intro text.
+    /// What you can change:
+    /// - Starting week/year (Week = 1, Year = 301)
+    /// - World population size (currently 1000 NPCs)
+    /// - Starting town properties (Name, Description, Mayor, etc.)
+    /// - Intro text for new games
+    /// </summary>
     public GamePage(Char.Player player)
     {
         InitializeComponent();
@@ -154,10 +170,19 @@ public partial class GamePage : ContentPage
             $"Nearby cities include: {string.Join(", ", _currentTown.NearbyCities)}. " +
             $"Nearby villages include: {string.Join(", ", _currentTown.NearbyVillages)}.";
         EventLog = Event;
+        _latestEvent = Event;
 
         _ = SaveGameAsync();
     }
 
+    /// <summary>
+    /// Constructor for loading a saved game.
+    /// What it does: Restores all game state from a GameSaveModel including player, world events, NPCs, and town data.
+    /// What you can change:
+    /// - How the saved EventLog is displayed when loading (currently shows only the latest event)
+    /// - World population generation fallback size (currently 1000 if no save data exists)
+    /// - The "Game Loaded" message format
+    /// </summary>
     public GamePage(GameSaveModel gameSave)
     {
         InitializeComponent();
@@ -179,7 +204,14 @@ public partial class GamePage : ContentPage
         
         Week = gameSave.CurrentWeek;
         Year = gameSave.CurrentYear;
-        EventLog = gameSave.EventLog;
+        
+        // Load only the latest event from save
+        if (!string.IsNullOrEmpty(gameSave.EventLog))
+        {
+            EventLog = gameSave.EventLog;
+            _latestEvent = gameSave.EventLog;
+        }
+        
         _generatedNpcs = gameSave.GeneratedNpcs ?? new List<NpcData>();
         _currentTown = gameSave.CurrentTown;
         
@@ -225,7 +257,13 @@ public partial class GamePage : ContentPage
         UpdateXpProgress();
     }
 
-    // Calculate XP progress as a percentage (0.0 to 1.0) for progress bar
+    /// <summary>
+    /// Calculates and updates the XP progress bar value (0.0 to 1.0).
+    /// What it does: Converts current XP and XP needed for next level into a percentage for the progress bar.
+    /// What you can change:
+    /// - Nothing really, this is simple math calculation
+    /// - Could add validation or logging if needed
+    /// </summary>
     private void UpdateXpProgress()
     {
         if (Player != null && Player.ExperienceForNextLevel > 0)
@@ -238,13 +276,21 @@ public partial class GamePage : ContentPage
         }
     }
 
-    // Handle when player levels up
+    /// <summary>
+    /// Event handler triggered when player levels up.
+    /// What it does: Shows a level up popup and adds a level up message to the event log.
+    /// What you can change:
+    /// - The level up message format (currently includes ? emoji and skill points)
+    /// - Could add sound effects or animations
+    /// - Could show different messages based on level reached
+    /// </summary>
     private async void OnPlayerLeveledUp(object sender, EventArgs e)
     {
         var popup = new LevelUpPopup(Player);
         await this.ShowPopupAsync(popup);
         
         Event = $"\n\n? LEVEL UP! You are now level {Player.Level}! You gained 5 skill points!";
+        _latestEvent = Event;
         
         // Null-safe EventLog update
         if (EventLog != null)
@@ -259,6 +305,23 @@ public partial class GamePage : ContentPage
         UpdateXpProgress();
     }
     
+    /// <summary>
+    /// Main game loop - advances the game by one week when Continue button is clicked.
+    /// What it does: 
+    /// - Increments week counter
+    /// - Adds action points to player (2 per week, max 12)
+    /// - Checks for year change (52 weeks = 1 year)
+    /// - Processes active quests and checks for completion/expiration
+    /// - Generates and displays world events, job events, and weekly events
+    /// - Updates event log with all happenings
+    /// - Saves the game automatically
+    /// What you can change:
+    /// - Action points per week (currently 2)
+    /// - Weeks per year (currently 52)
+    /// - How events are formatted and displayed
+    /// - Event generation frequency (world/job events every 4 weeks, weekly events every week)
+    /// - Quest expiration handling
+    /// </summary>
     private async void OnForwardGameClicked(object sender, EventArgs e)
     {
         Week++;
@@ -266,8 +329,8 @@ public partial class GamePage : ContentPage
         // Add 2 Action Points every week (max 12)
         Player.AddActionPoints(2);
 
-        // Use StringBuilder to batch all event updates
-        var eventBuilder = new StringBuilder(EventLog ?? string.Empty);
+        // Use StringBuilder to batch all event updates for THIS week only
+        var eventBuilder = new StringBuilder();
 
         // Check if a year has passed (52 weeks)
         if (Week > 52)
@@ -365,8 +428,11 @@ public partial class GamePage : ContentPage
             eventBuilder.AppendLine(activeEventStatus);
         }
         
-        // Update EventLog once with all batched changes
-        EventLog = eventBuilder.ToString();
+        // Store this week's events as the latest event
+        _latestEvent = eventBuilder.ToString();
+        
+        // Append to EventLog for display (will be trimmed automatically by property setter)
+        EventLog += _latestEvent;
         
         // Update XP progress bar
         UpdateXpProgress();
@@ -379,6 +445,16 @@ public partial class GamePage : ContentPage
         await SaveGameAsync();
     }
 
+    /// <summary>
+    /// Saves the current game state to disk.
+    /// What it does: Creates a GameSaveModel with all current game data and calls SaveService to persist it.
+    /// What you can change:
+    /// - What data gets saved (currently saves player, NPCs, world population, town, events)
+    /// - EventLog saving strategy (currently saves only _latestEvent, not entire log)
+    /// - Error handling behavior
+    /// - Could add save confirmation messages to user
+    /// - Could implement multiple save slots
+    /// </summary>
     private async Task SaveGameAsync()
     {
         try
@@ -388,7 +464,7 @@ public partial class GamePage : ContentPage
                 SaveDate = DateTime.Now,
                 CurrentWeek = Week,
                 CurrentYear = Year,
-                EventLog = EventLog,
+                EventLog = _latestEvent, // Save only the latest event
                 Player = Player,
                 GeneratedNpcs = _generatedNpcs,
                 WorldPopulation = WorldPopulation.GetPopulation().ToList(),
@@ -426,6 +502,15 @@ public partial class GamePage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Scrolls the event log to the bottom to show the latest events.
+    /// What it does: Waits for UI layout, then scrolls the EventScrollView to the bottom.
+    /// What you can change:
+    /// - Delay time before scrolling (currently 150ms)
+    /// - Animation enabled/disabled (currently animated: true)
+    /// - Could add option to disable auto-scroll
+    /// - Error handling could show user message instead of just logging
+    /// </summary>
     private async Task ScrollToBottomAsync()
     {
         // Wait for layout to complete
@@ -448,24 +533,52 @@ public partial class GamePage : ContentPage
         });
     }
 
+    /// <summary>
+    /// Opens the character information popup.
+    /// What it does: Shows a popup displaying player stats, skills, and attributes.
+    /// What you can change:
+    /// - The popup type/style (currently CharacterPopup)
+    /// - Could add animation or transition effects
+    /// </summary>
     private async void OnCharacterClicked(object sender, EventArgs e)
     {
         var popup = new CharacterPopup(Player);
         await this.ShowPopupAsync(popup);
     }
 
+    /// <summary>
+    /// Opens the inventory popup.
+    /// What it does: Shows a popup displaying player's items and equipment.
+    /// What you can change:
+    /// - The popup type/style (currently InventoryPopup)
+    /// - Could add sorting or filtering options
+    /// </summary>
     private async void OnInventoryClicked(object sender, EventArgs e)
     {
         var popup = new InventoryPopup(Player);
         await this.ShowPopupAsync(popup);
     }
 
+    /// <summary>
+    /// Opens the jobs/quests popup.
+    /// What it does: Shows available jobs and active quests for the player.
+    /// What you can change:
+    /// - The popup type/style (currently JobsPopup)
+    /// - Could add quest filtering or categorization
+    /// </summary>
     private async void OnJobsClicked(object sender, EventArgs e)
     {
         var popup = new JobsPopup(Player);
         await this.ShowPopupAsync(popup);
     }
 
+    /// <summary>
+    /// Opens the activities popup.
+    /// What it does: Shows available activities the player can perform (training, crafting, etc.).
+    /// What you can change:
+    /// - The popup type/style (currently ActivitiesPopup)
+    /// - Could add activity categories or requirements display
+    /// </summary>
     private async void OnActivitiesClicked(object sender, EventArgs e)
     {
         var popup = new ActivitiesPopup(Player);
