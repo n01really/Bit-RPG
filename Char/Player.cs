@@ -210,9 +210,21 @@ namespace Bit_RPG.Char
                 }
             }
         }
-        
-        public int Magic { get; set; }
-        
+
+        private int _currentHealth;
+        public int CurrentHealth
+        {
+            get => _currentHealth;
+            set
+            {
+                if (_currentHealth != value)
+                {
+                    _currentHealth = Math.Clamp(value, 0, MaxHealth);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private int _maxMana;
         public int MaxMana
         {
@@ -222,6 +234,20 @@ namespace Bit_RPG.Char
                 if (_maxMana != value)
                 {
                     _maxMana = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _currentMana;
+        public int CurrentMana
+        {
+            get => _currentMana;
+            set
+            {
+                if (_currentMana != value)
+                {
+                    _currentMana = Math.Clamp(value, 0, MaxMana);
                     OnPropertyChanged();
                 }
             }
@@ -311,5 +337,51 @@ namespace Bit_RPG.Char
             ActionPoints = Math.Min(ActionPoints + amount, MaxActionPoints);
             System.Diagnostics.Debug.WriteLine($"[Player] Added {amount} AP, now {ActionPoints}");
         }
+
+        /// <summary>
+        /// Applies damage to the player, factoring in defense
+        /// </summary>
+        public void TakeDamage(int damage)
+        {
+            int actualDamage = Math.Max(1, damage - Defense);
+            CurrentHealth -= actualDamage;
+            
+            if (CurrentHealth <= 0)
+            {
+                CurrentHealth = 0;
+                CurrentState = CharStates.Dead;
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"[Player] Took {actualDamage} damage ({damage} - {Defense} defense). Health: {CurrentHealth}/{MaxHealth}");
+        }
+
+        /// <summary>
+        /// Restores health to the player
+        /// </summary>
+        public void RestoreHealth(int amount)
+        {
+            int previousHealth = CurrentHealth;
+            CurrentHealth += amount;
+            int actualHealed = CurrentHealth - previousHealth;
+            
+            System.Diagnostics.Debug.WriteLine($"[Player] Restored {actualHealed} health. Health: {CurrentHealth}/{MaxHealth}");
+        }
+
+        /// <summary>
+        /// Restores mana to the player
+        /// </summary>
+        public void RestoreMana(int amount)
+        {
+            int previousMana = CurrentMana;
+            CurrentMana += amount;
+            int actualRestored = CurrentMana - previousMana;
+            
+            System.Diagnostics.Debug.WriteLine($"[Player] Restored {actualRestored} mana. Mana: {CurrentMana}/{MaxMana}");
+        }
+
+        /// <summary>
+        /// Checks if player is alive
+        /// </summary>
+        public bool IsAlive => CurrentHealth > 0;
     }
 }

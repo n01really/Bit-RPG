@@ -42,7 +42,6 @@ namespace Bit_RPG.Char
             player.Attack = 12;
             player.Defense = 10;
             player.MaxHealth = 120;
-            player.Magic = 2;
             player.MaxMana = 20;
             player.MDefense = 5;
         }
@@ -78,7 +77,6 @@ namespace Bit_RPG.Char
             player.Attack = 5;
             player.Defense = 5;
             player.MaxHealth = 80;
-            player.Magic = 15;
             player.MaxMana = 150;
             player.MDefense = 12;
         }
@@ -114,7 +112,6 @@ namespace Bit_RPG.Char
             player.Attack = 8;
             player.Defense = 6;
             player.MaxHealth = 100;
-            player.Magic = 5;
             player.MaxMana = 50;
             player.MDefense = 7;
         }

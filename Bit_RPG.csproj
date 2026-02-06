@@ -78,6 +78,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Char\Creatures\" />
+	  <Folder Include="Combat\" />
 	</ItemGroup>
 
 	<ItemGroup>
