@@ -125,7 +125,8 @@ namespace Bit_RPG.Char
         public RaceType Race { get; set; }
         public ClassType Class { get; set; }
         public Skills Skills { get; set; }
-        
+        public CharStates CurrentState { get; set; }
+
         private int _strength;
         public int Strength
         {
@@ -242,6 +243,10 @@ namespace Bit_RPG.Char
                 
                 CurrentLocation = TravelSystem.GetStartingLocation();
                 System.Diagnostics.Debug.WriteLine($"[Player] Starting location set to: {CurrentLocation?.Name ?? "null"}");
+                
+                // Set initial character state to Idle
+                CurrentState = CharStates.Idle;
+                System.Diagnostics.Debug.WriteLine("[Player] Character state set to Idle");
             }
             catch (Exception ex)
             {
@@ -251,6 +256,7 @@ namespace Bit_RPG.Char
                 // Set fallback values to prevent null references
                 InventoryManager = new Inventory(this);
                 CurrentLocation = new PlayerLocation("Unknown", LocationType.Town, "Unknown");
+                CurrentState = CharStates.Idle;
                 
                 throw;
             }
